@@ -1,0 +1,32 @@
+from django.shortcuts import render
+
+import netcoins.class_views.studentbankaccounts as studentbankaccounts
+import netcoins.class_views.studentaccountswallets as studentaccountswallets
+import netcoins.class_views.transactions as transactions
+import netcoins.class_views.parentportal as parentportal
+
+#STUDENT BANK ACCOUNTS
+def studentbankaccounts_home(request,template_name='netcoins/studentbankaccounts_list.html'):
+ return studentbankaccounts.studentbankaccounts_home(request,template_name)
+
+def studentbankaccounts_single_list(request , tid, template_name='netcoins/studentbankaccounts_list.html'):
+	return studentbankaccounts.studentbankaccounts_single_list(request , tid, template_name)
+
+#STUDENT ACCOUNTS WALLETS
+def studentaccountswallets_home(request,template_name='netcoins/studentaccountswallets_list.html'):
+ return studentaccountswallets.studentaccountswallets_home(request,template_name)
+
+def studentaccountswallets_single_list(request , tid, template_name='netcoins/studentaccountswallets_list.html'):
+	return studentaccountswallets.studentaccountswallets_single_list(request , tid, template_name)
+
+
+#STUDENT TRANSACTIONS
+def transactions_home(request,template_name='netcoins/transactions_list.html'):
+ return transactions.transactions_home(request,template_name)
+
+def transactions_single_list(request , tid, template_name='netcoins/transactions_list.html'):
+	return transactions.transactions_single_list(request , tid, template_name)
+
+def transactions_single_list(request , tid, template_name='netcoins/transactions_list.html'):
+	return transactions.transactions_single_list(request , tid, template_name)
+

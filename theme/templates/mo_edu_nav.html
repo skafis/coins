@@ -1,0 +1,45 @@
+{% load staticfiles %}
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img alt="Brand" src="{% static 'img/logo.png' %}"></a>
+		<div id="topmost" class="navbar-right">
+			<ul class="navbar-top-links list-inline ">
+				<li><i class="fa fa-smile-o"></i> Welcome {{user_bio.username}} to pos management Portal</li>
+				<li><a href="{% url 'login:logout'%}"><i class="fa fa-sign-out"></i> Log out</a></li>
+			</ul>
+		</div>
+    </div>
+	</div><!-- /.container-fluid -->
+	
+	<div id="navigation">
+	<div class="container">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav">
+			<li class="active"><a aria-expanded="false" role="button" href="{#% url '/'%#}"> <i class="fa fa-home" aria-hidden="true"></i></a></li>
+			<li><a aria-expanded="false" role="button" href="{#% url '/'%#}"> Transactions</a></li>
+            <li><a aria-expanded="false" role="button" href="{#% url '/'%#}"> POS</a></li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Merchant <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="#">POS</a></li>
+                    <li><a href="#">Merchant</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Schools <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+					<li><a href="#">School profiles</a></li>
+                </ul>
+            </li>        
+		</ul>
+	</div>
+    </div>
+    </div>
+</nav>

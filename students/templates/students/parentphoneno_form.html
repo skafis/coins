@@ -1,0 +1,13 @@
+{% extends "master.html" %}
+
+{% block content %}
+
+<form method="post"  class="form-horizontal">{% csrf_token %}
+    {{ form.as_p }}
+		<a href="{% url 'students:parentphoneno_home' %}" class="btn btn-w-m btn-info ladda-button">Back</a>
+    <input type="submit" value="Save" class="btn btn-w-m btn-primary" />
+		{% if pk%}
+			<a href="{% url 'students:parentphoneno_delete' pk %}" class="btn btn-danger pull-right m-t-n-xs">Delete</a>
+		{% endif %}
+</form>
+{% endblock %}

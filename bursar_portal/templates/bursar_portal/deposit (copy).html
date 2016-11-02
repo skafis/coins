@@ -1,0 +1,53 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "bursar_nav.html" %}
+{% endblock %}
+
+{% block content %}
+
+            <!--<div class="row m-t-lg ">
+                <div class="col-lg-{{span_size|safe}} white-bg text-right">
+												<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalschlist">Add new Merchant</button>
+                </div>
+            </div>
+            <div class="row m-t-lg">
+
+						<h1>Merchants</h1>
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered" id="posmerchant-ajax-data-table" >
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>School Name</th>
+									<th>Full name</th>
+									<th>Phone number</th>
+									<th>Email</th>
+									<th>Username</th>
+									<th>Balance</th>
+									<th>Account Number</th>
+									<th>Actions</th>
+								</tr>
+								</thead>
+									<tbody></tbody>
+								</table>
+								</div>
+                </div>
+
+            </div>-->
+
+            <div class="row m-t-lg ">
+
+                <div class="col-lg-6 white-bg">
+										{{form.as_p}}
+										<div class="form-group">
+ 												<button class="btn btn-primary savedeposit" type="submit"><strong>Save</strong></button>
+										</div>
+										<div class="form-group">
+ 												<label id="display_balance"></label>
+										</div>
+                </div>
+            </div>
+{% endblock %}
+<div class="col-sm-3">

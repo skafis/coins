@@ -1,0 +1,55 @@
+from __future__ import unicode_literals
+
+from django.db import models
+
+from school.models import SchoolProfiles
+
+from students.models import StudentProfiles
+
+from django.contrib.auth.models import User
+
+from django.utils import timezone
+
+class StudentAccounts(models.Model):
+	name = models.ForeignKey(SchoolProfiles,verbose_name = 'Name',)
+	studentprofiles = models.ForeignKey(StudentProfiles)
+	accountnumber = models.CharField(max_length = 10000,default="")
+	encryped_acc_no = models.CharField(max_length = 10000)
+	bank_name = models.CharField('Bank name',max_length = 255,)
+	expirerydate = models.DateField('expirerydate',)
+
+	class Meta:
+		verbose_name_plural = 'StudentAccounts'
+
+	def __unicode__(self):
+		return unicode('%s %s' % (self.studentprofiles,self.accountnumber,))
+
+class StudentAccountsWallets(models.Model):
+	bank_acc = models.ForeignKey(StudentAccounts,verbose_name = 'Bank Acc',)
+	walletname_name = models.CharField('Bank name',max_length = 255,)
+	max_amount = models.IntegerField('Max amount',)
+	opendate = models.DateField('Admission Date',)
+
+	class Meta:
+		verbose_name_plural = 'Student Bank Acc'
+
+	def __unicode__(self):
+		return unicode('%s' % (self.walletname_name,))
+
+class Transactions(models.Model):
+	studentaccounts  = models.ForeignKey(StudentAccounts)
+	wallet  = models.ForeignKey(StudentAccountsWallets,)
+	transaction_type = models.CharField(max_length = 10000)
+	amount = models.CharField(max_length = 10000)
+	transaction_date = models.DateField(default=timezone.now)
+	trace_no = models.CharField(max_length = 10000)
+	ref_no = models.CharField(max_length = 10000)
+	currency = models.CharField(max_length = 10000)
+	location = models.CharField(max_length = 10000)
+	terminal_id = models.CharField(max_length = 10000)
+
+	class Meta:
+		verbose_name_plural = 'Transactions'
+
+	def __unicode__(self):
+		return unicode('%s' % (self.studentaccounts,))

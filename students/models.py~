@@ -1,0 +1,169 @@
+from __future__ import unicode_literals
+
+from __future__ import unicode_literals
+
+#0722383015
+from django.db import models
+
+from django.contrib.auth.models import User
+
+from django.utils import timezone
+
+from smsgateway.models import PhoneBook
+from school.models import Classes,Streams,SchoolProfiles,Category,Gender,Subjects
+#from system_settings.models import EntryYear
+
+from global_config import global_vars
+
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+class StudentProfiles(models.Model):
+	name = models.ForeignKey(SchoolProfiles, verbose_name =  'Name',)
+	admno = models.CharField('ADM No',max_length = 255,primary_key=True)
+	username = models.ForeignKey(User,verbose_name = 'Owner',related_name='students_studentprofiles_username')
+	firstname = models.CharField('First name',max_length = 255,)
+	secondname = models.CharField('Second name',max_length = 255,blank = True)
+	lastname = models.CharField('Last name',max_length = 255,)
+	schooltransport = models.CharField('School address',max_length = 255)
+	gender = models.CharField(max_length = 255)
+	#gender = models.ForeignKey(Gender,verbose_name = 'Gender',related_name='students_studentprofiles_gender')
+	specialcases = models.TextField('Special case description',blank = True,)
+	current_classes = models.CharField(max_length = 255)
+	#current_classes = models.ForeignKey(Classes,verbose_name = 'Current Classes',)
+	current_stream = models.CharField(max_length = 255)
+	#current_stream = models.ForeignKey(Streams,verbose_name = 'Current Streams',)
+	current_stream = models.CharField(max_length = 255)
+	academic_category = models.CharField(max_length = 255)
+	#academic_category = models.ForeignKey(Category,verbose_name = 'Academic Category',)
+	photo = models.ImageField('Photo',upload_to = 'static/media/',blank = True,)
+	isactive = models.BooleanField('Is Active',default = True)
+	dateofbirth = models.DateField('Date of birth',blank=True,null=True)
+	admissiondate = models.DateField('Admission Date',)
+	residence = models.CharField('Residence/Estate',max_length = 255,)
+	lastschoolattended = models.CharField('Last school attended',max_length = 255,default = 'None',)
+	lastschooladdress = models.CharField('School address',max_length = 255,default = 'None',)
+	schooltransport = models.CharField('School address',max_length = 255,)
+	schoollunch = models.CharField('School lunch',max_length = 255,)
+	isactive = models.BooleanField('Active',default = True,)
+
+	def persons_image(self):
+		return '<img src="http://localhost/timaschools/media/%s" height = "50" width = "50" />'% self.photo 
+	persons_image.allow_tags = True
+	persons_image.short_description = 'Passport'
+
+	def get_admno(self):
+		return str('%s' % (self.admno))
+
+	def get_update_admno(self):
+		studentprofiles = get_object_or_404(StudentProfiles, pk=pk)
+		studentprofiles.delete()
+		return unicode('%s' % (d[self.studentprofiles]))
+
+
+	def persons_names(self):
+		return unicode('%s %s %s' % (self.firstname,self.secondname,self.lastname))
+	persons_names.allow_tags = True
+	persons_names.short_description = 'Names'
+
+	def get_gender(self):
+		d=dict(global_vars.GENDER_CHOICES)
+		return unicode('%s' % (d[self.gender]))
+	get_gender.short_description = 'Gender'
+ 
+	def get_current_classes(self):
+		d=dict(global_vars.CLASSES_CHOICES)
+		return unicode('%s' % (d[self.current_classes]))
+	get_current_classes.short_description = 'current classes'
+
+	def get_current_stream(self):
+		d=dict(global_vars.STREAMS_CHOICES)
+		return unicode('%s' % (d[self.current_stream]))
+	get_current_stream.short_description = 'Streams'
+
+	def get_academic_category(self):
+		d=dict(global_vars.ACADEMIC_CATEGORY_CHOICES)
+		return unicode('%s' % (d[self.academic_category]))
+	get_academic_category.short_description = 'Academic category'
+
+	class Meta:
+		verbose_name_plural = 'Student profile'
+		ordering=['admno']
+
+	def __unicode__(self):
+		dcc=dict(global_vars.CLASSES_CHOICES)
+		dsc=dict(global_vars.STREAMS_CHOICES)
+		return unicode('%s| %s %s %s : %s %s' % (self.admno,self.firstname,self.secondname,self.lastname,dcc[self.current_classes], dsc[self.current_stream]))
+
+class StudentCategory(models.Model):
+	studentprofiles = models.ForeignKey(StudentProfiles,verbose_name = 'Staff Id',)
+	category = models.ForeignKey(Category,verbose_name = 'Category',related_name = 'category_category')
+	#entryyear = models.ForeignKey(EntryYear,verbose_name = 'Entry year',related_name = 'category_entryyear')
+	entryyear = models.CharField('Entry year',max_length = 5000,)
+
+	class Meta:
+		verbose_name_plural = 'Student Category'
+
+	def __unicode__(self):
+		return unicode('%s' % (self.category))
+
+class StudentParent(models.Model):
+	studentprofiles = models.ForeignKey(StudentProfiles,verbose_name = 'Staff Id',)
+	user = models.ForeignKey(User,verbose_name = 'Owner',related_name='students_studentparent_username')
+	firstname = models.CharField('First name',max_length = 255,)
+	secondname = models.CharField('Second name',max_length = 255,blank = True)
+	lastname = models.CharField('Last name',max_length = 255,)
+	gender = models.CharField(max_length = 255)
+	#gender = models.ForeignKey(Gender,verbose_name = 'Gender',)
+	specialcases = models.TextField('Special case description',blank = True,)
+
+	def get_gender(self):
+		d=dict(global_vars.GENDER_CHOICES)
+		return unicode('%s' % (d[self.gender]))
+
+	class Meta:
+		verbose_name_plural = 'Student Parent'
+
+	def __unicode__(self):
+		return unicode('names:%s %s %s ,for student: %s' % (self.firstname,self.secondname,self.lastname,self.studentprofiles))
+
+class ParentPhoneNo(models.Model):
+	parent = models.ForeignKey(StudentParent,verbose_name = 'Student parent',)
+	phoneno = models.ForeignKey(PhoneBook,verbose_name = 'Phone-no',)
+
+	class Meta:
+		verbose_name_plural = 'Parent/Guardian Contacts'
+
+	def __unicode__(self):
+		return unicode('%s' % (self.phoneno,))
+
+class StudentClassStream(models.Model):
+	studentprofiles = models.ForeignKey(StudentProfiles,verbose_name = 'Staff Id',)
+	classes = models.ForeignKey(Classes,verbose_name = 'Classes',)
+	streams = models.ForeignKey(Streams,verbose_name = 'Streams',)
+	entryyear = models.CharField('Entry year',max_length = 5000,)
+	#entryyear = models.ForeignKey(EntryYear,verbose_name = 'Entry year',related_name = 'studentclassstream_entryyear')
+
+	class Meta:
+		verbose_name_plural = 'Student Class Stream'
+
+	def __unicode__(self):
+		return unicode('%s : %s %s' % (self.studentprofiles,self.classes,self.streams))
+
+
+class StudentSubject(models.Model):
+	name = models.ForeignKey(SchoolProfiles, verbose_name =  'Name',)
+	studentprofiles = models.ForeignKey(StudentProfiles,verbose_name = 'Student Profile',)
+	subjects = models.ForeignKey(Subjects,verbose_name = 'Subjects',)
+	owner = models.ForeignKey(User,verbose_name = 'Owner',)
+
+	class Meta:
+		verbose_name_plural = 'Student Subject'
+
+	def __unicode__(self):
+		return unicode('%s' % (self.phoneno,))
+
+
+
+
+

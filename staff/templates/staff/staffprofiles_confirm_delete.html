@@ -1,0 +1,12 @@
+{% extends "master.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-lg-6 white-bg">
+		<form method="post">{% csrf_token %}
+				Are you sure you want to delete "{{ staffprofiles }}" ?
+				<input type="submit" value="Go ahead" class="btn btn-sm btn-danger pull-right m-t-n-xs"/>
+		</form>
+	</div><!--col-lg-6-->
+</div><!--row-->
+{% endblock %}

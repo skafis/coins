@@ -1,0 +1,77 @@
+				{% extends "master.html" %}
+
+				{% block content %}
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover dataTables-example" >
+							<thead>
+								<tr>
+									<th>Id</th>
+									{% if tid %}
+								 	<th>Blacklist</th>
+								 	<th>Blacklist date</th>
+									<th>White list</th>
+									<th>white list date</th>
+									{%else%}
+								 	<th>Student</th>
+									{%endif%}
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for row in rows %}
+									<tr class="gradeX">
+										<td>{{ row.id|safe }}</td>
+										{% if tid %}
+											<td><a href="{% url 'discipline:disciplinecases_edit'  row.id %}">{{ row.blacklist }}</a></td>
+											<td>{{ row.blacklistdate|safe }}</td>
+											<td>{{ row.whitelist|safe }}</td>
+											<td>{{ row.whitelistdate|safe }}</td>
+										{%else%}
+											<td><a href="{% url 'discipline:disciplinecases_single_list'  row.studentprofiles_id %}">{{ row.studentprofiles }}</a></td>
+										{%endif%}
+									</tr>
+								{% endfor %}
+
+							</tbody>
+							<tfoot>
+								<tr>
+									<th>Id</th>
+									{% if tid %}
+								 	<th>Blacklist</th>
+								 	<th>Blacklist date</th>
+									<th>White list</th>
+									<th>white list date</th>
+									{%else%}
+								 	<th>Student</th>
+									{%endif%}}
+								</tr>
+							</tfoot>
+						</table>
+					</div><!--table-responsive-->
+				{% endblock %}
+				{% block actions_form %}
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>	
+							<tr>
+									<td><a href="{% url 'discipline:disciplinecases_new'  %}">New Entry</a></td>
+							{% if tid or eid %}
+								<tr>
+										<td><a href="{% url 'discipline:disciplinecases_home' %}" class="btn btn-w-m btn-info ladda-button">Back</a></td>
+								</tr>
+							{%endif%}
+							</tr>
+						</tbody>
+					</table>
+				{% endblock %}
+				{% block filter_form %}
+					<!--<form method="post"  class="form-horizontal" action="/smsgateway/dorm_filter">{% csrf_token %}
+						{#{form.f_phonebook}#}
+						{#{form.f_entryyear}#}
+				    <input type="submit" value="Go" class="btn btn-w-m btn-primary fa fa-search" />-->
+					</form>
+				{% endblock %}

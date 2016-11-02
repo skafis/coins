@@ -1,0 +1,20 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "sch_portal_nav.html" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row text-center landing_icons">
+	<div class="col-sm-3">
+		<a href="{% url 'sch_portal:library' %}">
+		<i class="fa fa-indent" aria-hidden="true"></i>
+		</a>
+		<h4>LIBRARY</h4>
+	</div>
+
+</div>
+{% endblock %}
+<div class="col-sm-3">

@@ -1,0 +1,115 @@
+{% load staticfiles %}
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img alt="Brand" src="{% static 'img/logo.png' %}"></a>
+		<div id="topmost" class="navbar-right">
+			<ul class="navbar-top-links list-inline ">
+				<li><i class="fa fa-smile-o"></i> Welcome {{user_bio.username}} to pos management Portal</li>
+				<li><a href="{% url 'login:logout'%}"><i class="fa fa-sign-out"></i> Log out</a></li>
+			</ul>
+		</div>
+    </div>
+	</div><!-- /.container-fluid -->
+	
+	<div id="navigation">
+	<div class="container">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav">
+			<li class="active"><a aria-expanded="false" role="button" href="/sch_portal/"> <i class="fa fa-home" aria-hidden="true"></i></a></li>
+			<li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Register <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="{% url 'sch_portal:register'%}">School</a></li>
+                    <li><a href="{% url 'sch_portal:register'%}">Staff</a></li>
+                    <li><a href="{% url 'sch_portal:register'%}">Students</a></li>
+                    <li><a href="{% url 'sch_portal:register'%}">Visitor management</a></li>
+                    <li><a href="{% url 'sch_portal:studentsupplies'%}">Student Supplies</a></li>
+                    <li><a href="{% url 'sch_portal:certsofachievment'%}">Certs of achievment</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Academics <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="{% url 'sch_portal:library'%}"> Library</a></li>
+                    <li><a href="#"> Exams</a></li>
+                    <li><a href="#"> E-Learning</a></li>
+                    <li><a href="#"> Self-Assesment</a></li>
+                    <li><a href="#"> Extra Subjects</a></li>
+                    <li><a href="#"> Tution</a></li>
+                    <li><a href="#"> Science Congress</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Schedule & Events <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="#">Staff Time-table</a></li>
+                    <li><a href="#">Roll call </a></li>
+                    <li><a href="#">Duty roster </a></li>
+                    <li><a href="#">Graduation </a></li>
+                    <li><a href="#">Leaving certs </a></li>
+                    <li><a href="#">E-Leave outs </a></li>
+                    <li><a href="#">Events calender </a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Finance <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="#">Assets</a></li>
+                    <li><a href="#">Catering</a></li>
+                    <li><a href="#">Lipa Simple</a></li>
+                    <li><a href="#">Ecoins</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Communication <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="#">Bulk Sms</a></li>
+                    <li><a href="#">Emails</a></li>
+                    <li><a href="#">Fleet Notifications</a></li>
+                    <li><a href="#">Inter Schools Management</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Report <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="#">Parent Portal</a></li>
+                    <li><a href="#">MOE portal</a></li>
+                    <li><a href="#">MOF Portal</a></li>
+                    <li><a href="#">MOH Portal</a></li>
+            </ul>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Co-Curricular <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="#">Dormitory Shift</a></li>
+                    <li><a href="#">Class Shift</a></li>
+                    <li><a href="{% url 'sch_portal:studentsports'%}">Sports</a></li>
+                    <li><a href="#">Drama</a></li>
+                    <li><a href="{% url 'sch_portal:studentclubs'%}">Clubs</a></li>
+                    <li><a href="{% url 'sch_portal:holidayjobs'%}">Holiday jobs</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Health <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="#">Medical</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Discipline <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="{% url 'sch_portal:discipline'%}">Discipline</a></li>
+                </ul>
+            </li>
+		</ul>
+	</div>
+    </div>
+    </div>
+</nav>

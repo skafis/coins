@@ -1,0 +1,193 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
+body { font-family: "open sans", Arial, sans-serif;  background: #F4F5F6; font-size: 125%; color: #676a6c;}
+
+h1,h2,h3,h4,h5,h6{text-transform: uppercase; font-weight: 700; font-family: 'Roboto';}
+h1{font-size: 170%}
+h2{font-size: 160%}
+h3, .tabs-container strong{font-size: 140%}
+h4{font-size: 120%}
+h5,h6{font-size: 120%}
+
+#navbar .nav{padding:20px;}
+.navbar-header{width: 100%}
+.navbar-brand{ height: 70px; line-height: 70px; padding: 5px}
+.navbar-right{margin-right:0}
+.top-navigation .navbar-brand{background: none; height: auto;}
+
+#topmost{background: #00516F; color: #fff; padding: 2px 15px; border-radius: 0 0 20px 20px; font-weight: 700}
+#topmost a{color: #fff;}
+
+
+#navigation{background: #00AEEF; }
+#navigation .nav > li > a{text-transform: uppercase; color: #fff; font-family: 'Roboto'; font-weight: 700; font-size: 14px;}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, 
+.navbar-default .navbar-nav > .active > a:hover{background: none !important; color: #00516F !important;}
+#navigation li.active a{font-size: 24px}
+
+#main-content{background: #fff; padding:20px 15px;}
+.loginscreen{margin: 10% auto;}
+
+
+.pull-right{display: block !important; margin: 10px;}
+
+/* icons */
+.landing_icons .fa{font-size: 150px;}
+.social-icon a {background: #0068A6; border-radius: 50px; color: #fff; display: block; height: 28px; padding: 4px 8px; width: 28px;}
+
+/* footer */
+.footer{padding: 10px 0; font-weight: bold; border-top: 1px solid #00516F;}
+
+/* btn */
+.btn{background: #008DC1; font-size: 95%; border: 0 !important; text-transform: uppercase;}
+.btn-action{padding: 5px 10px; font-size: 90%; background: #00516F; margin: 0 5px; color: #fff;}
+.bootstrap-select .btn{background: none; border: 1px solid #ccc !important;}
+.btn-rounded{border-radius: 20px;}
+.btn-danger.btn-outline{font-weight: bold; color: #fff;}
+
+.table{ margin: 20px 0!important; text-align: center}
+
+/***/
+.modal-backdrop{background: #fff;}
+.modal-backdrop.in{opacity: 1}
+.modal-content{box-shadow: none; border: 0;}
+.modal-header{ text-align: center}
+.modal-title{font-size: 140%}
+.modal-header .fa{font-size: 120px; color: #00AEEF}
+.close{font-size: 40px; color: #00AEEF; opacity: 1}
+
+.bs-example-modal-lg .modal-dialog{ width: 70%;}
+
+/* Tabs */
+.tabs-container .panel-body {
+  background: #fff;
+  border: 1px solid #e7eaec;
+  border-radius: 2px;
+  padding: 20px;
+  position: relative;
+}
+.tabs-container .nav-tabs > li.active > a,
+.tabs-container .nav-tabs > li.active > a:hover,
+.tabs-container .nav-tabs > li.active > a:focus {
+  border: 1px solid #e7eaec;
+  border-bottom-color: transparent;
+  background-color: #fff; 
+}
+.tabs-container .nav-tabs > li {
+  float: left;
+  margin-bottom: -1px;
+}
+.tabs-container .tab-pane .panel-body {
+  border-top: none;
+}
+.tabs-container .nav-tabs > li.active > a,
+.tabs-container .nav-tabs > li.active > a:hover,
+.tabs-container .nav-tabs > li.active > a:focus {
+  border: 1px solid #e7eaec;
+  border-bottom-color: transparent; 
+}
+.tabs-container .nav-tabs {
+  border-bottom: 1px solid #e7eaec;
+}
+.tabs-container .tab-pane .panel-body {
+  border-top: none;
+}
+.tabs-container .tabs-left .tab-pane .panel-body,
+.tabs-container .tabs-right .tab-pane .panel-body {
+  border-top: 1px solid #e7eaec;
+}
+.tabs-container .nav-tabs > li a:hover {
+  background: transparent;
+  border-color: transparent;
+}
+.tabs-container .tabs-below > .nav-tabs,
+.tabs-container .tabs-right > .nav-tabs,
+.tabs-container .tabs-left > .nav-tabs {
+  border-bottom: 0;
+}
+.tabs-container .tabs-left .panel-body {
+  position: static;
+}
+.tabs-container .tabs-left > .nav-tabs,
+.tabs-container .tabs-right > .nav-tabs {
+  width: 20%; background: #E8ECF7;
+}
+.nav-tabs{background: #E8ECF7;}
+.tabs-container .tabs-left .panel-body {
+  width: 80%;
+  margin-left: 20%;
+}
+.tabs-container .tabs-right .panel-body {
+  width: 80%;
+  margin-right: 20%;
+}
+.tabs-container .tab-content > .tab-pane,
+.tabs-container .pill-content > .pill-pane {
+  display: none;
+}
+.tabs-container .tab-content > .active,
+.tabs-container .pill-content > .active {
+  display: block;
+}
+.tabs-container .tabs-below > .nav-tabs {
+  border-top: 1px solid #e7eaec;
+}
+.tabs-container .tabs-below > .nav-tabs > li {
+  margin-top: -1px;
+  margin-bottom: 0;
+}
+.tabs-container .tabs-below > .nav-tabs > li > a {
+	color: #667183;
+}
+.tabs-container .tabs-below > .nav-tabs > li > a:hover,
+.tabs-container .tabs-below > .nav-tabs > li > a:focus {
+  border-top-color: #e7eaec;
+  border-bottom-color: transparent;
+}
+.tabs-container .tabs-left > .nav-tabs > li,
+.tabs-container .tabs-right > .nav-tabs > li {
+  float: none;
+}
+.tabs-container .tabs-left > .nav-tabs > li > a, .nav-tabs > li > a,
+.tabs-container .tabs-right > .nav-tabs > li > a {
+  min-width: 74px; color: #667183; border-bottom: 1px solid #667183;
+  margin-right: 0; font-family: 'trebuchet', arial; font-weight: bold;
+  margin-bottom: 3px; text-transform: uppercase; font-size: 14px;
+}
+.tabs-container .tabs-left > .nav-tabs {
+  float: left;
+  margin-right: 19px;
+}
+.tabs-container .tabs-left > .nav-tabs > li > a {
+  margin-right: -1px;
+}
+.tabs-container .tabs-left > .nav-tabs .active > a,
+.tabs-container .tabs-left > .nav-tabs .active > a:hover,
+.tabs-container .tabs-left > .nav-tabs .active > a:focus {
+  border-color: #e7eaec transparent #e7eaec #e7eaec; background: #F6F7FC;
+  *border-right-color: #ffffff;
+}
+.tabs-container .tabs-right > .nav-tabs {
+  float: right;
+  margin-left: 19px;
+}
+.tabs-container .tabs-right > .nav-tabs > li > a {
+  margin-left: -1px;
+}
+.tabs-container .tabs-right > .nav-tabs .active > a,
+.tabs-container .tabs-right > .nav-tabs .active > a:hover,
+.tabs-container .tabs-right > .nav-tabs .active > a:focus {
+  border-color: #e7eaec #e7eaec #e7eaec transparent;
+  *border-left-color: #ffffff;
+  z-index: 1;
+}
+
+@media (max-width: 767px) {
+  .tabs-container .nav-tabs > li {
+    float: none !important;
+  }
+  .tabs-container .nav-tabs > li.active > a {
+    border-bottom: 1px solid #e7eaec !important;
+    margin: 0;
+  }
+}

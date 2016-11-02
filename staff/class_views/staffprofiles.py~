@@ -1,0 +1,143 @@
+from django.shortcuts import render, redirect, get_object_or_404
+
+from staff.models import StaffProfiles
+from stations.models import Hospitals
+
+from staff.forms import StaffProfilesEditForm,StaffProfilesForm
+
+
+from django.contrib import messages
+
+from django.contrib.auth.models import User
+
+from django.db import transaction
+
+#staffprofiles_home page for staffprofiles
+def staffprofiles_home(request,template_name='staffprofiles_list.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('staff.view_staffprofiles'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/', request.path))
+
+	try:
+		rows = StaffProfiles.objects.all()
+		ctx = {}
+		ctx['rows'] = rows
+		ctx['modelfields'] = StaffProfiles._meta.get_fields()
+		ctx['main_title'] = 'System Settings'
+		ctx['breadcrump'] = 'Manage '
+		ctx['span_size'] = 12
+
+	except:
+		rows =  StaffProfiles.objects.all()
+		ctx = {}
+		ctx['rows'] = rows
+	return render(request, template_name, ctx)
+
+#create page for staffprofiles
+@transaction.atomic
+def staffprofiles_create(request, template_name='staffprofiles_form.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('staff.add_staffprofiles'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/', request.path))
+
+	form = StaffProfilesForm(request.POST or None)#,request.FILES)
+
+	if form.is_valid():
+		nationalid = request.POST['nationalid']
+		firstname = request.POST['firstname']
+		secondname = request.POST['secondname']
+		lastname = request.POST['lastname']
+		gender = request.POST['gender']
+		specialcases = request.POST['specialcases']
+		group = request.POST['group']
+		username = request.POST['username']
+		email = request.POST['email']
+		#photo = request.FILES['photo']
+
+		sid=0
+		try:
+				obj = User.objects.create_user(username=username, email=email, password=username)
+				obj.first_name=firstname
+				obj.last_name=lastname
+				obj.is_active=True
+				obj.is_staff=True
+				obj.save()
+
+				sid = transaction.savepoint()
+
+				obj=StaffProfiles(name_id=1,nationalid=nationalid,firstname=firstname,secondname=secondname,lastname=lastname, gender=gender,specialcases=specialcases,group_id=group,username_id=obj.id)
+				obj.save()
+				transaction.savepoint_commit(sid)
+		except:
+			raise
+			transaction.savepoint_rollback(sid)
+			messages.add_message(request, messages.INFO, staffprofiles+'already exists ')
+		return redirect('staff:staffprofiles_home')
+	ctx = {}
+	ctx['form'] = form
+	ctx['main_title'] = 'System Settings'
+	ctx['breadcrump'] = 'Manage '
+	ctx['span_size'] = 6
+
+	return render(request, template_name, ctx)
+
+#update page for staffprofiles
+def staffprofiles_update(request , pk, template_name='staffprofiles_form.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('staff.change_staffprofiles'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/', request.path))
+
+	staffprofiles = get_object_or_404(StaffProfiles, pk=pk)
+	form = StaffProfilesEditForm(request.POST or None, instance=staffprofiles)
+	if form.is_valid():
+		try:
+			form.save()
+		except:
+			messages.add_message(request, messages.INFO, 'Cannot update,record already exists ')
+
+		return redirect('staff:staffprofiles_home')
+	ctx = {}
+	ctx['form'] = form
+	ctx['staffprofiles'] = staffprofiles
+	ctx['main_title'] = 'System Settings'
+	ctx['breadcrump'] = 'Manage '
+	ctx['pk'] = pk
+	ctx['span_size'] = 6
+	return render(request, template_name, ctx)
+
+#delete page for staffprofiles
+def staffprofiles_delete(request, pk, template_name='staffprofiles_confirm_delete.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('staff.delete_staffprofiles'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/', request.path))
+
+	staffprofiles = get_object_or_404(StaffProfiles, pk=pk)    
+	if request.method=='POST':
+		try:
+			staffprofiles.delete()
+		except:
+			messages.add_message(request, messages.INFO, 'Cannot delete '+staffprofiles+' this record is linked to other data')
+
+		return redirect('staff:staffprofiles_home')
+	ctx = {}
+	ctx['staffprofiles'] = staffprofiles
+	ctx['main_title'] = 'System Settings'
+	ctx['breadcrump'] = 'Manage '
+	return render(request, template_name, ctx)
+

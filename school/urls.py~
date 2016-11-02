@@ -1,0 +1,106 @@
+from django.conf.urls import patterns, url
+
+from school import views
+
+from school.ajax import schools
+
+urlpatterns = [
+	url(r'^schoolregform/$', schools.schoolregform,name='schoolregform'),
+
+	#SCHOOL PROFILES
+  url(r'^schoolprofiles_home$', views.schoolprofiles_home, name='schoolprofiles_home'),
+  url(r'^new_schoolprofiles$', views.schoolprofiles_create, name='schoolprofiles_new'),
+  url(r'^edit_schoolprofiles/(?P<pk>\d+)$', views.schoolprofiles_update, name='schoolprofiles_edit'),
+  url(r'^delete_schoolprofiles/(?P<pk>\d+)$', views.schoolprofiles_delete, name='schoolprofiles_delete'),
+
+	#SCHOOL STAFF
+  url(r'^schoolstaff_home$', views.schoolstaff_home, name='schoolstaff_home'),
+  url(r'^new_schoolstaff$', views.schoolstaff_create, name='schoolstaff_new'),
+  url(r'^edit_schoolstaff/(?P<pk>\d+)$', views.schoolstaff_update, name='schoolstaff_edit'),
+  url(r'^delete_schoolstaff/(?P<pk>\d+)$', views.schoolstaff_delete, name='schoolstaff_delete'),
+
+	#SCHOOL CLASSES
+  url(r'^schoolclasses_home$', views.schoolclasses_home, name='schoolclasses_home'),
+  url(r'^new_schoolclasses$', views.schoolclasses_create, name='schoolclasses_new'),
+  url(r'^edit_schoolclasses/(?P<pk>\d+)$', views.schoolclasses_update, name='schoolclasses_edit'),
+  url(r'^delete_schoolclasses/(?P<pk>\d+)$', views.schoolclasses_delete, name='schoolclasses_delete'),
+
+	#SCHOOL STREAMS
+  url(r'^schoolstreams_home$', views.schoolstreams_home, name='schoolstreams_home'),
+  url(r'^new_schoolstreams$', views.schoolstreams_create, name='schoolstreams_new'),
+  url(r'^edit_schoolstreams/(?P<pk>\d+)$', views.schoolstreams_update, name='schoolstreams_edit'),
+  url(r'^delete_schoolstreams/(?P<pk>\d+)$', views.schoolstreams_delete, name='schoolstreams_delete'),
+
+	#SCHOOL STREAMS
+  url(r'^schoolclassstreams_home$', views.schoolclassstreams_home, name='schoolclassstreams_home'),
+  url(r'^new_schoolclassstreams$', views.schoolclassstreams_create, name='schoolclassstreams_new'),
+  url(r'^edit_schoolclassstreams/(?P<pk>\d+)$', views.schoolclassstreams_update, name='schoolclassstreams_edit'),
+  url(r'^delete_schoolclassstreams/(?P<pk>\d+)$', views.schoolclassstreams_delete, name='schoolclassstreams_delete'),
+
+	#SCHOOL STREAMS
+  url(r'^schooltype_home$', views.schooltype_home, name='schooltype_home'),
+  url(r'^new_schooltype$', views.schooltype_create, name='schooltype_new'),
+  url(r'^edit_schooltype/(?P<pk>\d+)$', views.schooltype_update, name='schooltype_edit'),
+  url(r'^delete_schooltype/(?P<pk>\d+)$', views.schooltype_delete, name='schooltype_delete'),
+
+	#SCHOOL GENDER
+  url(r'^gender_home$', views.gender_home, name='gender_home'),
+  url(r'^new_gender$', views.gender_create, name='gender_new'),
+  url(r'^edit_gender/(?P<pk>\d+)$', views.gender_update, name='gender_edit'),
+  url(r'^delete_gender/(?P<pk>\d+)$', views.gender_delete, name='gender_delete'),
+
+	#PAYMENT METHODS
+  url(r'^paymentmethods_home$', views.paymentmethods_home, name='paymentmethods_home'),
+  url(r'^new_paymentmethods$', views.paymentmethods_create, name='paymentmethods_new'),
+  url(r'^edit_paymentmethods/(?P<pk>\d+)$', views.paymentmethods_update, name='paymentmethods_edit'),
+  url(r'^delete_paymentmethods/(?P<pk>\d+)$', views.paymentmethods_delete, name='paymentmethods_delete'),
+
+	#DORMITORY
+  url(r'^dormitory_home$', views.dormitory_home, name='dormitory_home'),
+  url(r'^new_dormitory$', views.dormitory_create, name='dormitory_new'),
+  url(r'^edit_dormitory/(?P<pk>\d+)$', views.dormitory_update, name='dormitory_edit'),
+  url(r'^delete_dormitory/(?P<pk>\d+)$', views.dormitory_delete, name='dormitory_delete'),
+
+	#HOUSE
+  url(r'^house_home$', views.house_home, name='house_home'),
+  url(r'^new_house$', views.house_create, name='house_new'),
+  url(r'^edit_house/(?P<pk>\d+)$', views.house_update, name='house_edit'),
+  url(r'^delete_house/(?P<pk>\d+)$', views.house_delete, name='house_delete'),
+
+	#TERMS
+  url(r'^terms_home$', views.terms_home, name='terms_home'),
+  url(r'^new_terms$', views.terms_create, name='terms_new'),
+  url(r'^edit_terms/(?P<pk>\d+)$', views.terms_update, name='terms_edit'),
+  url(r'^delete_terms/(?P<pk>\d+)$', views.terms_delete, name='terms_delete'),
+
+	#MONTHS
+  url(r'^month_home$', views.month_home, name='month_home'),
+  url(r'^new_month$', views.month_create, name='month_new'),
+  url(r'^edit_month/(?P<pk>\d+)$', views.month_update, name='month_edit'),
+  url(r'^delete_month/(?P<pk>\d+)$', views.month_delete, name='month_delete'),
+
+	#SUBJECTS
+  url(r'^subjects_home$', views.subjects_home, name='subjects_home'),
+  url(r'^new_subjects$', views.subjects_create, name='subjects_new'),
+  url(r'^edit_subjects/(?P<pk>\d+)$', views.subjects_update, name='subjects_edit'),
+  url(r'^delete_subjects/(?P<pk>\d+)$', views.subjects_delete, name='subjects_delete'),
+
+	#PAPERS
+  url(r'^paper_home$', views.paper_home, name='paper_home'),
+  url(r'^new_paper$', views.paper_create, name='paper_new'),
+  url(r'^edit_paper/(?P<pk>\d+)$', views.paper_update, name='paper_edit'),
+  url(r'^delete_paper/(?P<pk>\d+)$', views.paper_delete, name='paper_delete'),
+
+	#CATEGORY TYPE
+  url(r'^categorytype_home$', views.categorytype_home, name='categorytype_home'),
+  url(r'^new_categorytype$', views.categorytype_create, name='categorytype_new'),
+  url(r'^edit_categorytype/(?P<pk>\d+)$', views.categorytype_update, name='categorytype_edit'),
+  url(r'^delete_categorytype/(?P<pk>\d+)$', views.categorytype_delete, name='categorytype_delete'),
+
+	#CATEGORY
+  url(r'^category_home$', views.category_home, name='category_home'),
+  url(r'^new_category$', views.category_create, name='category_new'),
+  url(r'^edit_category/(?P<pk>\d+)$', views.category_update, name='category_edit'),
+  url(r'^delete_category/(?P<pk>\d+)$', views.category_delete, name='category_delete'),
+
+]

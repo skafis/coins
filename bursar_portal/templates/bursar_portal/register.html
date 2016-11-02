@@ -1,0 +1,63 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "sch_portal_nav.html" %}
+	{#% include "pos_nav.html" %#}
+{% endblock %}
+
+{% block content %}
+            <div class="row m-t-lg">
+                <div class="col-lg-{{span_size|safe}}">
+                    <div class="tabs-container">
+
+                        <div class="tabs-left-">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab-6">Student</a></li>
+                                <!--<li class=""><a data-toggle="tab" href="#tab-7">Staff</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-8">Visitor</a></li>-->
+                                <li class=""><a data-toggle="tab" href="#tab-9">School</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-10">Yellow form</a></li>
+                            </ul>
+                            <div class="tab-content ">
+                                <div id="tab-6" class="tab-pane active">
+                                    <div class="panel-body">
+                                     <strong>Student</strong>
+									{% include "sch_portal/students.html" %}
+                                    </div>
+                                </div>
+                                <!--<div id="tab-7" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Staff</strong>
+
+                                        <p>Staff.</p>
+                                    </div>
+                                </div>
+
+                                <div id="tab-8" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Visitor</strong>
+
+                                        <p>Visitor.</p>
+                                    </div>
+                                </div>-->
+                                <div id="tab-9" class="tab-pane">
+                                    <div class="panel-body">
+										{% include "sch_portal/schools.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-10" class="tab-pane">
+                                    <div class="panel-body">
+																		<!--<a aria-expanded="false" role="button" href="{#% url 'students:yellowform_home'%#}"> YELLOW FORM</a>-->
+																		
+										{% include "sch_portal/yellowform.html" %}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+{% endblock %}

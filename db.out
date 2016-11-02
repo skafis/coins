@@ -1,0 +1,6140 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_permissions_id_seq OWNED BY auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(30) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_groups_id_seq OWNED BY auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_user_permissions_id_seq OWNED BY auth_user_user_permissions.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_admin_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_admin_log_id_seq OWNED BY django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_content_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_content_type_id_seq OWNED BY django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_migrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_migrations_id_seq OWNED BY django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- Name: moe_portal_bursery; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE moe_portal_bursery (
+    id integer NOT NULL,
+    amount numeric(19,2) NOT NULL,
+    county character varying(5000) NOT NULL,
+    sch_bank_acc character varying(5000) NOT NULL,
+    financial_year character varying(5000) NOT NULL,
+    name_id integer NOT NULL,
+    studentprofiles_id character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.moe_portal_bursery OWNER TO postgres;
+
+--
+-- Name: moe_portal_bursery_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE moe_portal_bursery_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.moe_portal_bursery_id_seq OWNER TO postgres;
+
+--
+-- Name: moe_portal_bursery_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE moe_portal_bursery_id_seq OWNED BY moe_portal_bursery.id;
+
+
+--
+-- Name: moe_portal_tutionfunds; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE moe_portal_tutionfunds (
+    id integer NOT NULL,
+    county character varying(5000) NOT NULL,
+    bankname character varying(5000) NOT NULL,
+    sch_bank_acc character varying(5000) NOT NULL,
+    amount numeric(19,2) NOT NULL,
+    transactiontype character varying(5000) NOT NULL,
+    transactiondate date NOT NULL,
+    financial_year character varying(5000) NOT NULL,
+    name_id integer NOT NULL
+);
+
+
+ALTER TABLE public.moe_portal_tutionfunds OWNER TO postgres;
+
+--
+-- Name: moe_portal_tutionfunds_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE moe_portal_tutionfunds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.moe_portal_tutionfunds_id_seq OWNER TO postgres;
+
+--
+-- Name: moe_portal_tutionfunds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE moe_portal_tutionfunds_id_seq OWNED BY moe_portal_tutionfunds.id;
+
+
+--
+-- Name: pos_portal_merchants; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE pos_portal_merchants (
+    id integer NOT NULL,
+    name_id integer NOT NULL,
+    firstname character varying(5000) NOT NULL,
+    secondname character varying(5000) NOT NULL,
+    lastname character varying(5000) NOT NULL,
+    phonenumber character varying(5000) NOT NULL,
+    email character varying(5000) NOT NULL,
+    username_id integer NOT NULL,
+    balance character varying(5000) NOT NULL
+);
+
+
+ALTER TABLE public.pos_portal_merchants OWNER TO postgres;
+
+--
+-- Name: pos_portal_merchants_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE pos_portal_merchants_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pos_portal_merchants_id_seq OWNER TO postgres;
+
+--
+-- Name: pos_portal_merchants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE pos_portal_merchants_id_seq OWNED BY pos_portal_merchants.id;
+
+
+--
+-- Name: pos_portal_pos; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE pos_portal_pos (
+    id integer NOT NULL,
+    posnumber character varying(5000) NOT NULL,
+    accountnumber character varying(5000) NOT NULL,
+    serialnum character varying(5000) NOT NULL,
+    merchant_id integer NOT NULL
+);
+
+
+ALTER TABLE public.pos_portal_pos OWNER TO postgres;
+
+--
+-- Name: pos_portal_pos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE pos_portal_pos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pos_portal_pos_id_seq OWNER TO postgres;
+
+--
+-- Name: pos_portal_pos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE pos_portal_pos_id_seq OWNED BY pos_portal_pos.id;
+
+
+--
+-- Name: pos_portal_studentaccountswallets; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE pos_portal_studentaccountswallets (
+    id integer NOT NULL,
+    walletname_name character varying(255) NOT NULL,
+    max_amount integer NOT NULL,
+    opendate date NOT NULL,
+    studentprofiles_id character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.pos_portal_studentaccountswallets OWNER TO postgres;
+
+--
+-- Name: pos_portal_studentaccountswallets_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE pos_portal_studentaccountswallets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pos_portal_studentaccountswallets_id_seq OWNER TO postgres;
+
+--
+-- Name: pos_portal_studentaccountswallets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE pos_portal_studentaccountswallets_id_seq OWNED BY pos_portal_studentaccountswallets.id;
+
+
+--
+-- Name: pos_portal_transactions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE pos_portal_transactions (
+    id integer NOT NULL,
+    transaction_type character varying(10000) NOT NULL,
+    amount character varying(10000) NOT NULL,
+    transaction_date date NOT NULL,
+    trace_no character varying(10000) NOT NULL,
+    ref_no character varying(10000) NOT NULL,
+    currency character varying(10000) NOT NULL,
+    location_id integer NOT NULL,
+    wallet_id integer NOT NULL,
+    terminal_id integer NOT NULL,
+    balance character varying(5000) NOT NULL,
+    reverse character varying(5000) NOT NULL
+);
+
+
+ALTER TABLE public.pos_portal_transactions OWNER TO postgres;
+
+--
+-- Name: pos_portal_transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE pos_portal_transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pos_portal_transactions_id_seq OWNER TO postgres;
+
+--
+-- Name: pos_portal_transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE pos_portal_transactions_id_seq OWNED BY pos_portal_transactions.id;
+
+
+--
+-- Name: school_category; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_category (
+    id integer NOT NULL,
+    category_id integer NOT NULL,
+    categorytype_id integer NOT NULL,
+    name_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_category OWNER TO postgres;
+
+--
+-- Name: school_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_category_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_category_id_seq OWNER TO postgres;
+
+--
+-- Name: school_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_category_id_seq OWNED BY school_category.id;
+
+
+--
+-- Name: school_categorytype; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_categorytype (
+    id integer NOT NULL,
+    categorytype_id integer NOT NULL,
+    name_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_categorytype OWNER TO postgres;
+
+--
+-- Name: school_categorytype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_categorytype_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_categorytype_id_seq OWNER TO postgres;
+
+--
+-- Name: school_categorytype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_categorytype_id_seq OWNED BY school_categorytype.id;
+
+
+--
+-- Name: school_classes; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_classes (
+    id integer NOT NULL,
+    classes_id integer NOT NULL,
+    name_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_classes OWNER TO postgres;
+
+--
+-- Name: school_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_classes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_classes_id_seq OWNER TO postgres;
+
+--
+-- Name: school_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_classes_id_seq OWNED BY school_classes.id;
+
+
+--
+-- Name: school_classstreams; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_classstreams (
+    id integer NOT NULL,
+    classes_id integer NOT NULL,
+    name_id integer NOT NULL,
+    streams_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_classstreams OWNER TO postgres;
+
+--
+-- Name: school_classstreams_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_classstreams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_classstreams_id_seq OWNER TO postgres;
+
+--
+-- Name: school_classstreams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_classstreams_id_seq OWNED BY school_classstreams.id;
+
+
+--
+-- Name: school_dormitory; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_dormitory (
+    id integer NOT NULL,
+    dormitory character varying(5000) NOT NULL,
+    name_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_dormitory OWNER TO postgres;
+
+--
+-- Name: school_dormitory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_dormitory_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_dormitory_id_seq OWNER TO postgres;
+
+--
+-- Name: school_dormitory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_dormitory_id_seq OWNED BY school_dormitory.id;
+
+
+--
+-- Name: school_entryyear; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_entryyear (
+    id integer NOT NULL,
+    entryyear_id integer NOT NULL,
+    name_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_entryyear OWNER TO postgres;
+
+--
+-- Name: school_entryyear_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_entryyear_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_entryyear_id_seq OWNER TO postgres;
+
+--
+-- Name: school_entryyear_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_entryyear_id_seq OWNED BY school_entryyear.id;
+
+
+--
+-- Name: school_gender; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_gender (
+    id integer NOT NULL,
+    gender_id integer NOT NULL,
+    name_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_gender OWNER TO postgres;
+
+--
+-- Name: school_gender_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_gender_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_gender_id_seq OWNER TO postgres;
+
+--
+-- Name: school_gender_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_gender_id_seq OWNED BY school_gender.id;
+
+
+--
+-- Name: school_house; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_house (
+    id integer NOT NULL,
+    house_id integer NOT NULL,
+    name_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_house OWNER TO postgres;
+
+--
+-- Name: school_house_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_house_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_house_id_seq OWNER TO postgres;
+
+--
+-- Name: school_house_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_house_id_seq OWNED BY school_house.id;
+
+
+--
+-- Name: school_months; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_months (
+    id integer NOT NULL,
+    month_id integer NOT NULL,
+    name_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_months OWNER TO postgres;
+
+--
+-- Name: school_months_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_months_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_months_id_seq OWNER TO postgres;
+
+--
+-- Name: school_months_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_months_id_seq OWNED BY school_months.id;
+
+
+--
+-- Name: school_papers; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_papers (
+    id integer NOT NULL,
+    name_id integer NOT NULL,
+    papername_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_papers OWNER TO postgres;
+
+--
+-- Name: school_papers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_papers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_papers_id_seq OWNER TO postgres;
+
+--
+-- Name: school_papers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_papers_id_seq OWNED BY school_papers.id;
+
+
+--
+-- Name: school_paymentmethods; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_paymentmethods (
+    id integer NOT NULL,
+    name_id integer NOT NULL,
+    paymentmethods_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_paymentmethods OWNER TO postgres;
+
+--
+-- Name: school_paymentmethods_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_paymentmethods_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_paymentmethods_id_seq OWNER TO postgres;
+
+--
+-- Name: school_paymentmethods_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_paymentmethods_id_seq OWNED BY school_paymentmethods.id;
+
+
+--
+-- Name: school_schoolprofiles; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_schoolprofiles (
+    id integer NOT NULL,
+    schname character varying(255) NOT NULL,
+    motto character varying(5000) NOT NULL,
+    mission character varying(5000) NOT NULL,
+    vision character varying(5000) NOT NULL,
+    county character varying(5000) NOT NULL,
+    accountnumber character varying(10000) NOT NULL,
+    constituency character varying(5000) NOT NULL,
+    division character varying(5000) NOT NULL,
+    email character varying(5000) NOT NULL,
+    encryped_acc_no character varying(10000) NOT NULL,
+    expirerydate date NOT NULL,
+    location character varying(5000) NOT NULL,
+    phonenumber character varying(5000) NOT NULL,
+    sublocation character varying(5000) NOT NULL,
+    town character varying(5000) NOT NULL,
+    pocketmoneybalance character varying(5000) NOT NULL,
+    noofmerchants character varying(5000) NOT NULL,
+    savingsbalance character varying(5000) NOT NULL,
+    schfeesbalance character varying(5000) NOT NULL
+);
+
+
+ALTER TABLE public.school_schoolprofiles OWNER TO postgres;
+
+--
+-- Name: school_schoolprofiles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_schoolprofiles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_schoolprofiles_id_seq OWNER TO postgres;
+
+--
+-- Name: school_schoolprofiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_schoolprofiles_id_seq OWNED BY school_schoolprofiles.id;
+
+
+--
+-- Name: school_schoolstaff; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_schoolstaff (
+    id integer NOT NULL,
+    name_id integer NOT NULL,
+    owner_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_schoolstaff OWNER TO postgres;
+
+--
+-- Name: school_schoolstaff_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_schoolstaff_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_schoolstaff_id_seq OWNER TO postgres;
+
+--
+-- Name: school_schoolstaff_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_schoolstaff_id_seq OWNED BY school_schoolstaff.id;
+
+
+--
+-- Name: school_schooltype; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_schooltype (
+    id integer NOT NULL,
+    name_id integer NOT NULL,
+    schooltype_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_schooltype OWNER TO postgres;
+
+--
+-- Name: school_schooltype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_schooltype_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_schooltype_id_seq OWNER TO postgres;
+
+--
+-- Name: school_schooltype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_schooltype_id_seq OWNED BY school_schooltype.id;
+
+
+--
+-- Name: school_streams; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_streams (
+    id integer NOT NULL,
+    name_id integer NOT NULL,
+    streams_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_streams OWNER TO postgres;
+
+--
+-- Name: school_streams_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_streams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_streams_id_seq OWNER TO postgres;
+
+--
+-- Name: school_streams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_streams_id_seq OWNED BY school_streams.id;
+
+
+--
+-- Name: school_subjects; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_subjects (
+    id integer NOT NULL,
+    name_id integer NOT NULL,
+    subject_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_subjects OWNER TO postgres;
+
+--
+-- Name: school_subjects_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_subjects_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_subjects_id_seq OWNER TO postgres;
+
+--
+-- Name: school_subjects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_subjects_id_seq OWNED BY school_subjects.id;
+
+
+--
+-- Name: school_systemconfig; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_systemconfig (
+    id integer NOT NULL,
+    command_label character varying(255) NOT NULL,
+    command character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.school_systemconfig OWNER TO postgres;
+
+--
+-- Name: school_systemconfig_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_systemconfig_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_systemconfig_id_seq OWNER TO postgres;
+
+--
+-- Name: school_systemconfig_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_systemconfig_id_seq OWNED BY school_systemconfig.id;
+
+
+--
+-- Name: school_terms; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE school_terms (
+    id integer NOT NULL,
+    startdate timestamp with time zone NOT NULL,
+    enddate timestamp with time zone NOT NULL,
+    name_id integer NOT NULL,
+    terms_id integer NOT NULL
+);
+
+
+ALTER TABLE public.school_terms OWNER TO postgres;
+
+--
+-- Name: school_terms_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE school_terms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.school_terms_id_seq OWNER TO postgres;
+
+--
+-- Name: school_terms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE school_terms_id_seq OWNED BY school_terms.id;
+
+
+--
+-- Name: smsgateway_phonebook; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE smsgateway_phonebook (
+    id integer NOT NULL,
+    country character varying(5000) NOT NULL,
+    phoneno character varying(255) NOT NULL,
+    group_id integer NOT NULL,
+    name_id integer NOT NULL,
+    owner_id integer NOT NULL
+);
+
+
+ALTER TABLE public.smsgateway_phonebook OWNER TO postgres;
+
+--
+-- Name: smsgateway_phonebook_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE smsgateway_phonebook_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.smsgateway_phonebook_id_seq OWNER TO postgres;
+
+--
+-- Name: smsgateway_phonebook_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE smsgateway_phonebook_id_seq OWNED BY smsgateway_phonebook.id;
+
+
+--
+-- Name: smsgateway_sms; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE smsgateway_sms (
+    id integer NOT NULL,
+    text text NOT NULL,
+    deliverystatus character varying(255) NOT NULL,
+    messageid character varying(255) NOT NULL,
+    cost character varying(255) NOT NULL,
+    sendtime timestamp with time zone NOT NULL,
+    deleverytime timestamp with time zone NOT NULL,
+    latency integer NOT NULL,
+    owner_id integer NOT NULL,
+    reciever_id integer NOT NULL
+);
+
+
+ALTER TABLE public.smsgateway_sms OWNER TO postgres;
+
+--
+-- Name: smsgateway_sms_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE smsgateway_sms_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.smsgateway_sms_id_seq OWNER TO postgres;
+
+--
+-- Name: smsgateway_sms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE smsgateway_sms_id_seq OWNED BY smsgateway_sms.id;
+
+
+--
+-- Name: staff_staffphoneno; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE staff_staffphoneno (
+    id integer NOT NULL,
+    phoneno_id integer NOT NULL,
+    staffprofiles_id integer NOT NULL
+);
+
+
+ALTER TABLE public.staff_staffphoneno OWNER TO postgres;
+
+--
+-- Name: staff_staffphoneno_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE staff_staffphoneno_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.staff_staffphoneno_id_seq OWNER TO postgres;
+
+--
+-- Name: staff_staffphoneno_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE staff_staffphoneno_id_seq OWNED BY staff_staffphoneno.id;
+
+
+--
+-- Name: staff_staffprofiles; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE staff_staffprofiles (
+    id integer NOT NULL,
+    nationalid integer NOT NULL,
+    staff_code integer NOT NULL,
+    firstname character varying(255) NOT NULL,
+    secondname character varying(255) NOT NULL,
+    lastname character varying(255) NOT NULL,
+    gender character varying(255) NOT NULL,
+    specialcases text NOT NULL,
+    photo character varying(100) NOT NULL,
+    group_id integer NOT NULL,
+    name_id integer NOT NULL,
+    username_id integer NOT NULL
+);
+
+
+ALTER TABLE public.staff_staffprofiles OWNER TO postgres;
+
+--
+-- Name: staff_staffprofiles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE staff_staffprofiles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.staff_staffprofiles_id_seq OWNER TO postgres;
+
+--
+-- Name: staff_staffprofiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE staff_staffprofiles_id_seq OWNED BY staff_staffprofiles.id;
+
+
+--
+-- Name: students_parentphoneno; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE students_parentphoneno (
+    id integer NOT NULL,
+    parent_id integer NOT NULL,
+    phoneno_id integer NOT NULL
+);
+
+
+ALTER TABLE public.students_parentphoneno OWNER TO postgres;
+
+--
+-- Name: students_parentphoneno_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE students_parentphoneno_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.students_parentphoneno_id_seq OWNER TO postgres;
+
+--
+-- Name: students_parentphoneno_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE students_parentphoneno_id_seq OWNED BY students_parentphoneno.id;
+
+
+--
+-- Name: students_studentcategory; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE students_studentcategory (
+    id integer NOT NULL,
+    entryyear character varying(5000) NOT NULL,
+    category_id integer NOT NULL,
+    studentprofiles_id character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.students_studentcategory OWNER TO postgres;
+
+--
+-- Name: students_studentcategory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE students_studentcategory_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.students_studentcategory_id_seq OWNER TO postgres;
+
+--
+-- Name: students_studentcategory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE students_studentcategory_id_seq OWNED BY students_studentcategory.id;
+
+
+--
+-- Name: students_studentclassstream; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE students_studentclassstream (
+    id integer NOT NULL,
+    classes_id integer NOT NULL,
+    entryyear_id integer NOT NULL,
+    streams_id integer NOT NULL,
+    studentprofiles_id character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.students_studentclassstream OWNER TO postgres;
+
+--
+-- Name: students_studentclassstream_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE students_studentclassstream_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.students_studentclassstream_id_seq OWNER TO postgres;
+
+--
+-- Name: students_studentclassstream_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE students_studentclassstream_id_seq OWNED BY students_studentclassstream.id;
+
+
+--
+-- Name: students_studentlocation; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE students_studentlocation (
+    id integer NOT NULL,
+    county character varying(5000) NOT NULL,
+    division character varying(5000) NOT NULL,
+    constituency character varying(5000) NOT NULL,
+    location character varying(5000) NOT NULL,
+    sublocation character varying(5000) NOT NULL,
+    town character varying(5000) NOT NULL,
+    studentprofiles_id character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.students_studentlocation OWNER TO postgres;
+
+--
+-- Name: students_studentlocation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE students_studentlocation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.students_studentlocation_id_seq OWNER TO postgres;
+
+--
+-- Name: students_studentlocation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE students_studentlocation_id_seq OWNED BY students_studentlocation.id;
+
+
+--
+-- Name: students_studentparent; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE students_studentparent (
+    id integer NOT NULL,
+    firstname character varying(255) NOT NULL,
+    secondname character varying(255) NOT NULL,
+    lastname character varying(255) NOT NULL,
+    specialcases text NOT NULL,
+    gender_id integer NOT NULL,
+    studentprofiles_id character varying(255) NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.students_studentparent OWNER TO postgres;
+
+--
+-- Name: students_studentparent_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE students_studentparent_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.students_studentparent_id_seq OWNER TO postgres;
+
+--
+-- Name: students_studentparent_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE students_studentparent_id_seq OWNED BY students_studentparent.id;
+
+
+--
+-- Name: students_studentprofiles; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE students_studentprofiles (
+    admno character varying(255) NOT NULL,
+    firstname character varying(255) NOT NULL,
+    secondname character varying(255) NOT NULL,
+    lastname character varying(255) NOT NULL,
+    specialcases text NOT NULL,
+    current_stream_id integer NOT NULL,
+    photo character varying(100) NOT NULL,
+    dateofbirth date,
+    admissiondate date NOT NULL,
+    residence character varying(255) NOT NULL,
+    lastschoolattended character varying(255) NOT NULL,
+    lastschooladdress character varying(255) NOT NULL,
+    schooltransport character varying(255),
+    schoollunch character varying(255),
+    isactive boolean NOT NULL,
+    academic_category_id integer,
+    current_classes_id integer NOT NULL,
+    gender_id integer NOT NULL,
+    name_id integer NOT NULL,
+    username_id integer NOT NULL,
+    accountnumber character varying(10000) NOT NULL,
+    encryped_acc_no character varying(10000) NOT NULL,
+    expirerydate date NOT NULL
+);
+
+
+ALTER TABLE public.students_studentprofiles OWNER TO postgres;
+
+--
+-- Name: students_studentsubject; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE students_studentsubject (
+    id integer NOT NULL,
+    name_id integer NOT NULL,
+    owner_id integer NOT NULL,
+    studentprofiles_id character varying(255) NOT NULL,
+    subjects_id integer NOT NULL
+);
+
+
+ALTER TABLE public.students_studentsubject OWNER TO postgres;
+
+--
+-- Name: students_studentsubject_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE students_studentsubject_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.students_studentsubject_id_seq OWNER TO postgres;
+
+--
+-- Name: students_studentsubject_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE students_studentsubject_id_seq OWNED BY students_studentsubject.id;
+
+
+--
+-- Name: sysadmin_category; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_category (
+    id integer NOT NULL,
+    category character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_category OWNER TO postgres;
+
+--
+-- Name: sysadmin_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_category_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_category_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_category_id_seq OWNED BY sysadmin_category.id;
+
+
+--
+-- Name: sysadmin_categorytype; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_categorytype (
+    id integer NOT NULL,
+    categorytype character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_categorytype OWNER TO postgres;
+
+--
+-- Name: sysadmin_categorytype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_categorytype_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_categorytype_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_categorytype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_categorytype_id_seq OWNED BY sysadmin_categorytype.id;
+
+
+--
+-- Name: sysadmin_classes; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_classes (
+    id integer NOT NULL,
+    classes character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_classes OWNER TO postgres;
+
+--
+-- Name: sysadmin_classes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_classes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_classes_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_classes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_classes_id_seq OWNED BY sysadmin_classes.id;
+
+
+--
+-- Name: sysadmin_country; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_country (
+    id integer NOT NULL,
+    country character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_country OWNER TO postgres;
+
+--
+-- Name: sysadmin_country_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_country_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_country_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_country_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_country_id_seq OWNED BY sysadmin_country.id;
+
+
+--
+-- Name: sysadmin_county; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_county (
+    id integer NOT NULL,
+    countyname character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_county OWNER TO postgres;
+
+--
+-- Name: sysadmin_county_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_county_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_county_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_county_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_county_id_seq OWNED BY sysadmin_county.id;
+
+
+--
+-- Name: sysadmin_dormitory; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_dormitory (
+    id integer NOT NULL,
+    dormitory character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_dormitory OWNER TO postgres;
+
+--
+-- Name: sysadmin_dormitory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_dormitory_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_dormitory_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_dormitory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_dormitory_id_seq OWNED BY sysadmin_dormitory.id;
+
+
+--
+-- Name: sysadmin_entryyear; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_entryyear (
+    id integer NOT NULL,
+    entryyear character varying(255) NOT NULL,
+    currentyear boolean NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_entryyear OWNER TO postgres;
+
+--
+-- Name: sysadmin_entryyear_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_entryyear_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_entryyear_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_entryyear_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_entryyear_id_seq OWNED BY sysadmin_entryyear.id;
+
+
+--
+-- Name: sysadmin_gender; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_gender (
+    id integer NOT NULL,
+    gender character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_gender OWNER TO postgres;
+
+--
+-- Name: sysadmin_gender_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_gender_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_gender_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_gender_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_gender_id_seq OWNED BY sysadmin_gender.id;
+
+
+--
+-- Name: sysadmin_grades; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_grades (
+    id integer NOT NULL,
+    grades character varying(255) NOT NULL,
+    points integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_grades OWNER TO postgres;
+
+--
+-- Name: sysadmin_grades_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_grades_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_grades_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_grades_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_grades_id_seq OWNED BY sysadmin_grades.id;
+
+
+--
+-- Name: sysadmin_house; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_house (
+    id integer NOT NULL,
+    house character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_house OWNER TO postgres;
+
+--
+-- Name: sysadmin_house_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_house_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_house_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_house_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_house_id_seq OWNED BY sysadmin_house.id;
+
+
+--
+-- Name: sysadmin_months; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_months (
+    id integer NOT NULL,
+    month character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_months OWNER TO postgres;
+
+--
+-- Name: sysadmin_months_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_months_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_months_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_months_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_months_id_seq OWNED BY sysadmin_months.id;
+
+
+--
+-- Name: sysadmin_paper; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_paper (
+    id integer NOT NULL,
+    paper character varying(255) NOT NULL,
+    paper_code character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_paper OWNER TO postgres;
+
+--
+-- Name: sysadmin_paper_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_paper_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_paper_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_paper_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_paper_id_seq OWNED BY sysadmin_paper.id;
+
+
+--
+-- Name: sysadmin_paymentmethod; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_paymentmethod (
+    id integer NOT NULL,
+    paymentmethods character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_paymentmethod OWNER TO postgres;
+
+--
+-- Name: sysadmin_paymentmethod_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_paymentmethod_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_paymentmethod_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_paymentmethod_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_paymentmethod_id_seq OWNED BY sysadmin_paymentmethod.id;
+
+
+--
+-- Name: sysadmin_schooltype; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_schooltype (
+    id integer NOT NULL,
+    schooltype character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_schooltype OWNER TO postgres;
+
+--
+-- Name: sysadmin_schooltype_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_schooltype_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_schooltype_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_schooltype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_schooltype_id_seq OWNED BY sysadmin_schooltype.id;
+
+
+--
+-- Name: sysadmin_stream; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_stream (
+    id integer NOT NULL,
+    stream character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_stream OWNER TO postgres;
+
+--
+-- Name: sysadmin_stream_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_stream_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_stream_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_stream_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_stream_id_seq OWNED BY sysadmin_stream.id;
+
+
+--
+-- Name: sysadmin_subject; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_subject (
+    id integer NOT NULL,
+    subject character varying(255) NOT NULL,
+    subject_code character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_subject OWNER TO postgres;
+
+--
+-- Name: sysadmin_subject_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_subject_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_subject_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_subject_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_subject_id_seq OWNED BY sysadmin_subject.id;
+
+
+--
+-- Name: sysadmin_systemconfig; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_systemconfig (
+    id integer NOT NULL,
+    command_label character varying(255) NOT NULL,
+    command character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_systemconfig OWNER TO postgres;
+
+--
+-- Name: sysadmin_systemconfig_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_systemconfig_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_systemconfig_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_systemconfig_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_systemconfig_id_seq OWNED BY sysadmin_systemconfig.id;
+
+
+--
+-- Name: sysadmin_term; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_term (
+    id integer NOT NULL,
+    term character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_term OWNER TO postgres;
+
+--
+-- Name: sysadmin_term_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_term_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_term_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_term_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_term_id_seq OWNED BY sysadmin_term.id;
+
+
+--
+-- Name: sysadmin_voteheads; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sysadmin_voteheads (
+    id integer NOT NULL,
+    voteheads character varying(255) NOT NULL,
+    entryyear_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sysadmin_voteheads OWNER TO postgres;
+
+--
+-- Name: sysadmin_voteheads_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sysadmin_voteheads_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sysadmin_voteheads_id_seq OWNER TO postgres;
+
+--
+-- Name: sysadmin_voteheads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE sysadmin_voteheads_id_seq OWNED BY sysadmin_voteheads.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups ALTER COLUMN id SET DEFAULT nextval('auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log ALTER COLUMN id SET DEFAULT nextval('django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_content_type ALTER COLUMN id SET DEFAULT nextval('django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_migrations ALTER COLUMN id SET DEFAULT nextval('django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY moe_portal_bursery ALTER COLUMN id SET DEFAULT nextval('moe_portal_bursery_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY moe_portal_tutionfunds ALTER COLUMN id SET DEFAULT nextval('moe_portal_tutionfunds_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_merchants ALTER COLUMN id SET DEFAULT nextval('pos_portal_merchants_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_pos ALTER COLUMN id SET DEFAULT nextval('pos_portal_pos_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_studentaccountswallets ALTER COLUMN id SET DEFAULT nextval('pos_portal_studentaccountswallets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_transactions ALTER COLUMN id SET DEFAULT nextval('pos_portal_transactions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_category ALTER COLUMN id SET DEFAULT nextval('school_category_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_categorytype ALTER COLUMN id SET DEFAULT nextval('school_categorytype_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_classes ALTER COLUMN id SET DEFAULT nextval('school_classes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_classstreams ALTER COLUMN id SET DEFAULT nextval('school_classstreams_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_dormitory ALTER COLUMN id SET DEFAULT nextval('school_dormitory_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_entryyear ALTER COLUMN id SET DEFAULT nextval('school_entryyear_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_gender ALTER COLUMN id SET DEFAULT nextval('school_gender_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_house ALTER COLUMN id SET DEFAULT nextval('school_house_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_months ALTER COLUMN id SET DEFAULT nextval('school_months_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_papers ALTER COLUMN id SET DEFAULT nextval('school_papers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_paymentmethods ALTER COLUMN id SET DEFAULT nextval('school_paymentmethods_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_schoolprofiles ALTER COLUMN id SET DEFAULT nextval('school_schoolprofiles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_schoolstaff ALTER COLUMN id SET DEFAULT nextval('school_schoolstaff_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_schooltype ALTER COLUMN id SET DEFAULT nextval('school_schooltype_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_streams ALTER COLUMN id SET DEFAULT nextval('school_streams_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_subjects ALTER COLUMN id SET DEFAULT nextval('school_subjects_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_systemconfig ALTER COLUMN id SET DEFAULT nextval('school_systemconfig_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_terms ALTER COLUMN id SET DEFAULT nextval('school_terms_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_phonebook ALTER COLUMN id SET DEFAULT nextval('smsgateway_phonebook_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_sms ALTER COLUMN id SET DEFAULT nextval('smsgateway_sms_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY staff_staffphoneno ALTER COLUMN id SET DEFAULT nextval('staff_staffphoneno_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY staff_staffprofiles ALTER COLUMN id SET DEFAULT nextval('staff_staffprofiles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_parentphoneno ALTER COLUMN id SET DEFAULT nextval('students_parentphoneno_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentcategory ALTER COLUMN id SET DEFAULT nextval('students_studentcategory_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentclassstream ALTER COLUMN id SET DEFAULT nextval('students_studentclassstream_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentlocation ALTER COLUMN id SET DEFAULT nextval('students_studentlocation_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentparent ALTER COLUMN id SET DEFAULT nextval('students_studentparent_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentsubject ALTER COLUMN id SET DEFAULT nextval('students_studentsubject_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_category ALTER COLUMN id SET DEFAULT nextval('sysadmin_category_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_categorytype ALTER COLUMN id SET DEFAULT nextval('sysadmin_categorytype_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_classes ALTER COLUMN id SET DEFAULT nextval('sysadmin_classes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_country ALTER COLUMN id SET DEFAULT nextval('sysadmin_country_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_county ALTER COLUMN id SET DEFAULT nextval('sysadmin_county_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_dormitory ALTER COLUMN id SET DEFAULT nextval('sysadmin_dormitory_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_entryyear ALTER COLUMN id SET DEFAULT nextval('sysadmin_entryyear_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_gender ALTER COLUMN id SET DEFAULT nextval('sysadmin_gender_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_grades ALTER COLUMN id SET DEFAULT nextval('sysadmin_grades_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_house ALTER COLUMN id SET DEFAULT nextval('sysadmin_house_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_months ALTER COLUMN id SET DEFAULT nextval('sysadmin_months_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_paper ALTER COLUMN id SET DEFAULT nextval('sysadmin_paper_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_paymentmethod ALTER COLUMN id SET DEFAULT nextval('sysadmin_paymentmethod_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_schooltype ALTER COLUMN id SET DEFAULT nextval('sysadmin_schooltype_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_stream ALTER COLUMN id SET DEFAULT nextval('sysadmin_stream_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_subject ALTER COLUMN id SET DEFAULT nextval('sysadmin_subject_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_systemconfig ALTER COLUMN id SET DEFAULT nextval('sysadmin_systemconfig_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_term ALTER COLUMN id SET DEFAULT nextval('sysadmin_term_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_voteheads ALTER COLUMN id SET DEFAULT nextval('sysadmin_voteheads_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO auth_group VALUES (1, 'Cashier');
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_id_seq', 1, true);
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO auth_group_permissions VALUES (1, 1, 178);
+INSERT INTO auth_group_permissions VALUES (2, 1, 179);
+INSERT INTO auth_group_permissions VALUES (3, 1, 180);
+INSERT INTO auth_group_permissions VALUES (4, 1, 182);
+INSERT INTO auth_group_permissions VALUES (5, 1, 183);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_permissions_id_seq', 5, true);
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO auth_permission VALUES (1, 'Can add staff profiles', 1, 'add_staffprofiles');
+INSERT INTO auth_permission VALUES (2, 'Can change staff profiles', 1, 'change_staffprofiles');
+INSERT INTO auth_permission VALUES (3, 'Can delete staff profiles', 1, 'delete_staffprofiles');
+INSERT INTO auth_permission VALUES (4, 'Can add staff phone no', 2, 'add_staffphoneno');
+INSERT INTO auth_permission VALUES (5, 'Can change staff phone no', 2, 'change_staffphoneno');
+INSERT INTO auth_permission VALUES (6, 'Can delete staff phone no', 2, 'delete_staffphoneno');
+INSERT INTO auth_permission VALUES (7, 'Can add phone book', 3, 'add_phonebook');
+INSERT INTO auth_permission VALUES (8, 'Can change phone book', 3, 'change_phonebook');
+INSERT INTO auth_permission VALUES (9, 'Can delete phone book', 3, 'delete_phonebook');
+INSERT INTO auth_permission VALUES (10, 'Can add sms', 4, 'add_sms');
+INSERT INTO auth_permission VALUES (11, 'Can change sms', 4, 'change_sms');
+INSERT INTO auth_permission VALUES (12, 'Can delete sms', 4, 'delete_sms');
+INSERT INTO auth_permission VALUES (13, 'Can add school profiles', 5, 'add_schoolprofiles');
+INSERT INTO auth_permission VALUES (14, 'Can change school profiles', 5, 'change_schoolprofiles');
+INSERT INTO auth_permission VALUES (15, 'Can delete school profiles', 5, 'delete_schoolprofiles');
+INSERT INTO auth_permission VALUES (16, 'Can add school staff', 6, 'add_schoolstaff');
+INSERT INTO auth_permission VALUES (17, 'Can change school staff', 6, 'change_schoolstaff');
+INSERT INTO auth_permission VALUES (18, 'Can delete school staff', 6, 'delete_schoolstaff');
+INSERT INTO auth_permission VALUES (31, 'Can add entry year', 11, 'add_entryyear');
+INSERT INTO auth_permission VALUES (32, 'Can change entry year', 11, 'change_entryyear');
+INSERT INTO auth_permission VALUES (33, 'Can delete entry year', 11, 'delete_entryyear');
+INSERT INTO auth_permission VALUES (34, 'Can add classes', 12, 'add_classes');
+INSERT INTO auth_permission VALUES (35, 'Can change classes', 12, 'change_classes');
+INSERT INTO auth_permission VALUES (36, 'Can delete classes', 12, 'delete_classes');
+INSERT INTO auth_permission VALUES (37, 'Can add streams', 13, 'add_streams');
+INSERT INTO auth_permission VALUES (38, 'Can change streams', 13, 'change_streams');
+INSERT INTO auth_permission VALUES (39, 'Can delete streams', 13, 'delete_streams');
+INSERT INTO auth_permission VALUES (40, 'Can add class streams', 14, 'add_classstreams');
+INSERT INTO auth_permission VALUES (41, 'Can change class streams', 14, 'change_classstreams');
+INSERT INTO auth_permission VALUES (42, 'Can delete class streams', 14, 'delete_classstreams');
+INSERT INTO auth_permission VALUES (43, 'Can add school type', 15, 'add_schooltype');
+INSERT INTO auth_permission VALUES (44, 'Can change school type', 15, 'change_schooltype');
+INSERT INTO auth_permission VALUES (45, 'Can delete school type', 15, 'delete_schooltype');
+INSERT INTO auth_permission VALUES (46, 'Can add gender', 16, 'add_gender');
+INSERT INTO auth_permission VALUES (47, 'Can change gender', 16, 'change_gender');
+INSERT INTO auth_permission VALUES (48, 'Can delete gender', 16, 'delete_gender');
+INSERT INTO auth_permission VALUES (49, 'Can add payment methods', 17, 'add_paymentmethods');
+INSERT INTO auth_permission VALUES (50, 'Can change payment methods', 17, 'change_paymentmethods');
+INSERT INTO auth_permission VALUES (51, 'Can delete payment methods', 17, 'delete_paymentmethods');
+INSERT INTO auth_permission VALUES (52, 'Can add dormitory', 18, 'add_dormitory');
+INSERT INTO auth_permission VALUES (53, 'Can change dormitory', 18, 'change_dormitory');
+INSERT INTO auth_permission VALUES (54, 'Can delete dormitory', 18, 'delete_dormitory');
+INSERT INTO auth_permission VALUES (55, 'Can add house', 19, 'add_house');
+INSERT INTO auth_permission VALUES (56, 'Can change house', 19, 'change_house');
+INSERT INTO auth_permission VALUES (57, 'Can delete house', 19, 'delete_house');
+INSERT INTO auth_permission VALUES (58, 'Can add terms', 20, 'add_terms');
+INSERT INTO auth_permission VALUES (59, 'Can change terms', 20, 'change_terms');
+INSERT INTO auth_permission VALUES (60, 'Can delete terms', 20, 'delete_terms');
+INSERT INTO auth_permission VALUES (61, 'Can add months', 21, 'add_months');
+INSERT INTO auth_permission VALUES (62, 'Can change months', 21, 'change_months');
+INSERT INTO auth_permission VALUES (63, 'Can delete months', 21, 'delete_months');
+INSERT INTO auth_permission VALUES (64, 'Can add subjects', 22, 'add_subjects');
+INSERT INTO auth_permission VALUES (65, 'Can change subjects', 22, 'change_subjects');
+INSERT INTO auth_permission VALUES (66, 'Can delete subjects', 22, 'delete_subjects');
+INSERT INTO auth_permission VALUES (67, 'Can add papers', 23, 'add_papers');
+INSERT INTO auth_permission VALUES (68, 'Can change papers', 23, 'change_papers');
+INSERT INTO auth_permission VALUES (69, 'Can delete papers', 23, 'delete_papers');
+INSERT INTO auth_permission VALUES (70, 'Can add category type', 24, 'add_categorytype');
+INSERT INTO auth_permission VALUES (71, 'Can change category type', 24, 'change_categorytype');
+INSERT INTO auth_permission VALUES (72, 'Can delete category type', 24, 'delete_categorytype');
+INSERT INTO auth_permission VALUES (73, 'Can add category', 25, 'add_category');
+INSERT INTO auth_permission VALUES (74, 'Can change category', 25, 'change_category');
+INSERT INTO auth_permission VALUES (75, 'Can delete category', 25, 'delete_category');
+INSERT INTO auth_permission VALUES (76, 'Can add system config', 26, 'add_systemconfig');
+INSERT INTO auth_permission VALUES (77, 'Can change system config', 26, 'change_systemconfig');
+INSERT INTO auth_permission VALUES (78, 'Can delete system config', 26, 'delete_systemconfig');
+INSERT INTO auth_permission VALUES (79, 'Can add merchants', 27, 'add_merchants');
+INSERT INTO auth_permission VALUES (80, 'Can change merchants', 27, 'change_merchants');
+INSERT INTO auth_permission VALUES (81, 'Can delete merchants', 27, 'delete_merchants');
+INSERT INTO auth_permission VALUES (82, 'Can add pos', 28, 'add_pos');
+INSERT INTO auth_permission VALUES (83, 'Can change pos', 28, 'change_pos');
+INSERT INTO auth_permission VALUES (84, 'Can delete pos', 28, 'delete_pos');
+INSERT INTO auth_permission VALUES (85, 'Can add student accounts wallets', 29, 'add_studentaccountswallets');
+INSERT INTO auth_permission VALUES (86, 'Can change student accounts wallets', 29, 'change_studentaccountswallets');
+INSERT INTO auth_permission VALUES (87, 'Can delete student accounts wallets', 29, 'delete_studentaccountswallets');
+INSERT INTO auth_permission VALUES (88, 'Can add transactions', 30, 'add_transactions');
+INSERT INTO auth_permission VALUES (89, 'Can change transactions', 30, 'change_transactions');
+INSERT INTO auth_permission VALUES (90, 'Can delete transactions', 30, 'delete_transactions');
+INSERT INTO auth_permission VALUES (91, 'Can add student profiles', 31, 'add_studentprofiles');
+INSERT INTO auth_permission VALUES (92, 'Can change student profiles', 31, 'change_studentprofiles');
+INSERT INTO auth_permission VALUES (93, 'Can delete student profiles', 31, 'delete_studentprofiles');
+INSERT INTO auth_permission VALUES (94, 'Can add student location', 32, 'add_studentlocation');
+INSERT INTO auth_permission VALUES (95, 'Can change student location', 32, 'change_studentlocation');
+INSERT INTO auth_permission VALUES (96, 'Can delete student location', 32, 'delete_studentlocation');
+INSERT INTO auth_permission VALUES (97, 'Can add student category', 33, 'add_studentcategory');
+INSERT INTO auth_permission VALUES (98, 'Can change student category', 33, 'change_studentcategory');
+INSERT INTO auth_permission VALUES (99, 'Can delete student category', 33, 'delete_studentcategory');
+INSERT INTO auth_permission VALUES (100, 'Can add student parent', 34, 'add_studentparent');
+INSERT INTO auth_permission VALUES (101, 'Can change student parent', 34, 'change_studentparent');
+INSERT INTO auth_permission VALUES (102, 'Can delete student parent', 34, 'delete_studentparent');
+INSERT INTO auth_permission VALUES (103, 'Can add parent phone no', 35, 'add_parentphoneno');
+INSERT INTO auth_permission VALUES (104, 'Can change parent phone no', 35, 'change_parentphoneno');
+INSERT INTO auth_permission VALUES (105, 'Can delete parent phone no', 35, 'delete_parentphoneno');
+INSERT INTO auth_permission VALUES (106, 'Can add student class stream', 36, 'add_studentclassstream');
+INSERT INTO auth_permission VALUES (107, 'Can change student class stream', 36, 'change_studentclassstream');
+INSERT INTO auth_permission VALUES (108, 'Can delete student class stream', 36, 'delete_studentclassstream');
+INSERT INTO auth_permission VALUES (109, 'Can add student subject', 37, 'add_studentsubject');
+INSERT INTO auth_permission VALUES (110, 'Can change student subject', 37, 'change_studentsubject');
+INSERT INTO auth_permission VALUES (111, 'Can delete student subject', 37, 'delete_studentsubject');
+INSERT INTO auth_permission VALUES (112, 'Can add entry year', 38, 'add_entryyear');
+INSERT INTO auth_permission VALUES (113, 'Can change entry year', 38, 'change_entryyear');
+INSERT INTO auth_permission VALUES (114, 'Can delete entry year', 38, 'delete_entryyear');
+INSERT INTO auth_permission VALUES (115, 'Can add dormitory', 39, 'add_dormitory');
+INSERT INTO auth_permission VALUES (116, 'Can change dormitory', 39, 'change_dormitory');
+INSERT INTO auth_permission VALUES (117, 'Can delete dormitory', 39, 'delete_dormitory');
+INSERT INTO auth_permission VALUES (118, 'Can add payment method', 40, 'add_paymentmethod');
+INSERT INTO auth_permission VALUES (119, 'Can change payment method', 40, 'change_paymentmethod');
+INSERT INTO auth_permission VALUES (120, 'Can delete payment method', 40, 'delete_paymentmethod');
+INSERT INTO auth_permission VALUES (121, 'Can add term', 41, 'add_term');
+INSERT INTO auth_permission VALUES (122, 'Can change term', 41, 'change_term');
+INSERT INTO auth_permission VALUES (123, 'Can delete term', 41, 'delete_term');
+INSERT INTO auth_permission VALUES (124, 'Can add stream', 42, 'add_stream');
+INSERT INTO auth_permission VALUES (125, 'Can change stream', 42, 'change_stream');
+INSERT INTO auth_permission VALUES (126, 'Can delete stream', 42, 'delete_stream');
+INSERT INTO auth_permission VALUES (127, 'Can add subject', 43, 'add_subject');
+INSERT INTO auth_permission VALUES (128, 'Can change subject', 43, 'change_subject');
+INSERT INTO auth_permission VALUES (129, 'Can delete subject', 43, 'delete_subject');
+INSERT INTO auth_permission VALUES (130, 'Can add paper', 44, 'add_paper');
+INSERT INTO auth_permission VALUES (131, 'Can change paper', 44, 'change_paper');
+INSERT INTO auth_permission VALUES (132, 'Can delete paper', 44, 'delete_paper');
+INSERT INTO auth_permission VALUES (133, 'Can add gender', 45, 'add_gender');
+INSERT INTO auth_permission VALUES (134, 'Can change gender', 45, 'change_gender');
+INSERT INTO auth_permission VALUES (135, 'Can delete gender', 45, 'delete_gender');
+INSERT INTO auth_permission VALUES (136, 'Can add category', 46, 'add_category');
+INSERT INTO auth_permission VALUES (137, 'Can change category', 46, 'change_category');
+INSERT INTO auth_permission VALUES (138, 'Can delete category', 46, 'delete_category');
+INSERT INTO auth_permission VALUES (139, 'Can add classes', 47, 'add_classes');
+INSERT INTO auth_permission VALUES (140, 'Can change classes', 47, 'change_classes');
+INSERT INTO auth_permission VALUES (141, 'Can delete classes', 47, 'delete_classes');
+INSERT INTO auth_permission VALUES (142, 'Can add months', 48, 'add_months');
+INSERT INTO auth_permission VALUES (143, 'Can change months', 48, 'change_months');
+INSERT INTO auth_permission VALUES (144, 'Can delete months', 48, 'delete_months');
+INSERT INTO auth_permission VALUES (145, 'Can add house', 49, 'add_house');
+INSERT INTO auth_permission VALUES (146, 'Can change house', 49, 'change_house');
+INSERT INTO auth_permission VALUES (147, 'Can delete house', 49, 'delete_house');
+INSERT INTO auth_permission VALUES (148, 'Can add school type', 50, 'add_schooltype');
+INSERT INTO auth_permission VALUES (149, 'Can change school type', 50, 'change_schooltype');
+INSERT INTO auth_permission VALUES (150, 'Can delete school type', 50, 'delete_schooltype');
+INSERT INTO auth_permission VALUES (151, 'Can add category type', 51, 'add_categorytype');
+INSERT INTO auth_permission VALUES (152, 'Can change category type', 51, 'change_categorytype');
+INSERT INTO auth_permission VALUES (153, 'Can delete category type', 51, 'delete_categorytype');
+INSERT INTO auth_permission VALUES (154, 'Can add country', 52, 'add_country');
+INSERT INTO auth_permission VALUES (155, 'Can change country', 52, 'change_country');
+INSERT INTO auth_permission VALUES (156, 'Can delete country', 52, 'delete_country');
+INSERT INTO auth_permission VALUES (157, 'Can add system config', 53, 'add_systemconfig');
+INSERT INTO auth_permission VALUES (158, 'Can change system config', 53, 'change_systemconfig');
+INSERT INTO auth_permission VALUES (159, 'Can delete system config', 53, 'delete_systemconfig');
+INSERT INTO auth_permission VALUES (160, 'Can add vote heads', 54, 'add_voteheads');
+INSERT INTO auth_permission VALUES (161, 'Can change vote heads', 54, 'change_voteheads');
+INSERT INTO auth_permission VALUES (162, 'Can delete vote heads', 54, 'delete_voteheads');
+INSERT INTO auth_permission VALUES (163, 'Can add grades', 55, 'add_grades');
+INSERT INTO auth_permission VALUES (164, 'Can change grades', 55, 'change_grades');
+INSERT INTO auth_permission VALUES (165, 'Can delete grades', 55, 'delete_grades');
+INSERT INTO auth_permission VALUES (166, 'Can add county', 56, 'add_county');
+INSERT INTO auth_permission VALUES (167, 'Can change county', 56, 'change_county');
+INSERT INTO auth_permission VALUES (168, 'Can delete county', 56, 'delete_county');
+INSERT INTO auth_permission VALUES (169, 'Can add bursery', 57, 'add_bursery');
+INSERT INTO auth_permission VALUES (170, 'Can change bursery', 57, 'change_bursery');
+INSERT INTO auth_permission VALUES (171, 'Can delete bursery', 57, 'delete_bursery');
+INSERT INTO auth_permission VALUES (172, 'Can add tution funds', 58, 'add_tutionfunds');
+INSERT INTO auth_permission VALUES (173, 'Can change tution funds', 58, 'change_tutionfunds');
+INSERT INTO auth_permission VALUES (174, 'Can delete tution funds', 58, 'delete_tutionfunds');
+INSERT INTO auth_permission VALUES (175, 'Can add log entry', 59, 'add_logentry');
+INSERT INTO auth_permission VALUES (176, 'Can change log entry', 59, 'change_logentry');
+INSERT INTO auth_permission VALUES (177, 'Can delete log entry', 59, 'delete_logentry');
+INSERT INTO auth_permission VALUES (178, 'Can add permission', 60, 'add_permission');
+INSERT INTO auth_permission VALUES (179, 'Can change permission', 60, 'change_permission');
+INSERT INTO auth_permission VALUES (180, 'Can delete permission', 60, 'delete_permission');
+INSERT INTO auth_permission VALUES (181, 'Can add group', 61, 'add_group');
+INSERT INTO auth_permission VALUES (182, 'Can change group', 61, 'change_group');
+INSERT INTO auth_permission VALUES (183, 'Can delete group', 61, 'delete_group');
+INSERT INTO auth_permission VALUES (184, 'Can add user', 62, 'add_user');
+INSERT INTO auth_permission VALUES (185, 'Can change user', 62, 'change_user');
+INSERT INTO auth_permission VALUES (186, 'Can delete user', 62, 'delete_user');
+INSERT INTO auth_permission VALUES (187, 'Can add content type', 63, 'add_contenttype');
+INSERT INTO auth_permission VALUES (188, 'Can change content type', 63, 'change_contenttype');
+INSERT INTO auth_permission VALUES (189, 'Can delete content type', 63, 'delete_contenttype');
+INSERT INTO auth_permission VALUES (190, 'Can add session', 64, 'add_session');
+INSERT INTO auth_permission VALUES (191, 'Can change session', 64, 'change_session');
+INSERT INTO auth_permission VALUES (192, 'Can delete session', 64, 'delete_session');
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_permission_id_seq', 192, true);
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO auth_user VALUES (3, 'pbkdf2_sha256$24000$TmbbUhSZAgiU$2VtldVeLZnhNk8f8XMs7jr3RFOCa6aqWHBfUsMQCYFc=', NULL, false, '001', 'Titus', 'Mbugua', '', true, true, '2016-09-01 22:25:20.438558+03');
+INSERT INTO auth_user VALUES (4, 'pbkdf2_sha256$24000$YxwfAESGTJT9$nVu8mTpgWXEyjP2Uh+R9Dtysb9jyk6gK2GKEKMAPQqM=', NULL, false, '002', 'Othis', 'Chepkemoo', '', true, true, '2016-09-01 22:36:30.706892+03');
+INSERT INTO auth_user VALUES (5, 'pbkdf2_sha256$24000$c3onRixIidFb$Qj8Bidj3LP6QE6QPZBL/QS8V4yrRD3s9mhEdOVE3KPU=', NULL, false, 'Mbugua', 'Mbugua', 'kipchoge', 'mbugua@gmail.com', true, true, '2016-09-01 22:49:01.706782+03');
+INSERT INTO auth_user VALUES (1, 'pbkdf2_sha256$24000$hlnrWI8vqvVw$iXhf8gSq6F2OvH8dYx602N+K+aYIAZ1oYcIlCN8V9Bs=', '2016-09-15 09:12:54.38977+03', false, 'e-coins', '', '', '', true, true, '2016-09-01 21:26:20+03');
+INSERT INTO auth_user VALUES (2, 'pbkdf2_sha256$24000$wGf90oCFhIvA$R9oCBc5UkPNxCmEvxCL/jgXjln4pt9qkrzmbSgYdrEg=', '2016-09-15 09:13:03.65155+03', true, 'tituka', '', '', '', true, true, '2016-09-01 21:37:52.461904+03');
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_id_seq', 5, true);
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO django_admin_log VALUES (1, '2016-09-01 22:21:36.292995+03', '1', 'e-coins', 2, 'Changed is_superuser.', 62, 1);
+INSERT INTO django_admin_log VALUES (2, '2016-09-05 23:13:40.991053+03', '1', 'Cashier', 1, 'Added.', 61, 2);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_admin_log_id_seq', 2, true);
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO django_content_type VALUES (1, 'staff', 'staffprofiles');
+INSERT INTO django_content_type VALUES (2, 'staff', 'staffphoneno');
+INSERT INTO django_content_type VALUES (3, 'smsgateway', 'phonebook');
+INSERT INTO django_content_type VALUES (4, 'smsgateway', 'sms');
+INSERT INTO django_content_type VALUES (5, 'school', 'schoolprofiles');
+INSERT INTO django_content_type VALUES (6, 'school', 'schoolstaff');
+INSERT INTO django_content_type VALUES (11, 'school', 'entryyear');
+INSERT INTO django_content_type VALUES (12, 'school', 'classes');
+INSERT INTO django_content_type VALUES (13, 'school', 'streams');
+INSERT INTO django_content_type VALUES (14, 'school', 'classstreams');
+INSERT INTO django_content_type VALUES (15, 'school', 'schooltype');
+INSERT INTO django_content_type VALUES (16, 'school', 'gender');
+INSERT INTO django_content_type VALUES (17, 'school', 'paymentmethods');
+INSERT INTO django_content_type VALUES (18, 'school', 'dormitory');
+INSERT INTO django_content_type VALUES (19, 'school', 'house');
+INSERT INTO django_content_type VALUES (20, 'school', 'terms');
+INSERT INTO django_content_type VALUES (21, 'school', 'months');
+INSERT INTO django_content_type VALUES (22, 'school', 'subjects');
+INSERT INTO django_content_type VALUES (23, 'school', 'papers');
+INSERT INTO django_content_type VALUES (24, 'school', 'categorytype');
+INSERT INTO django_content_type VALUES (25, 'school', 'category');
+INSERT INTO django_content_type VALUES (26, 'school', 'systemconfig');
+INSERT INTO django_content_type VALUES (27, 'pos_portal', 'merchants');
+INSERT INTO django_content_type VALUES (28, 'pos_portal', 'pos');
+INSERT INTO django_content_type VALUES (29, 'pos_portal', 'studentaccountswallets');
+INSERT INTO django_content_type VALUES (30, 'pos_portal', 'transactions');
+INSERT INTO django_content_type VALUES (31, 'students', 'studentprofiles');
+INSERT INTO django_content_type VALUES (32, 'students', 'studentlocation');
+INSERT INTO django_content_type VALUES (33, 'students', 'studentcategory');
+INSERT INTO django_content_type VALUES (34, 'students', 'studentparent');
+INSERT INTO django_content_type VALUES (35, 'students', 'parentphoneno');
+INSERT INTO django_content_type VALUES (36, 'students', 'studentclassstream');
+INSERT INTO django_content_type VALUES (37, 'students', 'studentsubject');
+INSERT INTO django_content_type VALUES (38, 'sysadmin', 'entryyear');
+INSERT INTO django_content_type VALUES (39, 'sysadmin', 'dormitory');
+INSERT INTO django_content_type VALUES (40, 'sysadmin', 'paymentmethod');
+INSERT INTO django_content_type VALUES (41, 'sysadmin', 'term');
+INSERT INTO django_content_type VALUES (42, 'sysadmin', 'stream');
+INSERT INTO django_content_type VALUES (43, 'sysadmin', 'subject');
+INSERT INTO django_content_type VALUES (44, 'sysadmin', 'paper');
+INSERT INTO django_content_type VALUES (45, 'sysadmin', 'gender');
+INSERT INTO django_content_type VALUES (46, 'sysadmin', 'category');
+INSERT INTO django_content_type VALUES (47, 'sysadmin', 'classes');
+INSERT INTO django_content_type VALUES (48, 'sysadmin', 'months');
+INSERT INTO django_content_type VALUES (49, 'sysadmin', 'house');
+INSERT INTO django_content_type VALUES (50, 'sysadmin', 'schooltype');
+INSERT INTO django_content_type VALUES (51, 'sysadmin', 'categorytype');
+INSERT INTO django_content_type VALUES (52, 'sysadmin', 'country');
+INSERT INTO django_content_type VALUES (53, 'sysadmin', 'systemconfig');
+INSERT INTO django_content_type VALUES (54, 'sysadmin', 'voteheads');
+INSERT INTO django_content_type VALUES (55, 'sysadmin', 'grades');
+INSERT INTO django_content_type VALUES (56, 'sysadmin', 'county');
+INSERT INTO django_content_type VALUES (57, 'moe_portal', 'bursery');
+INSERT INTO django_content_type VALUES (58, 'moe_portal', 'tutionfunds');
+INSERT INTO django_content_type VALUES (59, 'admin', 'logentry');
+INSERT INTO django_content_type VALUES (60, 'auth', 'permission');
+INSERT INTO django_content_type VALUES (61, 'auth', 'group');
+INSERT INTO django_content_type VALUES (62, 'auth', 'user');
+INSERT INTO django_content_type VALUES (63, 'contenttypes', 'contenttype');
+INSERT INTO django_content_type VALUES (64, 'sessions', 'session');
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_content_type_id_seq', 64, true);
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO django_migrations VALUES (1, 'contenttypes', '0001_initial', '2016-09-01 20:23:46.585157+03');
+INSERT INTO django_migrations VALUES (2, 'auth', '0001_initial', '2016-09-01 20:23:47.524524+03');
+INSERT INTO django_migrations VALUES (3, 'admin', '0001_initial', '2016-09-01 20:23:47.71405+03');
+INSERT INTO django_migrations VALUES (4, 'admin', '0002_logentry_remove_auto_add', '2016-09-01 20:23:47.745495+03');
+INSERT INTO django_migrations VALUES (5, 'contenttypes', '0002_remove_content_type_name', '2016-09-01 20:23:47.787811+03');
+INSERT INTO django_migrations VALUES (6, 'auth', '0002_alter_permission_name_max_length', '2016-09-01 20:23:47.819283+03');
+INSERT INTO django_migrations VALUES (7, 'auth', '0003_alter_user_email_max_length', '2016-09-01 20:23:47.850911+03');
+INSERT INTO django_migrations VALUES (8, 'auth', '0004_alter_user_username_opts', '2016-09-01 20:23:47.89027+03');
+INSERT INTO django_migrations VALUES (9, 'auth', '0005_alter_user_last_login_null', '2016-09-01 20:23:47.924525+03');
+INSERT INTO django_migrations VALUES (10, 'auth', '0006_require_contenttypes_0002', '2016-09-01 20:23:47.935019+03');
+INSERT INTO django_migrations VALUES (11, 'auth', '0007_alter_validators_add_error_messages', '2016-09-01 20:23:47.954472+03');
+INSERT INTO django_migrations VALUES (12, 'sysadmin', '0001_initial', '2016-09-01 20:23:49.878184+03');
+INSERT INTO django_migrations VALUES (13, 'school', '0001_initial', '2016-09-01 20:23:56.191194+03');
+INSERT INTO django_migrations VALUES (14, 'smsgateway', '0001_initial', '2016-09-01 20:23:56.747451+03');
+INSERT INTO django_migrations VALUES (15, 'students', '0001_initial', '2016-09-01 20:23:58.645199+03');
+INSERT INTO django_migrations VALUES (16, 'moe_portal', '0001_initial', '2016-09-01 20:23:59.002915+03');
+INSERT INTO django_migrations VALUES (17, 'moe_portal', '0002_bursery_studentprofiles', '2016-09-01 20:23:59.130809+03');
+INSERT INTO django_migrations VALUES (18, 'students', '0002_auto_20160823_1128', '2016-09-01 20:23:59.761903+03');
+INSERT INTO django_migrations VALUES (19, 'students', '0003_auto_20160823_1230', '2016-09-01 20:24:00.129784+03');
+INSERT INTO django_migrations VALUES (20, 'students', '0004_auto_20160826_1224', '2016-09-01 20:24:01.366261+03');
+INSERT INTO django_migrations VALUES (21, 'school', '0002_auto_20160820_1522', '2016-09-01 20:24:01.435913+03');
+INSERT INTO django_migrations VALUES (22, 'school', '0003_auto_20160820_1529', '2016-09-01 20:24:03.226335+03');
+INSERT INTO django_migrations VALUES (23, 'school', '0004_auto_20160820_1612', '2016-09-01 20:24:03.351759+03');
+INSERT INTO django_migrations VALUES (24, 'school', '0005_auto_20160824_1300', '2016-09-01 20:24:03.66771+03');
+INSERT INTO django_migrations VALUES (25, 'school', '0006_auto_20160824_1339', '2016-09-01 20:24:03.889256+03');
+INSERT INTO django_migrations VALUES (26, 'pos_portal', '0001_initial', '2016-09-01 20:24:04.216494+03');
+INSERT INTO django_migrations VALUES (27, 'pos_portal', '0002_auto_20160820_1657', '2016-09-01 20:24:04.511664+03');
+INSERT INTO django_migrations VALUES (28, 'pos_portal', '0003_studentaccounts_studentaccountswallets_transactions', '2016-09-01 20:24:05.017811+03');
+INSERT INTO django_migrations VALUES (29, 'pos_portal', '0004_auto_20160826_0805', '2016-09-01 20:24:05.376043+03');
+INSERT INTO django_migrations VALUES (30, 'pos_portal', '0005_auto_20160826_0846', '2016-09-01 20:24:05.828792+03');
+INSERT INTO django_migrations VALUES (31, 'pos_portal', '0006_auto_20160826_0846', '2016-09-01 20:24:05.975819+03');
+INSERT INTO django_migrations VALUES (32, 'pos_portal', '0007_pos_balance', '2016-09-01 20:24:06.144883+03');
+INSERT INTO django_migrations VALUES (33, 'pos_portal', '0008_auto_20160826_1036', '2016-09-01 20:24:06.619199+03');
+INSERT INTO django_migrations VALUES (34, 'pos_portal', '0009_auto_20160826_1145', '2016-09-01 20:24:06.829368+03');
+INSERT INTO django_migrations VALUES (35, 'pos_portal', '0010_auto_20160826_1224', '2016-09-01 20:24:07.483207+03');
+INSERT INTO django_migrations VALUES (36, 'pos_portal', '0011_auto_20160826_1227', '2016-09-01 20:24:07.692692+03');
+INSERT INTO django_migrations VALUES (37, 'pos_portal', '0012_auto_20160826_1326', '2016-09-01 20:24:07.872158+03');
+INSERT INTO django_migrations VALUES (38, 'sessions', '0001_initial', '2016-09-01 20:24:08.019578+03');
+INSERT INTO django_migrations VALUES (39, 'staff', '0001_initial', '2016-09-01 20:24:08.369114+03');
+INSERT INTO django_migrations VALUES (40, 'pos_portal', '0013_auto_20160902_0031', '2016-09-02 03:31:17.23247+03');
+INSERT INTO django_migrations VALUES (41, 'school', '0007_auto_20160902_0031', '2016-09-02 03:31:20.051921+03');
+INSERT INTO django_migrations VALUES (42, 'students', '0005_auto_20160902_0031', '2016-09-02 03:31:20.369025+03');
+INSERT INTO django_migrations VALUES (43, 'school', '0008_auto_20160902_0043', '2016-09-02 03:43:06.418639+03');
+INSERT INTO django_migrations VALUES (44, 'school', '0009_auto_20160902_0058', '2016-09-02 03:58:15.410506+03');
+INSERT INTO django_migrations VALUES (45, 'pos_portal', '0014_merchants_balance', '2016-09-02 04:21:14.368408+03');
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_migrations_id_seq', 45, true);
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO django_session VALUES ('8fk6g59bgl4ivhayeu62xr4zmwuqzdis', 'MTk5OWUyZDc2MGRhZDQxZTY2NDNmYzA4MjNkYjM3N2VmMWVjODk0MDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNjNzcyNWYwNjEzNTBiN2YxZmJlNjFhNWFhMDY5Mzg3NjZmMDFiYWEiLCJfYXV0aF91c2VyX2lkIjoiMiIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=', '2016-09-16 10:22:12.322429+03');
+INSERT INTO django_session VALUES ('f9538vp81kje5ty58xcajhshy5uecmro', 'NWI5ODVhMDFmODE1MDliZDI0ZWI3MjE5YzA0MjE3MzZjYTA1YjQ1NTp7Il9hdXRoX3VzZXJfaGFzaCI6IjA4MGZlYjg3MzA2ODZjNWUyNzFmNzUyMTI0ZTU4MjE5NTFlYTk2OTIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=', '2016-09-16 10:43:16.103141+03');
+INSERT INTO django_session VALUES ('rin3ehcm82ugnl7whz6hp8gg79c5uu7r', 'YjZjNGMxMTMxNWQyNTY3ZWYyYzc3NzMyMjI3YjRlYzEwNTkwYTIzMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImNjNzcyNWYwNjEzNTBiN2YxZmJlNjFhNWFhMDY5Mzg3NjZmMDFiYWEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=', '2016-09-19 12:12:47.520682+03');
+INSERT INTO django_session VALUES ('9g15uxoaa6rl2gvk2u48g50bc6dn632j', 'YjZjNGMxMTMxNWQyNTY3ZWYyYzc3NzMyMjI3YjRlYzEwNTkwYTIzMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImNjNzcyNWYwNjEzNTBiN2YxZmJlNjFhNWFhMDY5Mzg3NjZmMDFiYWEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=', '2016-09-19 23:12:56.423665+03');
+INSERT INTO django_session VALUES ('75c79lbu9312pr5mipj9ktywij4i9lb8', 'YjZjNGMxMTMxNWQyNTY3ZWYyYzc3NzMyMjI3YjRlYzEwNTkwYTIzMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImNjNzcyNWYwNjEzNTBiN2YxZmJlNjFhNWFhMDY5Mzg3NjZmMDFiYWEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=', '2016-09-20 12:57:01.144506+03');
+INSERT INTO django_session VALUES ('9xmzzl5c9z46t39gjlmrot6lyhnm9bad', 'YjZjNGMxMTMxNWQyNTY3ZWYyYzc3NzMyMjI3YjRlYzEwNTkwYTIzMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImNjNzcyNWYwNjEzNTBiN2YxZmJlNjFhNWFhMDY5Mzg3NjZmMDFiYWEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=', '2016-09-20 13:19:28.907184+03');
+INSERT INTO django_session VALUES ('i4vgkieheiomzx8h1psgl6r4ayhvfhhp', 'YjZjNGMxMTMxNWQyNTY3ZWYyYzc3NzMyMjI3YjRlYzEwNTkwYTIzMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImNjNzcyNWYwNjEzNTBiN2YxZmJlNjFhNWFhMDY5Mzg3NjZmMDFiYWEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=', '2016-09-20 14:02:30.756459+03');
+INSERT INTO django_session VALUES ('snc24lcfjhqibpjxg594dbnenail1ohe', 'YjZjNGMxMTMxNWQyNTY3ZWYyYzc3NzMyMjI3YjRlYzEwNTkwYTIzMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImNjNzcyNWYwNjEzNTBiN2YxZmJlNjFhNWFhMDY5Mzg3NjZmMDFiYWEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=', '2016-09-29 09:13:03.680706+03');
+
+
+--
+-- Data for Name: moe_portal_bursery; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: moe_portal_bursery_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('moe_portal_bursery_id_seq', 1, false);
+
+
+--
+-- Data for Name: moe_portal_tutionfunds; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: moe_portal_tutionfunds_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('moe_portal_tutionfunds_id_seq', 1, false);
+
+
+--
+-- Data for Name: pos_portal_merchants; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO pos_portal_merchants VALUES (1, 1, 'Mbugua', 'Wafula', 'kipchoge', '0745352516', 'mbugua@gmail.com', 5, '10300');
+
+
+--
+-- Name: pos_portal_merchants_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('pos_portal_merchants_id_seq', 1, true);
+
+
+--
+-- Data for Name: pos_portal_pos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO pos_portal_pos VALUES (1, '2016887788778', '987676565622', 'A26567B433', 1);
+
+
+--
+-- Name: pos_portal_pos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('pos_portal_pos_id_seq', 1, true);
+
+
+--
+-- Data for Name: pos_portal_studentaccountswallets; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO pos_portal_studentaccountswallets VALUES (1, 'School Fees', 50000, '2016-01-01', '001');
+INSERT INTO pos_portal_studentaccountswallets VALUES (2, 'Pocket Money', 5000, '2016-01-01', '001');
+INSERT INTO pos_portal_studentaccountswallets VALUES (3, 'Savings', 50000, '2016-01-01', '001');
+INSERT INTO pos_portal_studentaccountswallets VALUES (4, 'School Fees', 45000, '2016-01-01', '002');
+INSERT INTO pos_portal_studentaccountswallets VALUES (5, 'Pocket Money', 2500, '2016-01-01', '002');
+INSERT INTO pos_portal_studentaccountswallets VALUES (6, 'Savings', 1000, '2016-01-01', '002');
+
+
+--
+-- Name: pos_portal_studentaccountswallets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('pos_portal_studentaccountswallets_id_seq', 1, false);
+
+
+--
+-- Data for Name: pos_portal_transactions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO pos_portal_transactions VALUES (2, 'Deposit', '50000', '2016-09-01', '1111', '3432', 'KSH', 1, 1, 1, '50000', '0');
+INSERT INTO pos_portal_transactions VALUES (3, 'Deposit', '2000', '2016-09-01', '1111', '3432', 'KSH', 1, 2, 1, '2000', '0');
+INSERT INTO pos_portal_transactions VALUES (4, 'Deposit', '500', '2016-09-01', '1111', '3432', 'KSH', 1, 3, 1, '500', '0');
+INSERT INTO pos_portal_transactions VALUES (5, 'Withdraw', '50', '2016-09-01', '1111', '3432', 'KSH', 1, 2, 1, '1950', '0');
+INSERT INTO pos_portal_transactions VALUES (6, 'Withdraw', '30', '2016-09-01', '1111', '3432', 'KSH', 1, 2, 1, '1930', '0');
+INSERT INTO pos_portal_transactions VALUES (7, 'Deposit', '30000', '2016-09-01', '1111', '3432', 'KSH', 1, 4, 1, '30000', '0');
+INSERT INTO pos_portal_transactions VALUES (8, 'Deposit', '1500', '2016-09-01', '1111', '3432', 'KSH', 1, 5, 1, '1500', '0');
+INSERT INTO pos_portal_transactions VALUES (9, 'Deposit', '900', '2016-09-01', '1111', '3432', 'KSH', 1, 6, 1, '900', '0');
+INSERT INTO pos_portal_transactions VALUES (10, 'Withdraw', '20', '2016-09-01', '1111', '3432', 'KSH', 1, 5, 1, '1480', '0');
+INSERT INTO pos_portal_transactions VALUES (11, 'Withdraw', '40', '2016-09-01', '1111', '3432', 'KSH', 1, 5, 1, '1440', '0');
+INSERT INTO pos_portal_transactions VALUES (12, 'Deposit', '50000', '2016-09-05', '1111', '3432', 'KSH', 1, 1, 1, '50000', '0');
+INSERT INTO pos_portal_transactions VALUES (13, 'Deposit', '50000', '2016-09-05', '1111', '3432', 'KSH', 1, 1, 1, '50000', '0');
+INSERT INTO pos_portal_transactions VALUES (14, 'Deposit', '50000', '2016-09-05', '1111', '3432', 'KSH', 1, 1, 1, '50000', '0');
+INSERT INTO pos_portal_transactions VALUES (15, 'Deposit', '50000', '2016-09-05', '1111', '3432', 'KSH', 1, 1, 1, '50000', '0');
+INSERT INTO pos_portal_transactions VALUES (16, 'Deposit', '50000', '2016-09-05', '1111', '3432', 'KSH', 1, 1, 1, '50000', '0');
+INSERT INTO pos_portal_transactions VALUES (17, 'Deposit', '50000', '2016-09-05', '1111', '3432', 'KSH', 1, 1, 1, '50000', '0');
+INSERT INTO pos_portal_transactions VALUES (18, 'Deposit', '22', '2016-09-05', '1111', '1234', 'KSH', 1, 1, 1, '1000', '0');
+INSERT INTO pos_portal_transactions VALUES (19, 'Deposit', '1', '2016-09-05', '1111', '1234', 'KSH', 1, 1, 1, '1000', '0');
+INSERT INTO pos_portal_transactions VALUES (20, 'Deposit', '17.0', '2016-09-05', '1111', '1234', 'KSH', 1, 1, 1, '1000', '0');
+INSERT INTO pos_portal_transactions VALUES (21, 'Deposit', '17.0', '2016-09-05', '1111', '1234', 'KSH', 1, 1, 1, '1000', '0');
+INSERT INTO pos_portal_transactions VALUES (22, 'Deposit', '5', '2016-09-06', '1111', '1234', 'KSH', 1, 1, 1, '1000', '0');
+INSERT INTO pos_portal_transactions VALUES (23, 'Deposit', '5', '2016-09-15', '1111', '1111', 'KSH', 1, 1, 1, '5', '0');
+INSERT INTO pos_portal_transactions VALUES (24, 'Deposit', '5', '2016-09-15', '1111', '1111', 'KSH', 1, 1, 1, '5', '0');
+INSERT INTO pos_portal_transactions VALUES (25, 'Deposit', '5', '2016-09-15', '1111', '1111', 'KSH', 1, 1, 1, '5', '0');
+INSERT INTO pos_portal_transactions VALUES (26, 'Deposit', '5', '2016-09-15', '1111', '1111', 'KSH', 1, 1, 1, '5', '0');
+
+
+--
+-- Name: pos_portal_transactions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('pos_portal_transactions_id_seq', 26, true);
+
+
+--
+-- Data for Name: school_category; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_category_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_categorytype; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_categorytype_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_categorytype_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_classes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO school_classes VALUES (1, 1, 1);
+INSERT INTO school_classes VALUES (2, 2, 1);
+INSERT INTO school_classes VALUES (3, 3, 1);
+INSERT INTO school_classes VALUES (4, 4, 1);
+INSERT INTO school_classes VALUES (5, 1, 2);
+INSERT INTO school_classes VALUES (6, 2, 2);
+INSERT INTO school_classes VALUES (7, 3, 2);
+INSERT INTO school_classes VALUES (8, 4, 2);
+
+
+--
+-- Name: school_classes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_classes_id_seq', 8, true);
+
+
+--
+-- Data for Name: school_classstreams; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_classstreams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_classstreams_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_dormitory; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_dormitory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_dormitory_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_entryyear; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO school_entryyear VALUES (2, 1, 1);
+
+
+--
+-- Name: school_entryyear_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_entryyear_id_seq', 2, true);
+
+
+--
+-- Data for Name: school_gender; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO school_gender VALUES (1, 1, 1);
+INSERT INTO school_gender VALUES (2, 2, 1);
+
+
+--
+-- Name: school_gender_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_gender_id_seq', 2, true);
+
+
+--
+-- Data for Name: school_house; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_house_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_house_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_months; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_months_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_months_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_papers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_papers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_papers_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_paymentmethods; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_paymentmethods_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_paymentmethods_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_schoolprofiles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO school_schoolprofiles VALUES (2, 'Lenana', '', '', '', '1', '21234567890987', '', '', '', 'XXXX456789XXXX', '2018-01-01', '', '', '', '', '0', '0', '0', '0');
+INSERT INTO school_schoolprofiles VALUES (1, 'Wamy Academy', '', '', '', '1', '21234567890987', '', '', '', 'XXXX456789XXXX', '2018-01-01', '', '0720889898', '', '', '80000', '1', '10300', '80000');
+
+
+--
+-- Name: school_schoolprofiles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_schoolprofiles_id_seq', 2, true);
+
+
+--
+-- Data for Name: school_schoolstaff; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO school_schoolstaff VALUES (1, 1, 1);
+INSERT INTO school_schoolstaff VALUES (2, 2, 2);
+
+
+--
+-- Name: school_schoolstaff_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_schoolstaff_id_seq', 2, true);
+
+
+--
+-- Data for Name: school_schooltype; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_schooltype_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_schooltype_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_streams; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO school_streams VALUES (1, 1, 1);
+INSERT INTO school_streams VALUES (2, 1, 2);
+INSERT INTO school_streams VALUES (3, 1, 3);
+INSERT INTO school_streams VALUES (4, 1, 4);
+INSERT INTO school_streams VALUES (5, 2, 1);
+INSERT INTO school_streams VALUES (6, 2, 2);
+INSERT INTO school_streams VALUES (7, 2, 3);
+INSERT INTO school_streams VALUES (8, 2, 4);
+
+
+--
+-- Name: school_streams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_streams_id_seq', 8, true);
+
+
+--
+-- Data for Name: school_subjects; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_subjects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_subjects_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_systemconfig; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_systemconfig_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_systemconfig_id_seq', 1, false);
+
+
+--
+-- Data for Name: school_terms; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: school_terms_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('school_terms_id_seq', 1, false);
+
+
+--
+-- Data for Name: smsgateway_phonebook; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: smsgateway_phonebook_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('smsgateway_phonebook_id_seq', 1, false);
+
+
+--
+-- Data for Name: smsgateway_sms; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: smsgateway_sms_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('smsgateway_sms_id_seq', 1, false);
+
+
+--
+-- Data for Name: staff_staffphoneno; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: staff_staffphoneno_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('staff_staffphoneno_id_seq', 1, false);
+
+
+--
+-- Data for Name: staff_staffprofiles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: staff_staffprofiles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('staff_staffprofiles_id_seq', 1, false);
+
+
+--
+-- Data for Name: students_parentphoneno; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: students_parentphoneno_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('students_parentphoneno_id_seq', 1, false);
+
+
+--
+-- Data for Name: students_studentcategory; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: students_studentcategory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('students_studentcategory_id_seq', 1, false);
+
+
+--
+-- Data for Name: students_studentclassstream; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: students_studentclassstream_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('students_studentclassstream_id_seq', 1, false);
+
+
+--
+-- Data for Name: students_studentlocation; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO students_studentlocation VALUES (1, '1', 'Nairobi', 'Nairobi', 'Nairobi', 'Nairobi', 'Nairobi', '001');
+INSERT INTO students_studentlocation VALUES (2, '1', 'Nairobi', 'Nairobi', 'Nairobi', 'Nairobi', 'Nairobi', '002');
+
+
+--
+-- Name: students_studentlocation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('students_studentlocation_id_seq', 2, true);
+
+
+--
+-- Data for Name: students_studentparent; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: students_studentparent_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('students_studentparent_id_seq', 1, false);
+
+
+--
+-- Data for Name: students_studentprofiles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO students_studentprofiles VALUES ('001', 'Titus', 'kamau', 'Mbugua', '', 1, '', '2016-09-01', '2016-09-01', '', 'None', 'None', NULL, NULL, true, NULL, 1, 1, 1, 3, '458787878787', 'XXXX8787878XXXX', '2016-10-05');
+INSERT INTO students_studentprofiles VALUES ('002', 'Othis', 'Otieno', 'Chepkemoo', '', 2, '', '2016-09-14', '2016-09-01', '', 'None', 'None', NULL, NULL, true, NULL, 1, 1, 1, 4, '58986854785415', 'XXXX6854785XXXX', '2016-08-18');
+
+
+--
+-- Data for Name: students_studentsubject; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: students_studentsubject_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('students_studentsubject_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_category; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_category_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_categorytype; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_categorytype_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_categorytype_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_classes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO sysadmin_classes VALUES (1, 'Form One', 1);
+INSERT INTO sysadmin_classes VALUES (2, 'Form Two', 1);
+INSERT INTO sysadmin_classes VALUES (3, 'Form Three', 1);
+INSERT INTO sysadmin_classes VALUES (4, 'Form Four', 1);
+
+
+--
+-- Name: sysadmin_classes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_classes_id_seq', 4, true);
+
+
+--
+-- Data for Name: sysadmin_country; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_country_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_country_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_county; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO sysadmin_county VALUES (1, 'Nairobi');
+
+
+--
+-- Name: sysadmin_county_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_county_id_seq', 1, true);
+
+
+--
+-- Data for Name: sysadmin_dormitory; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_dormitory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_dormitory_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_entryyear; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO sysadmin_entryyear VALUES (1, '2016', true);
+
+
+--
+-- Name: sysadmin_entryyear_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_entryyear_id_seq', 1, true);
+
+
+--
+-- Data for Name: sysadmin_gender; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO sysadmin_gender VALUES (1, 'Male', 1);
+INSERT INTO sysadmin_gender VALUES (2, 'Female', 1);
+
+
+--
+-- Name: sysadmin_gender_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_gender_id_seq', 2, true);
+
+
+--
+-- Data for Name: sysadmin_grades; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_grades_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_grades_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_house; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_house_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_house_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_months; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_months_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_months_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_paper; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_paper_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_paper_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_paymentmethod; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_paymentmethod_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_paymentmethod_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_schooltype; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_schooltype_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_schooltype_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_stream; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO sysadmin_stream VALUES (1, 'North', 1);
+INSERT INTO sysadmin_stream VALUES (2, 'South', 1);
+INSERT INTO sysadmin_stream VALUES (3, 'East', 1);
+INSERT INTO sysadmin_stream VALUES (4, 'West', 1);
+
+
+--
+-- Name: sysadmin_stream_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_stream_id_seq', 4, true);
+
+
+--
+-- Data for Name: sysadmin_subject; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_subject_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_subject_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_systemconfig; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_systemconfig_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_systemconfig_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_term; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_term_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_term_id_seq', 1, false);
+
+
+--
+-- Data for Name: sysadmin_voteheads; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Name: sysadmin_voteheads_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sysadmin_voteheads_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions_group_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission_content_type_id_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_user_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type_app_label_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_app_label_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: moe_portal_bursery_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY moe_portal_bursery
+    ADD CONSTRAINT moe_portal_bursery_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: moe_portal_tutionfunds_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY moe_portal_tutionfunds
+    ADD CONSTRAINT moe_portal_tutionfunds_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pos_portal_merchants_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY pos_portal_merchants
+    ADD CONSTRAINT pos_portal_merchants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pos_portal_pos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY pos_portal_pos
+    ADD CONSTRAINT pos_portal_pos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pos_portal_studentaccountswallets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY pos_portal_studentaccountswallets
+    ADD CONSTRAINT pos_portal_studentaccountswallets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pos_portal_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY pos_portal_transactions
+    ADD CONSTRAINT pos_portal_transactions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_category_name_id_d02d8557_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_category
+    ADD CONSTRAINT school_category_name_id_d02d8557_uniq UNIQUE (name_id, categorytype_id, category_id);
+
+
+--
+-- Name: school_category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_category
+    ADD CONSTRAINT school_category_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_categorytype_name_id_dc0c5a4c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_categorytype
+    ADD CONSTRAINT school_categorytype_name_id_dc0c5a4c_uniq UNIQUE (name_id, categorytype_id);
+
+
+--
+-- Name: school_categorytype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_categorytype
+    ADD CONSTRAINT school_categorytype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_classes_name_id_aa5160aa_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_classes
+    ADD CONSTRAINT school_classes_name_id_aa5160aa_uniq UNIQUE (name_id, classes_id);
+
+
+--
+-- Name: school_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_classes
+    ADD CONSTRAINT school_classes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_classstreams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_classstreams
+    ADD CONSTRAINT school_classstreams_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_dormitory_name_id_dabaad05_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_dormitory
+    ADD CONSTRAINT school_dormitory_name_id_dabaad05_uniq UNIQUE (name_id, dormitory);
+
+
+--
+-- Name: school_dormitory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_dormitory
+    ADD CONSTRAINT school_dormitory_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_entryyear_name_id_1ed457a8_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_entryyear
+    ADD CONSTRAINT school_entryyear_name_id_1ed457a8_uniq UNIQUE (name_id, entryyear_id);
+
+
+--
+-- Name: school_entryyear_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_entryyear
+    ADD CONSTRAINT school_entryyear_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_gender_name_id_a2f37e4e_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_gender
+    ADD CONSTRAINT school_gender_name_id_a2f37e4e_uniq UNIQUE (name_id, gender_id);
+
+
+--
+-- Name: school_gender_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_gender
+    ADD CONSTRAINT school_gender_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_house_name_id_f938de0b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_house
+    ADD CONSTRAINT school_house_name_id_f938de0b_uniq UNIQUE (name_id, house_id);
+
+
+--
+-- Name: school_house_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_house
+    ADD CONSTRAINT school_house_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_months_name_id_669d4d34_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_months
+    ADD CONSTRAINT school_months_name_id_669d4d34_uniq UNIQUE (name_id, month_id);
+
+
+--
+-- Name: school_months_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_months
+    ADD CONSTRAINT school_months_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_papers_name_id_63e279c1_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_papers
+    ADD CONSTRAINT school_papers_name_id_63e279c1_uniq UNIQUE (name_id, papername_id);
+
+
+--
+-- Name: school_papers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_papers
+    ADD CONSTRAINT school_papers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_paymentmethods_name_id_aed8ee57_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_paymentmethods
+    ADD CONSTRAINT school_paymentmethods_name_id_aed8ee57_uniq UNIQUE (name_id, paymentmethods_id);
+
+
+--
+-- Name: school_paymentmethods_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_paymentmethods
+    ADD CONSTRAINT school_paymentmethods_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_schoolprofiles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_schoolprofiles
+    ADD CONSTRAINT school_schoolprofiles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_schoolstaff_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_schoolstaff
+    ADD CONSTRAINT school_schoolstaff_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_schooltype_name_id_6ef7b234_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_schooltype
+    ADD CONSTRAINT school_schooltype_name_id_6ef7b234_uniq UNIQUE (name_id, schooltype_id);
+
+
+--
+-- Name: school_schooltype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_schooltype
+    ADD CONSTRAINT school_schooltype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_streams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_streams
+    ADD CONSTRAINT school_streams_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_subjects_name_id_9ef540a7_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_subjects
+    ADD CONSTRAINT school_subjects_name_id_9ef540a7_uniq UNIQUE (name_id, subject_id);
+
+
+--
+-- Name: school_subjects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_subjects
+    ADD CONSTRAINT school_subjects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_systemconfig_command_label_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_systemconfig
+    ADD CONSTRAINT school_systemconfig_command_label_key UNIQUE (command_label);
+
+
+--
+-- Name: school_systemconfig_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_systemconfig
+    ADD CONSTRAINT school_systemconfig_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: school_terms_name_id_71492922_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_terms
+    ADD CONSTRAINT school_terms_name_id_71492922_uniq UNIQUE (name_id, terms_id, startdate, enddate);
+
+
+--
+-- Name: school_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY school_terms
+    ADD CONSTRAINT school_terms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: smsgateway_phonebook_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY smsgateway_phonebook
+    ADD CONSTRAINT smsgateway_phonebook_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: smsgateway_sms_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY smsgateway_sms
+    ADD CONSTRAINT smsgateway_sms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: staff_staffphoneno_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY staff_staffphoneno
+    ADD CONSTRAINT staff_staffphoneno_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: staff_staffprofiles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY staff_staffprofiles
+    ADD CONSTRAINT staff_staffprofiles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: students_parentphoneno_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY students_parentphoneno
+    ADD CONSTRAINT students_parentphoneno_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: students_studentcategory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY students_studentcategory
+    ADD CONSTRAINT students_studentcategory_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: students_studentclassstream_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY students_studentclassstream
+    ADD CONSTRAINT students_studentclassstream_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: students_studentlocation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY students_studentlocation
+    ADD CONSTRAINT students_studentlocation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: students_studentparent_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY students_studentparent
+    ADD CONSTRAINT students_studentparent_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: students_studentprofiles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY students_studentprofiles
+    ADD CONSTRAINT students_studentprofiles_pkey PRIMARY KEY (admno);
+
+
+--
+-- Name: students_studentsubject_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY students_studentsubject
+    ADD CONSTRAINT students_studentsubject_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_category_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_category
+    ADD CONSTRAINT sysadmin_category_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_categorytype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_categorytype
+    ADD CONSTRAINT sysadmin_categorytype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_classes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_classes
+    ADD CONSTRAINT sysadmin_classes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_country_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_country
+    ADD CONSTRAINT sysadmin_country_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_county_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_county
+    ADD CONSTRAINT sysadmin_county_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_dormitory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_dormitory
+    ADD CONSTRAINT sysadmin_dormitory_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_entryyear_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_entryyear
+    ADD CONSTRAINT sysadmin_entryyear_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_gender_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_gender
+    ADD CONSTRAINT sysadmin_gender_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_grades_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_grades
+    ADD CONSTRAINT sysadmin_grades_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_house_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_house
+    ADD CONSTRAINT sysadmin_house_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_months_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_months
+    ADD CONSTRAINT sysadmin_months_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_paper_paper_code_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_paper
+    ADD CONSTRAINT sysadmin_paper_paper_code_key UNIQUE (paper_code);
+
+
+--
+-- Name: sysadmin_paper_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_paper
+    ADD CONSTRAINT sysadmin_paper_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_paymentmethod_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_paymentmethod
+    ADD CONSTRAINT sysadmin_paymentmethod_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_schooltype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_schooltype
+    ADD CONSTRAINT sysadmin_schooltype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_stream_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_stream
+    ADD CONSTRAINT sysadmin_stream_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_subject_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_subject
+    ADD CONSTRAINT sysadmin_subject_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_subject_subject_code_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_subject
+    ADD CONSTRAINT sysadmin_subject_subject_code_key UNIQUE (subject_code);
+
+
+--
+-- Name: sysadmin_systemconfig_command_label_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_systemconfig
+    ADD CONSTRAINT sysadmin_systemconfig_command_label_key UNIQUE (command_label);
+
+
+--
+-- Name: sysadmin_systemconfig_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_systemconfig
+    ADD CONSTRAINT sysadmin_systemconfig_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_term_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_term
+    ADD CONSTRAINT sysadmin_term_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sysadmin_voteheads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sysadmin_voteheads
+    ADD CONSTRAINT sysadmin_voteheads_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_0e939a4f ON auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_8373b171; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_8373b171 ON auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_417f1b1c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_permission_417f1b1c ON auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_0e939a4f ON auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_e8701ad4 ON auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_8373b171; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_8373b171 ON auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_e8701ad4 ON auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_417f1b1c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_417f1b1c ON django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_e8701ad4 ON django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_de54fa62; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_de54fa62 ON django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: moe_portal_bursery_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX moe_portal_bursery_3db78b68 ON moe_portal_bursery USING btree (name_id);
+
+
+--
+-- Name: moe_portal_bursery_ea17d0d3; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX moe_portal_bursery_ea17d0d3 ON moe_portal_bursery USING btree (studentprofiles_id);
+
+
+--
+-- Name: moe_portal_tutionfunds_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX moe_portal_tutionfunds_3db78b68 ON moe_portal_tutionfunds USING btree (name_id);
+
+
+--
+-- Name: pos_portal_merchants_bbe0c9aa; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pos_portal_merchants_bbe0c9aa ON pos_portal_merchants USING btree (username_id);
+
+
+--
+-- Name: pos_portal_merchants_name_id_eee08ddf_uniq; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pos_portal_merchants_name_id_eee08ddf_uniq ON pos_portal_merchants USING btree (name_id);
+
+
+--
+-- Name: pos_portal_pos_ce678c11; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pos_portal_pos_ce678c11 ON pos_portal_pos USING btree (merchant_id);
+
+
+--
+-- Name: pos_portal_studentaccountswallets_ea17d0d3; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pos_portal_studentaccountswallets_ea17d0d3 ON pos_portal_studentaccountswallets USING btree (studentprofiles_id);
+
+
+--
+-- Name: pos_portal_transactions_d6d2c654; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pos_portal_transactions_d6d2c654 ON pos_portal_transactions USING btree (terminal_id);
+
+
+--
+-- Name: pos_portal_transactions_ec4f071f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pos_portal_transactions_ec4f071f ON pos_portal_transactions USING btree (wallet_id);
+
+
+--
+-- Name: pos_portal_transactions_location_id_916fb40f_uniq; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pos_portal_transactions_location_id_916fb40f_uniq ON pos_portal_transactions USING btree (location_id);
+
+
+--
+-- Name: school_category_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_category_3db78b68 ON school_category USING btree (name_id);
+
+
+--
+-- Name: school_category_b583a629; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_category_b583a629 ON school_category USING btree (category_id);
+
+
+--
+-- Name: school_category_ffbfd098; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_category_ffbfd098 ON school_category USING btree (categorytype_id);
+
+
+--
+-- Name: school_categorytype_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_categorytype_3db78b68 ON school_categorytype USING btree (name_id);
+
+
+--
+-- Name: school_categorytype_ffbfd098; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_categorytype_ffbfd098 ON school_categorytype USING btree (categorytype_id);
+
+
+--
+-- Name: school_classes_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_classes_3db78b68 ON school_classes USING btree (name_id);
+
+
+--
+-- Name: school_classes_834cc404; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_classes_834cc404 ON school_classes USING btree (classes_id);
+
+
+--
+-- Name: school_classstreams_0731dd10; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_classstreams_0731dd10 ON school_classstreams USING btree (streams_id);
+
+
+--
+-- Name: school_classstreams_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_classstreams_3db78b68 ON school_classstreams USING btree (name_id);
+
+
+--
+-- Name: school_classstreams_834cc404; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_classstreams_834cc404 ON school_classstreams USING btree (classes_id);
+
+
+--
+-- Name: school_dormitory_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_dormitory_3db78b68 ON school_dormitory USING btree (name_id);
+
+
+--
+-- Name: school_entryyear_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_entryyear_11013a71 ON school_entryyear USING btree (entryyear_id);
+
+
+--
+-- Name: school_entryyear_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_entryyear_3db78b68 ON school_entryyear USING btree (name_id);
+
+
+--
+-- Name: school_gender_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_gender_3db78b68 ON school_gender USING btree (name_id);
+
+
+--
+-- Name: school_gender_gender_id_541b9ed8_uniq; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_gender_gender_id_541b9ed8_uniq ON school_gender USING btree (gender_id);
+
+
+--
+-- Name: school_house_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_house_3db78b68 ON school_house USING btree (name_id);
+
+
+--
+-- Name: school_house_c39ad60f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_house_c39ad60f ON school_house USING btree (house_id);
+
+
+--
+-- Name: school_months_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_months_3db78b68 ON school_months USING btree (name_id);
+
+
+--
+-- Name: school_months_be312c22; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_months_be312c22 ON school_months USING btree (month_id);
+
+
+--
+-- Name: school_papers_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_papers_3db78b68 ON school_papers USING btree (name_id);
+
+
+--
+-- Name: school_papers_d7c99dc2; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_papers_d7c99dc2 ON school_papers USING btree (papername_id);
+
+
+--
+-- Name: school_paymentmethods_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_paymentmethods_3db78b68 ON school_paymentmethods USING btree (name_id);
+
+
+--
+-- Name: school_paymentmethods_87b11425; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_paymentmethods_87b11425 ON school_paymentmethods USING btree (paymentmethods_id);
+
+
+--
+-- Name: school_schoolstaff_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_schoolstaff_3db78b68 ON school_schoolstaff USING btree (name_id);
+
+
+--
+-- Name: school_schoolstaff_5e7b1936; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_schoolstaff_5e7b1936 ON school_schoolstaff USING btree (owner_id);
+
+
+--
+-- Name: school_schooltype_0505df88; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_schooltype_0505df88 ON school_schooltype USING btree (schooltype_id);
+
+
+--
+-- Name: school_schooltype_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_schooltype_3db78b68 ON school_schooltype USING btree (name_id);
+
+
+--
+-- Name: school_streams_0731dd10; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_streams_0731dd10 ON school_streams USING btree (streams_id);
+
+
+--
+-- Name: school_streams_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_streams_3db78b68 ON school_streams USING btree (name_id);
+
+
+--
+-- Name: school_subjects_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_subjects_3db78b68 ON school_subjects USING btree (name_id);
+
+
+--
+-- Name: school_subjects_ffaba1d1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_subjects_ffaba1d1 ON school_subjects USING btree (subject_id);
+
+
+--
+-- Name: school_systemconfig_command_label_4a02f9dc_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_systemconfig_command_label_4a02f9dc_like ON school_systemconfig USING btree (command_label varchar_pattern_ops);
+
+
+--
+-- Name: school_terms_2ab34720; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_terms_2ab34720 ON school_terms USING btree (terms_id);
+
+
+--
+-- Name: school_terms_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX school_terms_3db78b68 ON school_terms USING btree (name_id);
+
+
+--
+-- Name: smsgateway_phonebook_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX smsgateway_phonebook_0e939a4f ON smsgateway_phonebook USING btree (group_id);
+
+
+--
+-- Name: smsgateway_phonebook_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX smsgateway_phonebook_3db78b68 ON smsgateway_phonebook USING btree (name_id);
+
+
+--
+-- Name: smsgateway_phonebook_5e7b1936; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX smsgateway_phonebook_5e7b1936 ON smsgateway_phonebook USING btree (owner_id);
+
+
+--
+-- Name: smsgateway_sms_3b468328; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX smsgateway_sms_3b468328 ON smsgateway_sms USING btree (reciever_id);
+
+
+--
+-- Name: smsgateway_sms_5e7b1936; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX smsgateway_sms_5e7b1936 ON smsgateway_sms USING btree (owner_id);
+
+
+--
+-- Name: staff_staffphoneno_d8fad4be; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX staff_staffphoneno_d8fad4be ON staff_staffphoneno USING btree (phoneno_id);
+
+
+--
+-- Name: staff_staffphoneno_ebee9f28; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX staff_staffphoneno_ebee9f28 ON staff_staffphoneno USING btree (staffprofiles_id);
+
+
+--
+-- Name: staff_staffprofiles_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX staff_staffprofiles_0e939a4f ON staff_staffprofiles USING btree (group_id);
+
+
+--
+-- Name: staff_staffprofiles_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX staff_staffprofiles_3db78b68 ON staff_staffprofiles USING btree (name_id);
+
+
+--
+-- Name: staff_staffprofiles_bbe0c9aa; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX staff_staffprofiles_bbe0c9aa ON staff_staffprofiles USING btree (username_id);
+
+
+--
+-- Name: students_parentphoneno_6be37982; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_parentphoneno_6be37982 ON students_parentphoneno USING btree (parent_id);
+
+
+--
+-- Name: students_parentphoneno_d8fad4be; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_parentphoneno_d8fad4be ON students_parentphoneno USING btree (phoneno_id);
+
+
+--
+-- Name: students_studentcategory_b583a629; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentcategory_b583a629 ON students_studentcategory USING btree (category_id);
+
+
+--
+-- Name: students_studentcategory_ea17d0d3; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentcategory_ea17d0d3 ON students_studentcategory USING btree (studentprofiles_id);
+
+
+--
+-- Name: students_studentclassstream_0731dd10; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentclassstream_0731dd10 ON students_studentclassstream USING btree (streams_id);
+
+
+--
+-- Name: students_studentclassstream_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentclassstream_11013a71 ON students_studentclassstream USING btree (entryyear_id);
+
+
+--
+-- Name: students_studentclassstream_834cc404; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentclassstream_834cc404 ON students_studentclassstream USING btree (classes_id);
+
+
+--
+-- Name: students_studentclassstream_ea17d0d3; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentclassstream_ea17d0d3 ON students_studentclassstream USING btree (studentprofiles_id);
+
+
+--
+-- Name: students_studentlocation_ea17d0d3; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentlocation_ea17d0d3 ON students_studentlocation USING btree (studentprofiles_id);
+
+
+--
+-- Name: students_studentparent_623af7fd; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentparent_623af7fd ON students_studentparent USING btree (gender_id);
+
+
+--
+-- Name: students_studentparent_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentparent_e8701ad4 ON students_studentparent USING btree (user_id);
+
+
+--
+-- Name: students_studentparent_ea17d0d3; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentparent_ea17d0d3 ON students_studentparent USING btree (studentprofiles_id);
+
+
+--
+-- Name: students_studentprofiles_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentprofiles_3db78b68 ON students_studentprofiles USING btree (name_id);
+
+
+--
+-- Name: students_studentprofiles_623af7fd; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentprofiles_623af7fd ON students_studentprofiles USING btree (gender_id);
+
+
+--
+-- Name: students_studentprofiles_72534c1a; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentprofiles_72534c1a ON students_studentprofiles USING btree (academic_category_id);
+
+
+--
+-- Name: students_studentprofiles_admno_24e84580_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentprofiles_admno_24e84580_like ON students_studentprofiles USING btree (admno varchar_pattern_ops);
+
+
+--
+-- Name: students_studentprofiles_bbe0c9aa; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentprofiles_bbe0c9aa ON students_studentprofiles USING btree (username_id);
+
+
+--
+-- Name: students_studentprofiles_cf308d08; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentprofiles_cf308d08 ON students_studentprofiles USING btree (current_classes_id);
+
+
+--
+-- Name: students_studentprofiles_current_stream_id_2c3e2663_uniq; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentprofiles_current_stream_id_2c3e2663_uniq ON students_studentprofiles USING btree (current_stream_id);
+
+
+--
+-- Name: students_studentsubject_15ee57d8; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentsubject_15ee57d8 ON students_studentsubject USING btree (subjects_id);
+
+
+--
+-- Name: students_studentsubject_3db78b68; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentsubject_3db78b68 ON students_studentsubject USING btree (name_id);
+
+
+--
+-- Name: students_studentsubject_5e7b1936; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentsubject_5e7b1936 ON students_studentsubject USING btree (owner_id);
+
+
+--
+-- Name: students_studentsubject_ea17d0d3; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentsubject_ea17d0d3 ON students_studentsubject USING btree (studentprofiles_id);
+
+
+--
+-- Name: students_studentsubject_studentprofiles_id_faae829b_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX students_studentsubject_studentprofiles_id_faae829b_like ON students_studentsubject USING btree (studentprofiles_id varchar_pattern_ops);
+
+
+--
+-- Name: sysadmin_category_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_category_11013a71 ON sysadmin_category USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_categorytype_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_categorytype_11013a71 ON sysadmin_categorytype USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_classes_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_classes_11013a71 ON sysadmin_classes USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_dormitory_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_dormitory_11013a71 ON sysadmin_dormitory USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_gender_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_gender_11013a71 ON sysadmin_gender USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_house_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_house_11013a71 ON sysadmin_house USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_months_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_months_11013a71 ON sysadmin_months USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_paper_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_paper_11013a71 ON sysadmin_paper USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_paper_paper_code_735e01c8_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_paper_paper_code_735e01c8_like ON sysadmin_paper USING btree (paper_code varchar_pattern_ops);
+
+
+--
+-- Name: sysadmin_stream_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_stream_11013a71 ON sysadmin_stream USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_subject_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_subject_11013a71 ON sysadmin_subject USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_subject_subject_code_59e8eacc_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_subject_subject_code_59e8eacc_like ON sysadmin_subject USING btree (subject_code varchar_pattern_ops);
+
+
+--
+-- Name: sysadmin_systemconfig_command_label_d99bd654_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_systemconfig_command_label_d99bd654_like ON sysadmin_systemconfig USING btree (command_label varchar_pattern_ops);
+
+
+--
+-- Name: sysadmin_term_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_term_11013a71 ON sysadmin_term USING btree (entryyear_id);
+
+
+--
+-- Name: sysadmin_voteheads_11013a71; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX sysadmin_voteheads_11013a71 ON sysadmin_voteheads USING btree (entryyear_id);
+
+
+--
+-- Name: auth_group_permiss_permission_id_84c5c92e_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permiss_permission_id_84c5c92e_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permiss_content_type_id_2f476e4b_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permiss_content_type_id_2f476e4b_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_per_permission_id_1fbb5f2c_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_per_permission_id_1fbb5f2c_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_content_type_id_c4bce8eb_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_content_type_id_c4bce8eb_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_studentprofiles_id_b2dac070_fk_students_studentprofiles_admno; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY moe_portal_bursery
+    ADD CONSTRAINT m_studentprofiles_id_b2dac070_fk_students_studentprofiles_admno FOREIGN KEY (studentprofiles_id) REFERENCES students_studentprofiles(admno) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: moe_portal_bursery_name_id_926fa820_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY moe_portal_bursery
+    ADD CONSTRAINT moe_portal_bursery_name_id_926fa820_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: moe_portal_tutionf_name_id_7e8050b6_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY moe_portal_tutionfunds
+    ADD CONSTRAINT moe_portal_tutionf_name_id_7e8050b6_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: p_studentprofiles_id_168d6df0_fk_students_studentprofiles_admno; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_studentaccountswallets
+    ADD CONSTRAINT p_studentprofiles_id_168d6df0_fk_students_studentprofiles_admno FOREIGN KEY (studentprofiles_id) REFERENCES students_studentprofiles(admno) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos__wallet_id_55fb06a4_fk_pos_portal_studentaccountswallets_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_transactions
+    ADD CONSTRAINT pos__wallet_id_55fb06a4_fk_pos_portal_studentaccountswallets_id FOREIGN KEY (wallet_id) REFERENCES pos_portal_studentaccountswallets(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_portal_merchan_name_id_eee08ddf_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_merchants
+    ADD CONSTRAINT pos_portal_merchan_name_id_eee08ddf_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_portal_merchants_username_id_3f9cd88a_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_merchants
+    ADD CONSTRAINT pos_portal_merchants_username_id_3f9cd88a_fk_auth_user_id FOREIGN KEY (username_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_portal_pos_merchant_id_31ac700d_fk_pos_portal_merchants_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_pos
+    ADD CONSTRAINT pos_portal_pos_merchant_id_31ac700d_fk_pos_portal_merchants_id FOREIGN KEY (merchant_id) REFERENCES pos_portal_merchants(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_portal_tra_location_id_916fb40f_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_transactions
+    ADD CONSTRAINT pos_portal_tra_location_id_916fb40f_fk_school_schoolprofiles_id FOREIGN KEY (location_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: pos_portal_transactio_terminal_id_b5b4faea_fk_pos_portal_pos_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pos_portal_transactions
+    ADD CONSTRAINT pos_portal_transactio_terminal_id_b5b4faea_fk_pos_portal_pos_id FOREIGN KEY (terminal_id) REFERENCES pos_portal_pos(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: s_studentprofiles_id_573e0ec3_fk_students_studentprofiles_admno; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentcategory
+    ADD CONSTRAINT s_studentprofiles_id_573e0ec3_fk_students_studentprofiles_admno FOREIGN KEY (studentprofiles_id) REFERENCES students_studentprofiles(admno) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: s_studentprofiles_id_6f0c2cb3_fk_students_studentprofiles_admno; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentlocation
+    ADD CONSTRAINT s_studentprofiles_id_6f0c2cb3_fk_students_studentprofiles_admno FOREIGN KEY (studentprofiles_id) REFERENCES students_studentprofiles(admno) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: s_studentprofiles_id_a8997474_fk_students_studentprofiles_admno; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentclassstream
+    ADD CONSTRAINT s_studentprofiles_id_a8997474_fk_students_studentprofiles_admno FOREIGN KEY (studentprofiles_id) REFERENCES students_studentprofiles(admno) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: s_studentprofiles_id_c7f4594e_fk_students_studentprofiles_admno; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentparent
+    ADD CONSTRAINT s_studentprofiles_id_c7f4594e_fk_students_studentprofiles_admno FOREIGN KEY (studentprofiles_id) REFERENCES students_studentprofiles(admno) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: s_studentprofiles_id_faae829b_fk_students_studentprofiles_admno; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentsubject
+    ADD CONSTRAINT s_studentprofiles_id_faae829b_fk_students_studentprofiles_admno FOREIGN KEY (studentprofiles_id) REFERENCES students_studentprofiles(admno) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school__paymentmethods_id_83642ef7_fk_sysadmin_paymentmethod_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_paymentmethods
+    ADD CONSTRAINT school__paymentmethods_id_83642ef7_fk_sysadmin_paymentmethod_id FOREIGN KEY (paymentmethods_id) REFERENCES sysadmin_paymentmethod(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_cat_categorytype_id_dafafe6f_fk_sysadmin_categorytype_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_categorytype
+    ADD CONSTRAINT school_cat_categorytype_id_dafafe6f_fk_sysadmin_categorytype_id FOREIGN KEY (categorytype_id) REFERENCES sysadmin_categorytype(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_categ_categorytype_id_fe62218d_fk_school_categorytype_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_category
+    ADD CONSTRAINT school_categ_categorytype_id_fe62218d_fk_school_categorytype_id FOREIGN KEY (categorytype_id) REFERENCES school_categorytype(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_category_category_id_276b9718_fk_sysadmin_category_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_category
+    ADD CONSTRAINT school_category_category_id_276b9718_fk_sysadmin_category_id FOREIGN KEY (category_id) REFERENCES sysadmin_category(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_category_name_id_9daac418_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_category
+    ADD CONSTRAINT school_category_name_id_9daac418_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_categorytyp_name_id_47f11b01_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_categorytype
+    ADD CONSTRAINT school_categorytyp_name_id_47f11b01_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_classes_classes_id_2172922d_fk_sysadmin_classes_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_classes
+    ADD CONSTRAINT school_classes_classes_id_2172922d_fk_sysadmin_classes_id FOREIGN KEY (classes_id) REFERENCES sysadmin_classes(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_classes_name_id_42241266_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_classes
+    ADD CONSTRAINT school_classes_name_id_42241266_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_classstream_name_id_6743c83d_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_classstreams
+    ADD CONSTRAINT school_classstream_name_id_6743c83d_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_classstreams_classes_id_77d68777_fk_school_classes_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_classstreams
+    ADD CONSTRAINT school_classstreams_classes_id_77d68777_fk_school_classes_id FOREIGN KEY (classes_id) REFERENCES school_classes(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_classstreams_streams_id_4aba63a5_fk_school_streams_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_classstreams
+    ADD CONSTRAINT school_classstreams_streams_id_4aba63a5_fk_school_streams_id FOREIGN KEY (streams_id) REFERENCES school_streams(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_dormitory_name_id_f7ea2a7c_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_dormitory
+    ADD CONSTRAINT school_dormitory_name_id_f7ea2a7c_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_entryyear_entryyear_id_509acbdd_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_entryyear
+    ADD CONSTRAINT school_entryyear_entryyear_id_509acbdd_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_entryyear_name_id_7428b5ea_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_entryyear
+    ADD CONSTRAINT school_entryyear_name_id_7428b5ea_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_gender_gender_id_541b9ed8_fk_sysadmin_gender_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_gender
+    ADD CONSTRAINT school_gender_gender_id_541b9ed8_fk_sysadmin_gender_id FOREIGN KEY (gender_id) REFERENCES sysadmin_gender(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_gender_name_id_a90bcec0_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_gender
+    ADD CONSTRAINT school_gender_name_id_a90bcec0_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_house_house_id_619d87f2_fk_sysadmin_house_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_house
+    ADD CONSTRAINT school_house_house_id_619d87f2_fk_sysadmin_house_id FOREIGN KEY (house_id) REFERENCES sysadmin_house(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_house_name_id_0476f77c_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_house
+    ADD CONSTRAINT school_house_name_id_0476f77c_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_months_month_id_f579af2c_fk_sysadmin_months_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_months
+    ADD CONSTRAINT school_months_month_id_f579af2c_fk_sysadmin_months_id FOREIGN KEY (month_id) REFERENCES sysadmin_months(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_months_name_id_e1b8e7a0_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_months
+    ADD CONSTRAINT school_months_name_id_e1b8e7a0_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_papers_name_id_6f11c069_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_papers
+    ADD CONSTRAINT school_papers_name_id_6f11c069_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_papers_papername_id_aed8009f_fk_sysadmin_paper_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_papers
+    ADD CONSTRAINT school_papers_papername_id_aed8009f_fk_sysadmin_paper_id FOREIGN KEY (papername_id) REFERENCES sysadmin_paper(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_paymentmeth_name_id_b2adce85_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_paymentmethods
+    ADD CONSTRAINT school_paymentmeth_name_id_b2adce85_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_schoolstaff_name_id_dd3cb193_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_schoolstaff
+    ADD CONSTRAINT school_schoolstaff_name_id_dd3cb193_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_schoolstaff_owner_id_5f50b2d7_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_schoolstaff
+    ADD CONSTRAINT school_schoolstaff_owner_id_5f50b2d7_fk_auth_user_id FOREIGN KEY (owner_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_schoolt_schooltype_id_c34b266a_fk_sysadmin_schooltype_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_schooltype
+    ADD CONSTRAINT school_schoolt_schooltype_id_c34b266a_fk_sysadmin_schooltype_id FOREIGN KEY (schooltype_id) REFERENCES sysadmin_schooltype(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_schooltype_name_id_3a79d1a7_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_schooltype
+    ADD CONSTRAINT school_schooltype_name_id_3a79d1a7_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_streams_name_id_6bfa9557_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_streams
+    ADD CONSTRAINT school_streams_name_id_6bfa9557_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_streams_streams_id_cc5b0332_fk_sysadmin_stream_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_streams
+    ADD CONSTRAINT school_streams_streams_id_cc5b0332_fk_sysadmin_stream_id FOREIGN KEY (streams_id) REFERENCES sysadmin_stream(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_subjects_name_id_ebf6be52_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_subjects
+    ADD CONSTRAINT school_subjects_name_id_ebf6be52_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_subjects_subject_id_b9a6d2c9_fk_sysadmin_subject_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_subjects
+    ADD CONSTRAINT school_subjects_subject_id_b9a6d2c9_fk_sysadmin_subject_id FOREIGN KEY (subject_id) REFERENCES sysadmin_subject(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_terms_name_id_c44204d9_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_terms
+    ADD CONSTRAINT school_terms_name_id_c44204d9_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: school_terms_terms_id_5eb4ae1a_fk_sysadmin_term_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY school_terms
+    ADD CONSTRAINT school_terms_terms_id_5eb4ae1a_fk_sysadmin_term_id FOREIGN KEY (terms_id) REFERENCES sysadmin_term(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: smsgateway_phonebo_name_id_264b004f_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_phonebook
+    ADD CONSTRAINT smsgateway_phonebo_name_id_264b004f_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: smsgateway_phonebook_group_id_5a933a97_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_phonebook
+    ADD CONSTRAINT smsgateway_phonebook_group_id_5a933a97_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: smsgateway_phonebook_owner_id_d1840dae_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_phonebook
+    ADD CONSTRAINT smsgateway_phonebook_owner_id_d1840dae_fk_auth_user_id FOREIGN KEY (owner_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: smsgateway_sms_owner_id_8acbce1d_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_sms
+    ADD CONSTRAINT smsgateway_sms_owner_id_8acbce1d_fk_auth_user_id FOREIGN KEY (owner_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: smsgateway_sms_reciever_id_bfa4e19b_fk_smsgateway_phonebook_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY smsgateway_sms
+    ADD CONSTRAINT smsgateway_sms_reciever_id_bfa4e19b_fk_smsgateway_phonebook_id FOREIGN KEY (reciever_id) REFERENCES smsgateway_phonebook(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: staff_staff_staffprofiles_id_c30f23c0_fk_staff_staffprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY staff_staffphoneno
+    ADD CONSTRAINT staff_staff_staffprofiles_id_c30f23c0_fk_staff_staffprofiles_id FOREIGN KEY (staffprofiles_id) REFERENCES staff_staffprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: staff_staffphone_phoneno_id_eddeacf0_fk_smsgateway_phonebook_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY staff_staffphoneno
+    ADD CONSTRAINT staff_staffphone_phoneno_id_eddeacf0_fk_smsgateway_phonebook_id FOREIGN KEY (phoneno_id) REFERENCES smsgateway_phonebook(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: staff_staffprofile_name_id_fe473ec6_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY staff_staffprofiles
+    ADD CONSTRAINT staff_staffprofile_name_id_fe473ec6_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: staff_staffprofiles_group_id_11dbc8f6_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY staff_staffprofiles
+    ADD CONSTRAINT staff_staffprofiles_group_id_11dbc8f6_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: staff_staffprofiles_username_id_70b3519a_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY staff_staffprofiles
+    ADD CONSTRAINT staff_staffprofiles_username_id_70b3519a_fk_auth_user_id FOREIGN KEY (username_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_parent_parent_id_50fa09f9_fk_students_studentparent_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_parentphoneno
+    ADD CONSTRAINT students_parent_parent_id_50fa09f9_fk_students_studentparent_id FOREIGN KEY (parent_id) REFERENCES students_studentparent(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_parentp_phoneno_id_6870fd35_fk_smsgateway_phonebook_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_parentphoneno
+    ADD CONSTRAINT students_parentp_phoneno_id_6870fd35_fk_smsgateway_phonebook_id FOREIGN KEY (phoneno_id) REFERENCES smsgateway_phonebook(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_st_academic_category_id_36f41325_fk_school_category_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentprofiles
+    ADD CONSTRAINT students_st_academic_category_id_36f41325_fk_school_category_id FOREIGN KEY (academic_category_id) REFERENCES school_category(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_stude_current_classes_id_7573c42b_fk_school_classes_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentprofiles
+    ADD CONSTRAINT students_stude_current_classes_id_7573c42b_fk_school_classes_id FOREIGN KEY (current_classes_id) REFERENCES school_classes(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studen_current_stream_id_2c3e2663_fk_school_streams_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentprofiles
+    ADD CONSTRAINT students_studen_current_stream_id_2c3e2663_fk_school_streams_id FOREIGN KEY (current_stream_id) REFERENCES school_streams(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_student_entryyear_id_8a5e910f_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentclassstream
+    ADD CONSTRAINT students_student_entryyear_id_8a5e910f_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentcate_category_id_2266143a_fk_school_category_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentcategory
+    ADD CONSTRAINT students_studentcate_category_id_2266143a_fk_school_category_id FOREIGN KEY (category_id) REFERENCES school_category(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentclasss_classes_id_b666ff36_fk_school_classes_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentclassstream
+    ADD CONSTRAINT students_studentclasss_classes_id_b666ff36_fk_school_classes_id FOREIGN KEY (classes_id) REFERENCES school_classes(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentclasss_streams_id_fd787c1e_fk_school_streams_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentclassstream
+    ADD CONSTRAINT students_studentclasss_streams_id_fd787c1e_fk_school_streams_id FOREIGN KEY (streams_id) REFERENCES school_streams(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentparent_gender_id_b1a8bf4c_fk_school_gender_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentparent
+    ADD CONSTRAINT students_studentparent_gender_id_b1a8bf4c_fk_school_gender_id FOREIGN KEY (gender_id) REFERENCES school_gender(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentparent_user_id_b6145783_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentparent
+    ADD CONSTRAINT students_studentparent_user_id_b6145783_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentpr_name_id_37906ff9_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentprofiles
+    ADD CONSTRAINT students_studentpr_name_id_37906ff9_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentprofiles_gender_id_e4f9b373_fk_school_gender_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentprofiles
+    ADD CONSTRAINT students_studentprofiles_gender_id_e4f9b373_fk_school_gender_id FOREIGN KEY (gender_id) REFERENCES school_gender(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentprofiles_username_id_9c1ddab7_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentprofiles
+    ADD CONSTRAINT students_studentprofiles_username_id_9c1ddab7_fk_auth_user_id FOREIGN KEY (username_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentsu_name_id_6f337705_fk_school_schoolprofiles_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentsubject
+    ADD CONSTRAINT students_studentsu_name_id_6f337705_fk_school_schoolprofiles_id FOREIGN KEY (name_id) REFERENCES school_schoolprofiles(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentsubj_subjects_id_519164f5_fk_school_subjects_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentsubject
+    ADD CONSTRAINT students_studentsubj_subjects_id_519164f5_fk_school_subjects_id FOREIGN KEY (subjects_id) REFERENCES school_subjects(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: students_studentsubject_owner_id_df6443de_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY students_studentsubject
+    ADD CONSTRAINT students_studentsubject_owner_id_df6443de_fk_auth_user_id FOREIGN KEY (owner_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_categor_entryyear_id_be6f2388_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_category
+    ADD CONSTRAINT sysadmin_categor_entryyear_id_be6f2388_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_categor_entryyear_id_dc5f6fb6_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_categorytype
+    ADD CONSTRAINT sysadmin_categor_entryyear_id_dc5f6fb6_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_classes_entryyear_id_a75b0078_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_classes
+    ADD CONSTRAINT sysadmin_classes_entryyear_id_a75b0078_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_dormito_entryyear_id_f677fde4_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_dormitory
+    ADD CONSTRAINT sysadmin_dormito_entryyear_id_f677fde4_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_gender_entryyear_id_a3871b7b_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_gender
+    ADD CONSTRAINT sysadmin_gender_entryyear_id_a3871b7b_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_house_entryyear_id_9af495af_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_house
+    ADD CONSTRAINT sysadmin_house_entryyear_id_9af495af_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_months_entryyear_id_adb192b5_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_months
+    ADD CONSTRAINT sysadmin_months_entryyear_id_adb192b5_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_paper_entryyear_id_3cbdc657_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_paper
+    ADD CONSTRAINT sysadmin_paper_entryyear_id_3cbdc657_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_stream_entryyear_id_6aab06f5_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_stream
+    ADD CONSTRAINT sysadmin_stream_entryyear_id_6aab06f5_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_subject_entryyear_id_fdb8d3ac_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_subject
+    ADD CONSTRAINT sysadmin_subject_entryyear_id_fdb8d3ac_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_term_entryyear_id_393432f8_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_term
+    ADD CONSTRAINT sysadmin_term_entryyear_id_393432f8_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: sysadmin_votehea_entryyear_id_85a7dfb5_fk_sysadmin_entryyear_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY sysadmin_voteheads
+    ADD CONSTRAINT sysadmin_votehea_entryyear_id_85a7dfb5_fk_sysadmin_entryyear_id FOREIGN KEY (entryyear_id) REFERENCES sysadmin_entryyear(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

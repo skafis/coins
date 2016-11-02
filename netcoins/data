@@ -1,0 +1,12 @@
+INSERT INTO netcoins_studentaccounts (id,accountnumber,encryped_acc_no,bank_name,expirerydate,name_id,studentprofiles_id)VALUES(1,'0020197663588','0020XXXX3588','Bank XYZ','2018-01-01',1,'0701001');
+INSERT INTO netcoins_studentaccountswallets (walletname_name,max_amount,opendate,bank_acc_id)VALUES('School Fees',50000,'2016-01-01',1);
+INSERT INTO netcoins_studentaccountswallets (walletname_name,max_amount,opendate,bank_acc_id)VALUES('Pocket Money',50000,'2016-01-01',1);
+INSERT INTO netcoins_studentaccountswallets (walletname_name,max_amount,opendate,bank_acc_id)VALUES('Savings',50000,'2016-01-01',1);
+
+INSERT INTO netcoins_transactions(transaction_type,amount,transaction_date,trace_no,ref_no,currency,location,terminal_id,studentaccounts_id,wallet_id) VALUES ('Deposit',50000,NOW(),1111,3432,'KSH','Nairobi','001231',1,1);
+INSERT INTO netcoins_transactions(transaction_type,amount,transaction_date,trace_no,ref_no,currency,location,terminal_id,studentaccounts_id,wallet_id) VALUES ('Deposit',5000,NOW(),1112,3432,'KSH','Nairobi','001231',1,2);
+INSERT INTO netcoins_transactions(transaction_type,amount,transaction_date,trace_no,ref_no,currency,location,terminal_id,studentaccounts_id,wallet_id) VALUES ('Deposit',5000,NOW(),1113,3432,'KSH','Nairobi','001231',1,3);
+
+INSERT INTO netcoins_transactions(transaction_type,amount,transaction_date,trace_no,ref_no,currency,location,terminal_id,studentaccounts_id,wallet_id) VALUES ('Withdraw',50,NOW(),1114,3432,'KSH','Nairobi','001231',1,2);
+INSERT INTO netcoins_transactions(transaction_type,amount,transaction_date,trace_no,ref_no,currency,location,terminal_id,studentaccounts_id,wallet_id) VALUES ('Withdraw',20,NOW(),1115,3432,'KSH','Nairobi','001231',1,2);
+

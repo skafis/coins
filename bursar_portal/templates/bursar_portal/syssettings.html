@@ -1,0 +1,165 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "sch_portal_nav.html" %}
+{% endblock %}
+{% block content %}
+            <div class="row m-t-lg">
+                <div class="col-lg-{{span_size|safe}}">
+                    <div class="tabs-container">
+
+                        <div class="tabs-left">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab-6"> Entry year</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-7">Dormitory</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-8">Payment method</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-9">Terms</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-10">Stream</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-11">Subject</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-12">Papers</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-13">Gender</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-14">Category</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-15">Classes</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-16">Month</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-17">House</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-18">School type</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-19">Category type</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-20">Country</a></li>
+											          <li class=""><a data-toggle="tab" href="#tab-21">County</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-22">Vote heads</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-23">Grades</a></li>
+
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-6" class="tab-pane active">
+                                    <div class="panel-body">
+                                        <strong>Entry year</strong>
+																				{% include "sch_portal/entry_year.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-7" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Dormitory</strong>
+
+																				{% include "sch_portal/dormitory.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-8" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Payment method</strong>
+
+																				{% include "sch_portal/paymentmethod.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-9" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Terms</strong>
+																				{% include "sch_portal/term.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-10" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Stream</strong>
+
+																				{% include "sch_portal/stream.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-11" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Subject</strong>
+
+																				{% include "sch_portal/subject.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-12" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Papers</strong>
+
+																				{% include "sch_portal/paper.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-13" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Gender</strong>
+
+																				{% include "sch_portal/gender.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-14" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Category</strong>
+
+																				{% include "sch_portal/category.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-15" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Classes</strong>
+																				{% include "sch_portal/classes.html" %}
+                                    </div>
+                                </div>
+
+                                <div id="tab-16" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Month</strong>
+
+																				{% include "sch_portal/month.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-17" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>House</strong>
+
+																				{% include "sch_portal/house.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-18" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>School type</strong>
+
+																				{% include "sch_portal/schooltype.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-19" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Category type</strong>
+
+																				{% include "sch_portal/categorytype.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-20" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Country</strong>
+
+																				{% include "sch_portal/country.html" %}
+                                    </div>
+                                </div>
+ 																<div id="tab-21" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>County</strong>
+
+																				{% include "sch_portal/county.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-22" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Vote heads</strong>
+
+																				{% include "sch_portal/voteheads.html" %}
+                                    </div>
+                                </div>
+                                <div id="tab-23" class="tab-pane">
+                                    <div class="panel-body">
+                                        <strong>Grades</strong>
+
+																				{% include "sch_portal/grades.html" %}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+{% endblock %}

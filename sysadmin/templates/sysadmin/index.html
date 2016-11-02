@@ -1,0 +1,54 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "sysadmin_nav.html" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row text-center landing_icons">
+	<div class="col-sm-3">
+		<a href="{% url 'sysadmin:syssettings' %}">
+		<i class="fa fa-cogs" aria-hidden="true"></i>
+		</a>
+		<h4>SYSTEM SETTINGS</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="/sch_portal/">
+			<i class="fa fa-university" aria-hidden="true"></i>
+		</a>
+		<h4>SCHOOL</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="/pos_portal/">
+		<i class="fa fa-barcode" aria-hidden="true"></i>
+		</a>
+		<h4>POS PORTAL</h4>
+	</div>
+	<div class="col-sm-3">
+		<a  href="/moe_portal/">
+			<i class="fa fa-trello" aria-hidden="true"></i>
+		</a>
+		<h4>Ministry Of Edu PORTAL</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="{% url 'sysadmin:student' %}">
+			<i class="fa fa-users" aria-hidden="true"></i>
+		</a>
+		<h4>STUDENTS PORTAL</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="/ecoins_portal/">
+			<i class="fa fa-slideshare" aria-hidden="true"></i>
+		</a>
+		<h4>ECOINS PORTAL</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="/bursar_portal/">
+			<i class="fa fa-dollar" aria-hidden="true"></i>
+		</a>
+		<h4>BURSAR PORTAL</h4>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row m-t-lg">
+<div class="panel-body">
+		<h3>Pos Transactions</h3>
+		<div class="">
+			<table class="table footable" id="postransactions-ajax-data-table" data-page-size="8" data-filter=#filter >
+				<thead>
+				<tr>
+					<th>#</th>
+					<th>transaction_type</th>
+				 	<th>amount</th>
+					<th>trace_no</th>
+					<th>ref_no</th>
+					<th data-hide="phone,tablet">currency</th>
+					<th data-hide="phone,tablet">location</th>
+					<th data-hide="phone,tablet">terminal_id</th>
+					<th data-hide="phone,tablet">studentaccounts_id</th>
+					<th data-hide="phone,tablet">wallet_id</th>
+					</tr>
+				</thead>
+
+			</table>
+		</div><!--table-responsive-->
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ecoins Management System  | Login</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+
+   
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+	 <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg" id="login-f">
+    <div class="container loginscreen animated fadeInDown">
+		<div class="row">
+			<div class="col-sm-5 text-center">
+				<div class="text-center row"><img class="img-responsive center-block" src="{% static 'img/card.png' %}" /></div>
+				<h1>Faster : Smarter : Safer</h1>
+			</div>
+		<div class="col-sm-7">
+			<h1>Welcome to E-COINS Management System</h1>
+			<p>Perfectly designed and precisely prepared E-COINS System to help you in online transactions and more. </p>
+						{% if messages %}
+						<ul class="messages">
+								{% for message in messages %}
+								<li {% if message.tags %} class="{{ message.tags }}"{% endif %}><span class="badge badge-danger">{{ message }}</span>
+								{% endfor %}
+						</ul>
+						{% endif %}
+
+            <form class="m-t" role="form" action="/"  method="POST">{% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" required=""  name="username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" required="" name="password">
+                </div>
+								<input type="hidden" name="next_url" value="{{next_url}}">
+                <input type="submit" class="btn btn-primary block full-width m-b"  value="login">
+
+                <a href="#"><small>Forgot password?</small></a>
+            </form>
+		</div>
+		</div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="{% static 'js/jquery-2.1.1.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,136 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "sysadmin_nav.html" %}
+{% endblock %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="table-responsive">
+	<table class="table table-striped table-bordered" id="studs-ajax-data-table" ><!--class="table table-striped table-bordered table-hover"-->
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>School name</th>
+				<th>Student Names</th>
+				<th>Account Number</th>
+				 <th>Pocket Money Deposit</th>
+         <th>Pocket Money withdraw</th>
+         <th>Pocket Money Balance</th>
+				<th>School Fees Deposit</th>
+				<th>School Fees Balance</th>
+				 <th>Savings Wallet Deposit</th>
+         <th>Savings Wallet withdraw</th>
+         <th>Savings Wallet Balance</th>
+
+			</tr>
+		</thead>
+	</table>
+
+</div><!--table-responsive-->
+
+<div class="row m-t-lg ">
+	<div class="modal inmodal bs-example-modal-lg" id="modalstudlist" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+       		<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <i class="fa fa-users modal-icon"></i>
+            <h4 class="modal-title">Add Student</h4>
+            </div>
+            
+			<div class="modal-body">
+			
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group" >
+											<label>School name</label>
+											{{schoolform.schoolprofiles}}
+										</div>
+										<div class="form-group">
+											<label>Admno</label>
+											<input type="text" class="form-control student-admno"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>Username</label>
+											<input type="text" class="form-control student-username"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>First name</label>
+											<input type="text" class="form-control student-firstname"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>Second name</label>
+											<input type="text" class="form-control student-secondname"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>Last name</label>
+											<input type="text" class="form-control student-lastname"  placeholder="">
+										</div>
+										<div class="form-group" >
+											<label>Gender</label>
+											{{genderform.schgender}}
+										</div>
+										<div class="form-group">
+											<label>Current classes</label>
+											{{schclassesform.formone}}
+										</div>
+										<div class="form-group">
+											<label>Current stream</label>
+											{{streamform.schoolstream}}
+										</div>
+
+
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group input-group date">
+											<label>Date of birth</label>
+											<input type="text" class="form-control datepick student-dateofbirth" placeholder="Date of Birth" >
+										</div>
+										<div class="form-group">
+											<label>County</label>
+											{{countyform.studentcounty}}
+										</div>
+										<div class="form-group">
+											<label>Division</label>
+											<input type="text" class="form-control student-division"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>Constituency</label>
+											<input type="text" class="form-control student-constituency"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>Location</label>
+											<input type="text" class="form-control student-location"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>Sub location</label>
+											<input type="text" class="form-control student-sublocation"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>Town</label>
+											<input type="text" class="form-control student-town"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>Account number</label>
+											<input type="text" class="form-control student-accountnumber"  placeholder="">
+										</div>
+										<div class="form-group input-group date">
+											<label>Expirery date</label>
+											<input type="text" class="form-control datepick student-expirerydate" placeholder="expirerydate" >
+										</div>
+									</div>
+
+								</div>
+                
+            </div>
+            <div class="modal-footer">
+ 					<button class="btn btn-primary savestudentname" data-dismiss="modal" type="submit"><strong>Save</strong></button>
+            </div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}

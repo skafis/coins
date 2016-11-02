@@ -1,0 +1,21 @@
+from django.conf.urls import patterns, url
+
+from netcoins import views
+
+urlpatterns = [
+
+#STUDENT BANK ACCOUNTS
+  url(r'^studentbankaccounts_home$', views.studentbankaccounts_home, name='studentbankaccounts_home'),
+  url(r'^studentbankaccounts_single_list/(?P<tid>\d+)$', views.studentbankaccounts_single_list, name='studentbankaccounts_single_list'),
+
+	#STUDENT ACCOUNTS WALLETS
+  url(r'^studentaccountswallets_home$', views.studentaccountswallets_home, name='studentaccountswallets_home'),
+  url(r'^studentaccountswallets_single_list/(?P<tid>\d+)$', views.studentaccountswallets_single_list, name='studentaccountswallets_single_list'),
+
+	#STUDENT ACCOUNTS WALLETS
+  url(r'^transactions_home$', views.transactions_home, name='transactions_home'),
+  url(r'^transactions_single_list/(?P<tid>\d+)$', views.transactions_single_list, name='transactions_single_list'),
+
+  url(r'^parentportal_home/(?P<tid>\d+)/$', views.parentportal_home, name='parentportal_home'),
+
+]

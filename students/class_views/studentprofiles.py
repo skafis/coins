@@ -1,0 +1,139 @@
+from django.shortcuts import render, redirect, get_object_or_404
+
+from students.models import StudentProfiles
+from school.models import  SchoolStaff
+
+from students.forms import StudentProfilesForm
+
+
+from django.contrib import messages
+
+from django.contrib.auth.models import User
+
+import django.utils.timezone as timezone
+
+
+#studentprofiles_home page for studentprofiles
+def studentprofiles_home(request,template_name='studentprofiles_list.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/login/signin/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('students.view_studentprofiles'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/login/signin/', request.path))
+
+	try:
+		rows = StudentProfiles.objects.all()
+		ctx = {}
+		ctx['rows'] = rows
+		ctx['modelfields'] = StudentProfiles._meta.get_fields()
+		ctx['main_title'] = 'System Settings'
+		ctx['breadcrump'] = 'Manage '
+		ctx['span_size'] = 10
+
+	except:
+		rows =  StudentProfiles.objects.all()
+		ctx = {}
+		ctx['rows'] = rows
+	return render(request, template_name, ctx)
+
+#create page for studentprofiles
+def studentprofiles_create(request, template_name='studentprofiles_form.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/login/signin/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('students.add_studentprofiles'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/login/signin/', request.path))
+
+	form = StudentProfilesForm(request.POST or None)#, request.FILES)
+
+	if form.is_valid():
+		admno = request.POST['admno']
+		firstname = request.POST['firstname']
+		secondname = request.POST['secondname']
+		lastname = request.POST['lastname']
+		gender = request.POST['gender']
+		specialcases = request.POST['specialcases']
+		current_classes = request.POST['current_classes']
+		current_stream = request.POST['current_stream']
+		academic_category = request.POST['academic_category']
+		#photo = request.FILES['photo']
+		dateofbirth = request.POST['dateofbirth']
+		#admissiondate = request.POST['admissiondate']
+		#residence = request.POST['residence']
+		#lastschoolattended = request.POST['lastschoolattended']
+		#lastschooladdress = request.POST['lastschooladdress']
+		#schooltransport = request.POST['schooltransport']
+		#schoollunch = request.POST['schoollunch']
+
+		try:
+			name = SchoolStaff.objects.get(owner_id=request.user.id)
+			obj=StudentProfiles(name_id=name.id,admno=admno,username_id = request.user.id,firstname=firstname,secondname=secondname, lastname=lastname,gender=gender,specialcases=specialcases,current_classes=current_classes,current_stream=current_stream, academic_category=academic_category,dateofbirth=dateofbirth,admissiondate=timezone.now(),residence='', lastschoolattended='',lastschooladdress='',schooltransport='',schoollunch='',photo='photo.png',)
+			obj.save()
+		except:
+			raise
+			messages.add_message(request, messages.INFO, studentprofiles+'already exists '+studentprofilestype+' '+studentprofiles)
+		return redirect('students:studentprofiles_home')
+	ctx = {}
+	ctx['form'] = form
+	ctx['main_title'] = 'System Settings'
+	ctx['breadcrump'] = 'Manage '
+	ctx['span_size'] = 6
+
+	return render(request, template_name, ctx)
+
+#update page for studentprofiles
+def studentprofiles_update(request , pk, template_name='studentprofiles_form.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/login/signin/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('students.change_studentprofiles'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/login/signin/', request.path))
+
+	studentprofiles = get_object_or_404(StudentProfiles, pk=pk)
+	form = StudentProfilesForm(request.POST or None, instance=studentprofiles)
+	if form.is_valid():
+		try:
+			form.save()
+		except:
+			messages.add_message(request, messages.INFO, 'Cannot update,record already exists ')
+
+		return redirect('students:studentprofiles_home')
+	ctx = {}
+	ctx['form'] = form
+	ctx['studentprofiles'] = studentprofiles
+	ctx['main_title'] = 'System Settings'
+	ctx['breadcrump'] = 'Manage '
+	ctx['pk'] = pk
+	ctx['span_size'] = 6
+	return render(request, template_name, ctx)
+
+#delete page for studentprofiles
+def studentprofiles_delete(request, pk, template_name='studentprofiles_confirm_delete.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/login/signin/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('students.delete_studentprofiles'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/login/signin/', request.path))
+
+	studentprofiles = get_object_or_404(StudentProfiles, pk=pk)    
+	if request.method=='POST':
+		try:
+			studentprofiles.delete()
+		except:
+			messages.add_message(request, messages.INFO, 'Cannot delete '+studentprofiles+' this record is linked to other data')
+
+		return redirect('students:studentprofiles_home')
+	ctx = {}
+	ctx['studentprofiles'] = studentprofiles
+	ctx['main_title'] = 'System Settings'
+	ctx['breadcrump'] = 'Manage '
+	return render(request, template_name, ctx)
+

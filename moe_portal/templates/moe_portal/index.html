@@ -1,0 +1,29 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "mo_edu_nav.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="row text-center landing_icons">
+	<div class="col-sm-3">
+		<a href="{% url 'school:register' %}">
+		<i class="fa fa-file-text" aria-hidden="true"></i>
+		</a>
+		<h4>REGISTER</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="{% url 'posportal:pos' %}">
+		<i class="fa fa-barcode" aria-hidden="true"></i>
+		</a>
+		<h4>POS</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="{#% url 'customers:webcode_home' 123%#}">
+		<i class="fa fa-exchange" aria-hidden="true"></i>
+		</a>
+		<h4>TRANSACTIONS</h4>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+from django.forms import ModelForm
+import django.forms as forms
+
+from moe_portal.models import Bursery,TutionFunds
+
+from django.contrib.auth.models import User,Group
+
+#from system_settings.models import Country,EntryYear,VoteHeads as vs
+
+from school.models import SchoolProfiles,Category,Months,Classes,PaymentMethods,Terms
+
+from students.models import StudentProfiles
+
+from global_config import global_vars
+
+#FEE TYPES
+
+class BurseryForm(ModelForm):
+	#name = forms.ModelChoiceField(queryset=SchoolProfiles.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	studentprofiles = forms.ModelChoiceField(queryset=StudentProfiles.objects.all().order_by('admno'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	amount = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	#county = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=global_vars.COUNTIES_CHOICES,)
+	sch_bank_acc = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	financial_year = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=global_vars.FINANCIAL_YEARS_CHOICES,)
+
+	class Meta:
+		model = Bursery
+		fields = ['studentprofiles','amount','sch_bank_acc',]
+
+class TutionFundsForm(ModelForm):
+	name = forms.ModelChoiceField(queryset=SchoolProfiles.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	county = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=global_vars.COUNTIES_CHOICES,)
+	bankname = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=global_vars.BANKS_CHOICES,)
+	sch_bank_acc = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	amount = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	transactiontype = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=global_vars.TRANSACTION_TYPE_CHOICES,)
+	financial_year = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=global_vars.FINANCIAL_YEARS_CHOICES,)
+	#transactiondate = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+
+	class Meta:
+		model = TutionFunds
+		fields = ['name','county','bankname','sch_bank_acc','amount','transactiontype',]
+

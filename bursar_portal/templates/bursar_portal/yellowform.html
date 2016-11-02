@@ -1,0 +1,260 @@
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="table-responsive">
+	<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modalyellowform">Add new Yellow Form</button>
+	<table class="table table-striped table-bordered table-hover dataTables-example" id="yellowform-ajax-data-table" ><!--class="table table-striped table-bordered table-hover"-->
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>School name</th>
+				<th>Entry year</th>
+				<th>Index number</th>
+				<th>First name</th>
+				<th>Second name</th>
+				<th>Last name</th>
+				<th>Gender</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+	<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modalyellowform">Add new Yellow Form</button>
+</div><!--table-responsive-->
+
+<div class="row m-t-lg ">
+	<div class="modal inmodal bs-example-modal-lg" id="modalyellowform" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+       		<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <i class="fa fa-users modal-icon"></i>
+            <h4 class="modal-title">Add  Yellow Form</h4>
+            </div>
+            
+			<div class="modal-body">
+			
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group" >
+											<label>Entry year</label>
+											{{entryyearform.entryyear}}
+										</div>
+										<div class="form-group">
+											<label>indexnumber</label>
+											<input type="text" class="form-control applicant-indexnumber"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>firstname</label>
+											<input type="text" class="form-control applicant-firstname"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>secondname</label>
+											<input type="text" class="form-control applicant-secondname"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>lastname</label>
+											<input type="text" class="form-control applicant-lastname"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>dateofbirth</label>
+											<input type="text" class="form-control applicant-dateofbirth"  placeholder="">
+										</div>
+										<div class="form-group" >
+											<label>Gender</label>
+											{{genderform.yfgender2}}
+										</div>
+										<div class="form-group">
+											<label>birthcert</label>
+											<input type="text" class="form-control applicant-birthcert"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>pupilsinclasseght</label>
+											<input type="text" class="form-control applicant-pupilsinclasseght"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>lastposition</label>
+											<input type="text" class="form-control applicant-lastposition"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>lastmarks</label>
+											<input type="text" class="form-control applicant-lastmarks"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>cocurricularevents</label>
+											<input type="text" class="form-control applicant-cocurricularevents"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>headmasterapproval</label>
+											<input type="text" class="form-control applicant-headmasterapproval"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>dateofapproval</label>
+											<input type="text" class="form-control applicant-dateofapproval"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>headmasterphone</label>
+											<input type="text" class="form-control applicant-headmasterphone"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>fax</label>
+											<input type="text" class="form-control applicant-fax"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>email</label>
+											<input type="text" class="form-control applicant-email"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>parentfullnames</label>
+											<input type="text" class="form-control applicant-parentfullnames"  placeholder="">
+										</div>
+										<div class="form-group" >
+											<label>Gender</label>
+											{{genderform.yfgender}}
+										</div>
+										<div class="form-group">
+											<label>maritalstatus</label>
+											<input type="text" class="form-control applicant-maritalstatus"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>parentdead</label>
+											<input type="text" class="form-control applicant-parentdead"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>nationality</label>
+											<input type="text" class="form-control applicant-nationality"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>nationalid</label>
+											<input type="text" class="form-control applicant-nationalid"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>employment</label>
+											<input type="text" class="form-control applicant-employment"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>inbusiness</label>
+											<input type="text" class="form-control applicant-inbusiness"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>hasland</label>
+											<input type="text" class="form-control applicant-hasland"  placeholder="">
+										</div>
+									</div>
+									<div class="col-sm-6">
+
+										<div class="form-group">
+											<label>otherincomeoptions</label>
+											<input type="text" class="form-control applicant-otherincomeoptions"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>physicaladdress</label>
+											<input type="text" class="form-control applicant-physicaladdress"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>listallsiblings</label>
+											<input type="text" class="form-control applicant-listallsiblings"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>applicationinfo</label>
+											<input type="text" class="form-control applicant-applicationinfo"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>cirtifydate</label>
+											<input type="text" class="form-control applicant-cirtifydate"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>cirtifysigniture</label>
+											<input type="text" class="form-control applicant-cirtifysigniture"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>cirtifyname</label>
+											<input type="text" class="form-control applicant-cirtifyname"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>cirtifyoccupation</label>
+											<input type="text" class="form-control applicant-cirtifyoccupation"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>cirtifyaddress</label>
+											<input type="text" class="form-control applicant-cirtifyaddress"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>cirtifyfax</label>
+											<input type="text" class="form-control applicant-cirtifyfax"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>cirtifyphone</label>
+											<input type="text" class="form-control applicant-cirtifyphone"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>cirtifyemail</label>
+											<input type="text" class="form-control applicant-cirtifyemail"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>freefullnames</label>
+											<input type="text" class="form-control applicant-freefullnames"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>freesignature</label>
+											<input type="text" class="form-control applicant-freesignature"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>freephoneno</label>
+											<input type="text" class="form-control applicant-freephoneno"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>recomenderfullnames</label>
+											<input type="text" class="form-control applicant-recomenderfullnames"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>recomendersignature</label>
+											<input type="text" class="form-control applicant-recomendersignature"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>recomenderoffice</label>
+											<input type="text" class="form-control applicant-recomenderoffice"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>recomenderphoneno</label>
+											<input type="text" class="form-control applicant-recomenderphoneno"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>kcpemath</label>
+											<input type="text" class="form-control applicant-kcpemath"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>kcpeeng</label>
+											<input type="text" class="form-control applicant-kcpeeng"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>kcpess</label>
+											<input type="text" class="form-control applicant-kcpess"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>kcpekisw</label>
+											<input type="text" class="form-control applicant-kcpekisw"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>kcpesci</label>
+											<input type="text" class="form-control applicant-kcpesci"  placeholder="">
+										</div>
+										<div class="form-group">
+											<label>kcpetotal</label>
+											<input type="text" class="form-control applicant-kcpetotal"  placeholder="">
+										</div>
+
+								</div>
+				
+                
+                
+            </div>
+            <div class="modal-footer">
+ 					<button class="btn btn-primary saveapplicant" data-dismiss="modal" type="submit"><strong>Save</strong></button>
+            </div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}

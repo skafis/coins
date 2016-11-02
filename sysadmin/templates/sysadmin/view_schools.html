@@ -1,0 +1,52 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "sysadmin_nav.html" %}
+{% endblock %}
+{% block content %}
+ 				<div class="col-lg-3 white-bg">
+						<div class="table-responsive">
+               <table class="table small m-b-xs" id="view_schools">
+                   <thead>
+		                  <tr>
+													<th class="text-center">Id</th>
+													<th class="text-center">Name</th>
+		                  </tr>
+                   </thead>
+                   <tbody>
+                        </tr>
+                            <td><strong>Add Acc Number</strong></td>
+                            <td>
+                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Shcool Accounts</button>
+                            </td>
+                        </tr>
+                   </tbody>
+               </table>
+				</div>
+
+				<div class="row m-t-lg ">
+                <div class="col-lg-4 white-bg">
+
+												<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+														<div class="modal-dialog">
+                                <div class="modal-content animated bounceInRight">
+                                		<div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <i class="fa fa-institution modal-icon"></i>
+                                            <h4 class="modal-title">Add School Accounts</h4>
+                                            <small class="font-bold">Add new school account</small>
+                                		</div>
+                                		<div class="modal-body">
+                                        <div class="form-group"><label>School Account Name</label><input type="text" class="form-control school-acc-name" placeholder="Enter School Account name" ></div>
+                                		</div>
+                                		<div class="modal-footer">
+                                            <button type="button" class="btn btn-white" data-dismiss="modal" >Close</button>
+ 																						<button class="btn btn-primary saveaccschoolname" type="submit"><strong>Save</strong></button>
+                                		</div>
+														</div>
+												</div>
+										</div>
+                </div>
+				</div>
+{% endblock %}

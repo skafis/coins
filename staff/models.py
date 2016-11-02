@@ -1,0 +1,49 @@
+from __future__ import unicode_literals
+
+from django.db import models
+
+from django.contrib.auth.models import User,Group
+
+from django.utils import timezone
+
+from smsgateway.models import PhoneBook
+from school.models import SchoolProfiles
+
+
+class StaffProfiles(models.Model):
+	name = models.ForeignKey(SchoolProfiles, verbose_name =  'Name',)
+	nationalid = models.IntegerField('National Id',default="00000000")
+	staff_code = models.IntegerField(default="000")
+	firstname = models.CharField('First name',max_length = 255,)
+	secondname = models.CharField('Second name',max_length = 255,)
+	lastname = models.CharField('Last name',max_length = 255,)
+	gender = models.CharField(max_length = 255)
+	specialcases = models.TextField('Special case description',blank = True,)
+	group = models.ForeignKey(Group, verbose_name =  'Group',)
+	username = models.ForeignKey(User, verbose_name =  'User',default=1)
+	photo = models.ImageField('Photo',upload_to = 'static/media/',blank = True)
+
+	def get_gender(self):
+		d=dict(global_vars.GENDER_CHOICES)
+		return unicode('%s' % (d[self.gender]))
+
+	def persons_image(self):
+		return '<img src="http://localhost/timaschools/media/%s" height = "50" width = "50" />'% self.photo 
+	persons_image.allow_tags = True
+
+	class Meta:
+		verbose_name_plural = 'Staff Profile'
+
+	def __unicode__(self):
+		return unicode('%s : %s %s %s' % (self.id ,self.firstname,self.secondname,self.lastname))
+
+class StaffPhoneNo(models.Model):
+	staffprofiles = models.ForeignKey(StaffProfiles,verbose_name = 'Staff profiles',)
+	phoneno = models.ForeignKey(PhoneBook,verbose_name = 'Phone-no',)
+
+	class Meta:
+		verbose_name_plural = 'Staff Contacts'
+
+	def __unicode__(self):
+		return unicode('%s %s' % (self.staffprofiles,self.phoneno,))
+

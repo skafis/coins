@@ -1,0 +1,60 @@
+				{% extends "master.html" %}
+
+				{% block content %}
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover dataTables-example" >
+							<thead>
+								<tr>
+									<th>Id</th>
+								 	<th>Student </th>
+								 	<th>Classes </th>
+								 	<th>Streams </th>
+								 	<th>Entry year </th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for row in rows %}
+									<tr class="gradeX">
+										<td>{{ row.id|safe }}</td>
+										<td><a href="{% url 'students:studentclassstream_edit'  row.id %}">{{ row.studentprofiles }}</a></td>
+										<td>{{ row.classes }}</td>
+										<td>{{ row.streams }}</td>
+										<td>{{ row.entryyear }}</td>
+									</tr>
+								{% endfor %}
+
+							</tbody>
+							<tfoot>
+								<tr>
+									<th>Id</th>
+								 	<th>Student </th>
+								 	<th>Classes </th>
+								 	<th>Streams </th>
+								 	<th>Entry year </th>
+								</tr>
+							</tfoot>
+						</table>
+					</div><!--table-responsive-->
+				{% endblock %}
+				{% block actions_form %}
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>	
+							<tr>
+									<td><a href="{% url 'students:studentclassstream_new'  %}">New Entry</a></td>
+							</tr>
+						</tbody>
+					</table>
+				{% endblock %}
+				{% block filter_form %}
+					<!--<form method="post"  class="form-horizontal" action="/school/dorm_filter">{% csrf_token %}
+						{#{form.f_category}#}
+						{#{form.f_entryyear}#}
+				    <input type="submit" value="Go" class="btn btn-w-m btn-primary fa fa-search" />-->
+					</form>
+				{% endblock %}

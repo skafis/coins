@@ -1,0 +1,46 @@
+<div class="row m-t-lg ">
+			<div class="table-responsive">
+					<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modalshouselist">Add new House</button>
+					<table class="table table-striped table-bordered" id="schhouse-ajax-data-table" ><!--class="table table-striped table-bordered table-hover"-->
+						<thead>
+						<tr>
+							<th>#</th>
+							<th>Id</th>
+						 	<th>Name</th>
+							</tr>
+						</thead>
+						<tbody>	</tbody>
+					</table>
+					<button type="button" class="btn btn-primary pull-right " data-toggle="modal" data-target="#modalshouselist">Add new House</button>
+			</div><!--table-responsive-->
+</div>
+<!--<div class="row m-t-lg ">
+		<div class="col-lg-{{span_size|safe}} white-bg">-->
+				<div class="modal inmodal" id="modalshouselist" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog">
+								<div class="modal-content animated bounceInRight">
+										<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+												<i class="fa fa-institution modal-icon"></i>
+												<h4 class="modal-title">Add House</h4>
+												<small class="font-bold">Add new House</small>
+										</div>
+										<div class="modal-body">
+												<div class="form-group">
+														<label>House Name</label>
+														<input type="text" class="form-control house" placeholder="Enter House" >
+												</div>
+												<div class="form-group" id="entryyear_dropdown">
+														<label>Entry Year</label>
+														{{form.houseentryyear}}
+												</div>											
+						    		</div>
+						    		<div class="modal-footer">
+			 									<button class="btn btn-primary savehouse"  data-dismiss="modal" type="submit"><strong>Save</strong></button>
+						    		</div>
+								</div>
+						</div>
+				</div>
+		<!--</div>
+</div>-->
+

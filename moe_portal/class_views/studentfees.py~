@@ -1,0 +1,190 @@
+from django.shortcuts import render, redirect, get_object_or_404
+
+from finance.models import StudentFees,FeeTypes
+from school.models import SchoolProfiles
+
+from finance.forms import StudentFeesForm
+
+from finance.forms import StudentFeesFilterForm
+
+from django.contrib import messages
+
+from django.contrib.auth.models import User
+
+from students.models import StudentProfiles
+
+#from system_settings.models import EntryYear
+
+import django.utils.timezone as timezone
+from django.db.models import Max
+
+import os
+
+from school.models import SystemConfig
+
+#studentfees_home page for studentfees
+def studentfees_home(request,template_name='studentfees_list.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/login/signin/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('finance.view_studentfees'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/login/signin/', request.path))
+
+	form = StudentFeesFilterForm(request.POST or None)
+	try:
+		rows = StudentFees.objects.all().distinct('studentprofiles')
+		ctx = {}
+		ctx['form'] = form
+		ctx['rows'] = rows
+		ctx['modelfields'] = StudentFees._meta.get_fields()
+		ctx['main_title'] = 'System Settings'
+		ctx['breadcrump'] = 'Manage '
+		ctx['span_size'] = 10
+
+	except:
+		rows =  StudentFees.objects.all()
+		ctx = {}
+		ctx['rows'] = rows
+	return render(request, template_name, ctx)
+
+#studentfees_single_list page for studentfees
+def studentfees_single_list(request,tid,template_name='studentfees_list.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/login/signin/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('finance.view_studentfees'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/login/signin/', request.path))
+
+	form = StudentFeesFilterForm(request.POST or None)
+	try:
+		rows = StudentFees.objects.filter(studentprofiles_id=tid)
+		ctx = {}
+		ctx['form'] = form
+		ctx['rows'] = rows
+		ctx['tid'] = tid
+		ctx['modelfields'] = StudentFees._meta.get_fields()
+		ctx['main_title'] = 'System Settings'
+		ctx['breadcrump'] = 'Manage '
+		ctx['span_size'] = 10
+
+	except:
+		rows =  StudentFees.objects.all()
+		ctx = {}
+		ctx['rows'] = rows
+	return render(request, template_name, ctx)
+
+#create page for studentfees
+def studentfees_create(request, template_name='studentfees_form.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/login/signin/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('finance.add_studentfees'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/login/signin/', request.path))
+
+	form = StudentFeesForm(request.POST or None)
+
+	if form.is_valid():
+		#feetypes = request.POST['feetypes']
+		studentprofiles = request.POST['studentprofiles']
+		amount = request.POST['amount']
+		#datepaid = request.POST['datepaid']
+		month = request.POST['month']
+		#classes = request.POST['classes']
+		paymode = 1#request.POST['paymode']
+		receiptno = request.POST['receiptno']
+		entryyear = '2016'#request.POST['entryyear']
+
+		sp=''
+		ft=''
+
+		try:
+			sp = StudentProfiles.objects.get(id=studentprofiles)
+			ft = FeeTypes.objects.filter(category=sp.academic_category).aggregate(Max('id'))
+		except:
+			raise
+			messages.add_message(request, messages.INFO, 'Student is not linked to the correct fee type,kindly connect change from academic category and try again '+studentprofiles)
+			return redirect('students:studentprofiles_edit',pk=studentprofiles)
+
+		try:
+
+			#ey = EntryYear.objects.get(currentyear=True)
+
+			name = SchoolProfiles.objects.get(owner_id=request.user.id)
+			obj=StudentFees(name_id=name.id,feetypes_id=ft['id__max'],studentprofiles_id=studentprofiles,amount=amount,datepaid=timezone.now(), month=month,classes=sp.current_classes,entryyear=entryyear,receiptno=receiptno,owner_id=request.user.id)
+			obj.save()
+
+			sc = SystemConfig.objects.get(command_label='base_dir')
+			printout(sc,name,studentprofiles)
+		except:
+			raise
+			messages.add_message(request, messages.INFO, studentfees+'already exists ')
+		return redirect('finance:studentfees_home')
+	ctx = {}
+	ctx['form'] = form
+	ctx['main_title'] = 'System Settings'
+	ctx['breadcrump'] = 'Manage '
+	ctx['span_size'] = 6
+
+	return render(request, template_name, ctx)
+
+#update page for studentfees
+def studentfees_update(request , pk, template_name='studentfees_form.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/login/signin/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('finance.change_studentfees'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/login/signin/', request.path))
+
+	studentfees = get_object_or_404(StudentFees, pk=pk)
+	form = StudentFeesForm(request.POST or None, instance=studentfees)
+	if form.is_valid():
+		try:
+			form.save()
+		except:
+			messages.add_message(request, messages.INFO, 'Cannot update,record already exists ')
+
+		return redirect('finance:studentfees_home')
+	ctx = {}
+	ctx['form'] = form
+	ctx['studentfees'] = studentfees
+	ctx['main_title'] = 'System Settings'
+	ctx['breadcrump'] = 'Manage '
+	ctx['pk'] = pk
+	ctx['span_size'] = 6
+	return render(request, template_name, ctx)
+
+#delete page for studentfees
+def studentfees_delete(request, pk, template_name='studentfees_confirm_delete.html'):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % ('/login/signin/', request.path))
+	else:
+		user = User.objects.get(pk=request.user.id)
+		if not user.has_perm('finance.delete_studentfees'):
+			messages.add_message(request, messages.INFO, 'Your credentials are Ok,but all permissions are revoked from you,kindly contact admin')
+			return redirect('%s?next=%s' % ('/login/signin/', request.path))
+
+	studentfees = get_object_or_404(StudentFees, pk=pk)    
+	if request.method=='POST':
+		try:
+			studentfees.delete()
+		except:
+			messages.add_message(request, messages.INFO, 'Cannot delete '+studentfees+' this record is linked to other data')
+
+		return redirect('finance:studentfees_home')
+	ctx = {}
+	ctx['studentfees'] = studentfees
+	ctx['main_title'] = 'System Settings'
+	ctx['breadcrump'] = 'Manage '
+	return render(request, template_name, ctx)
+
+def printout(sc,name,id1):
+			os.system(sc.command+'libraries/jasperstarter/bin/jasperstarter  pr '+sc.command+'libraries/jasperstarter/tempates/receipt_finance_studentfees.jasper   -P sfid='+id1+' -t generic -f pdf -o '+sc.command+'/media/downloads/school_fees'+str(name.id)+''+id1+' -u postgres -p postgres --db-driver org.postgresql.Driver --db-url jdbc:postgresql://localhost:5432/eshule')
+			os.system('evince '+sc.command+'/media/downloads/school_fees'+str(name.id)+''+id1+'.pdf')#open pdf,this applies to offline apps

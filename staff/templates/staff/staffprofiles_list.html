@@ -1,0 +1,72 @@
+				{% extends "master.html" %}
+				{% load staticfiles %}
+				{% block content %}
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover dataTables-example" >
+							<thead>
+							<tr>
+								<th>Id</th>
+							 	<th>National id</th>
+							 	<th>Staff code</th>
+							 	<th>First name</th>
+							 	<th>Second name</th>
+							 	<th>Last name</th>
+							 	<th>Special cases</th>
+							 	<th>Group</th>
+							 	<th>Photo</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for row in rows %}
+									<tr class="gradeX">
+										<td>{{ row.id|safe }}</td>
+										<td><a href="{% url 'staff:staffprofiles_edit'  row.id %}">{{ row.nationalid }}</a></td>
+										<td>{{ row.staff_code|safe }}</td>
+										<td>{{ row.firstname|safe }}</td>
+										<td>{{ row.secondname }}</td>
+										<td>{{ row.lastname }}</td>
+										<td>{{ row.specialcases }}</td>
+										<td>{{ row.group }}</td>
+										<td><img alt="image" class="img-circle" src="{% static 'img/profile_small.jpg' %}" /></td>
+									</tr>
+								{% endfor %}
+
+							</tbody>
+							<tfoot>
+								<tr>
+								<th>Id</th>
+							 	<th>National id</th>
+							 	<th>Staff code</th>
+							 	<th>First name</th>
+							 	<th>Second name</th>
+							 	<th>Last name</th>
+							 	<th>Special cases</th>
+							 	<th>Group</th>
+							 	<th>Photo</th>
+								</tr>
+							</tfoot>
+						</table>
+					</div><!--table-responsive-->
+				{% endblock %}
+				{% block actions_form %}
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>	
+							<tr>
+									<td><a href="{% url 'staff:staffprofiles_new'  %}">New Entry</a></td>
+							</tr>
+						</tbody>
+					</table>
+				{% endblock %}
+				{% block filter_form %}
+					<!--<form method="post"  class="form-horizontal" action="/smsgateway/dorm_filter">{% csrf_token %}
+						{#{form.f_phonebook}#}
+						{#{form.f_entryyear}#}
+				    <input type="submit" value="Go" class="btn btn-w-m btn-primary fa fa-search" />-->
+					</form>
+				{% endblock %}

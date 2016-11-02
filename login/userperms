@@ -1,0 +1,202 @@
+from django.contrib.auth.models import User
+u = User.objects.get(username='titus')
+u.has_perm('school.SchoolProfiles')
+
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+
+from school.models import SchoolProfiles
+content_type = ContentType.objects.get_for_model(SchoolProfiles)
+permission = Permission.objects.create(codename='add_schoolprofiles',name='Can add school profiles',content_type=content_type)
+
+from django.contrib.auth.models import User
+content_type = ContentType.objects.get_for_model(User)
+permission = Permission.objects.create(codename='view_users',name='Can view user',content_type=content_type)
+
+from system_settings.models import Category
+content_type = ContentType.objects.get_for_model(Category)
+permission = Permission.objects.create(codename='view_category',name='Can view category',content_type=content_type)
+
+from system_settings.models import Classes
+permission = Permission.objects.create(codename='view_classes',name='Can view classes',content_type=content_type)
+content_type = ContentType.objects.get_for_model(Classes)
+
+from system_settings.models import Dormitory
+content_type = ContentType.objects.get_for_model(Dormitory)
+permission = Permission.objects.create(codename='view_dormitory',name='Can view dormitory',content_type=content_type)
+
+from system_settings.models import EntryYear
+content_type = ContentType.objects.get_for_model(EntryYear)
+permission = Permission.objects.create(codename='view_entryyear',name='Can view entryyear',content_type=content_type)
+
+from system_settings.models import Gender
+content_type = ContentType.objects.get_for_model(Gender)
+permission = Permission.objects.create(codename='view_gender',name='Can view gender',content_type=content_type)
+
+from system_settings.models import House
+content_type = ContentType.objects.get_for_model(House)
+permission = Permission.objects.create(codename='view_house',name='Can view house',content_type=content_type)
+
+from system_settings.models import Months
+content_type = ContentType.objects.get_for_model(Months)
+permission = Permission.objects.create(codename='view_months',name='Can view months',content_type=content_type)
+
+from system_settings.models import PaymentMethod
+content_type = ContentType.objects.get_for_model(PaymentMethod)
+permission = Permission.objects.create(codename='view_paymentmethods',name='Can view paymentmethods',content_type=content_type)
+
+from system_settings.models import SchoolType
+content_type = ContentType.objects.get_for_model(SchoolType)
+permission = Permission.objects.create(codename='view_schooltype',name='Can view schooltype',content_type=content_type)
+
+from system_settings.models import Stream
+content_type = ContentType.objects.get_for_model(Stream)
+permission = Permission.objects.create(codename='view_stream',name='Can view stream',content_type=content_type)
+
+from system_settings.models import Subject
+content_type = ContentType.objects.get_for_model(Subject)
+permission = Permission.objects.create(codename='view_subject',name='Can view subject',content_type=content_type)
+
+from system_settings.models import Term
+content_type = ContentType.objects.get_for_model(Term)
+permission = Permission.objects.create(codename='view_term',name='Can view subject',content_type=content_type)
+
+from system_settings.models import CategoryType
+content_type = ContentType.objects.get_for_model(CategoryType)
+permission = Permission.objects.create(codename='view_categorytype',name='Can view categorytype',content_type=content_type)
+
+from school.models import SchoolStaff
+content_type = ContentType.objects.get_for_model(SchoolStaff)
+permission = Permission.objects.create(codename='view_schoolstaff',name='Can view schoolstaff',content_type=content_type)
+
+from school.models import Classes
+content_type = ContentType.objects.get_for_model(Classes)
+permission = Permission.objects.create(codename='view_classes',name='Can view classes',content_type=content_type)
+
+from school.models import Streams
+content_type = ContentType.objects.get_for_model(Streams)
+permission = Permission.objects.create(codename='view_streams',name='Can view streams',content_type=content_type)
+
+from school.models import ClassStreams
+content_type = ContentType.objects.get_for_model(ClassStreams)
+permission = Permission.objects.create(codename='view_classstreams',name='Can view classstreams',content_type=content_type)
+
+from school.models import SchoolType
+content_type = ContentType.objects.get_for_model(SchoolType)
+permission = Permission.objects.create(codename='view_schooltype',name='Can view schooltype',content_type=content_type)
+
+from school.models import Gender
+content_type = ContentType.objects.get_for_model(Gender)
+permission = Permission.objects.create(codename='view_gender',name='Can view gender',content_type=content_type)
+
+from school.models import PaymentMethods
+content_type = ContentType.objects.get_for_model(PaymentMethods)
+permission = Permission.objects.create(codename='view_paymentmethods',name='Can view paymentmethods',content_type=content_type)
+
+from school.models import Dormitory
+content_type = ContentType.objects.get_for_model(Dormitory)
+permission = Permission.objects.create(codename='view_dormitory',name='Can view dormitory',content_type=content_type)
+
+from school.models import House
+content_type = ContentType.objects.get_for_model(House)
+permission = Permission.objects.create(codename='view_house',name='Can view house',content_type=content_type)
+
+from school.models import Terms
+content_type = ContentType.objects.get_for_model(Terms)
+permission = Permission.objects.create(codename='view_terms',name='Can view terms',content_type=content_type)
+
+from school.models import Terms
+content_type = ContentType.objects.get_for_model(Terms)
+permission = Permission.objects.create(codename='view_terms',name='Can view terms',content_type=content_type)
+
+from school.models import Subjects
+content_type = ContentType.objects.get_for_model(Subjects)
+permission = Permission.objects.create(codename='view_subjects',name='Can view subjects',content_type=content_type)
+
+from school.models import CategoryType
+content_type = ContentType.objects.get_for_model(CategoryType)
+permission = Permission.objects.create(codename='view_categorytype',name='Can view categorytypex',content_type=content_type)
+
+from school.models import Category
+content_type = ContentType.objects.get_for_model(Category)
+permission = Permission.objects.create(codename='view_category',name='Can view category',content_type=content_type)
+
+from smsgateway.models import PhoneBook
+content_type = ContentType.objects.get_for_model(PhoneBook)
+permission = Permission.objects.create(codename='view_phonebook',name='Can view phonebook',content_type=content_type)
+
+from smsgateway.models import Sms
+content_type = ContentType.objects.get_for_model(Sms)
+permission = Permission.objects.create(codename='view_sms',name='Can view sms',content_type=content_type)
+
+from students.models import StudentProfiles
+content_type = ContentType.objects.get_for_model(StudentProfiles)
+permission = Permission.objects.create(codename='view_studentprofiles',name='Can view studentprofiles',content_type=content_type)
+
+from students.models import StudentCategory
+content_type = ContentType.objects.get_for_model(StudentCategory)
+permission = Permission.objects.create(codename='view_studentcategory',name='Can view studentcategory',content_type=content_type)
+
+from students.models import StudentParent
+content_type = ContentType.objects.get_for_model(StudentParent)
+permission = Permission.objects.create(codename='view_studentparent',name='Can view studentparent',content_type=content_type)
+
+from students.models import ParentPhoneNo
+content_type = ContentType.objects.get_for_model(ParentPhoneNo)
+permission = Permission.objects.create(codename='view_parentphoneno',name='Can view parentphoneno',content_type=content_type)
+from students.models import ParentPhoneNo
+content_type = ContentType.objects.get_for_model(ParentPhoneNo)
+permission = Permission.objects.create(codename='view_parentphoneno',name='Can view parentphoneno',content_type=content_type)
+
+from students.models import StudentClassStream
+content_type = ContentType.objects.get_for_model(StudentClassStream)
+permission = Permission.objects.create(codename='view_studentclassstream',name='Can view studentclassstream',content_type=content_type)
+
+from students.models import StudentSubject
+content_type = ContentType.objects.get_for_model(StudentSubject)
+permission = Permission.objects.create(codename='view_studentsubject',name='Can view studentsubject',content_type=content_type)
+
+from staff.models import StaffProfiles
+content_type = ContentType.objects.get_for_model(StaffProfiles)
+permission = Permission.objects.create(codename='view_staffprofiles',name='Can view staffprofiles',content_type=content_type)
+
+from staff.forms import StaffPhoneNo
+content_type = ContentType.objects.get_for_model(StaffPhoneNo)
+permission = Permission.objects.create(codename='view_staffphoneno',name='Can view staffphoneno',content_type=content_type)
+
+from staff.models import StaffSubjects
+content_type = ContentType.objects.get_for_model(StaffSubjects)
+permission = Permission.objects.create(codename='view_staffsubjects',name='Can view staffsubjects',content_type=content_type)
+
+from finance.models import FeeTypes
+content_type = ContentType.objects.get_for_model(FeeTypes)
+permission = Permission.objects.create(codename='view_feetypes',name='Can view feetypes',content_type=content_type)
+
+from finance.models import StaffSalary
+content_type = ContentType.objects.get_for_model(StaffSalary)
+permission = Permission.objects.create(codename='view_staffsalary',name='Can view staffsalary',content_type=content_type)
+
+from finance.models import StaffPayments
+content_type = ContentType.objects.get_for_model(StaffPayments)
+permission = Permission.objects.create(codename='view_staffpayments',name='Can view staffpayments',content_type=content_type)
+
+from finance.models import Costs
+content_type = ContentType.objects.get_for_model(Costs)
+permission = Permission.objects.create(codename='view_costs',name='Can view costs',content_type=content_type)
+
+from finance.models import Expenses
+content_type = ContentType.objects.get_for_model(Expenses)
+permission = Permission.objects.create(codename='view_expenses',name='Can view expenses',content_type=content_type)
+
+from finance.models import PayMonths
+content_type = ContentType.objects.get_for_model(PayMonths)
+permission = Permission.objects.create(codename='view_paymonths',name='Can view paymonths',content_type=content_type)
+
+from finance.models import ExtraFees
+content_type = ContentType.objects.get_for_model(ExtraFees)
+permission = Permission.objects.create(codename='view_extrafees',name='Can view extrafees',content_type=content_type)
+
+from finance.models import StudentFees
+content_type = ContentType.objects.get_for_model(StudentFees)
+permission = Permission.objects.create(codename='view_studentfees',name='Can view studentfees',content_type=content_type)
+

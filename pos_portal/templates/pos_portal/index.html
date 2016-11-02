@@ -1,0 +1,43 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row text-center landing_icons">
+	<div class="col-sm-3">
+		<a href="{% url 'pos_portal:merchant' %}">
+			<i class="fa fa-money" aria-hidden="true"></i>
+		</a>
+		<h4>MERCHANT</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="{% url 'pos_portal:pos' %}">
+			<i class="fa fa-barcode" aria-hidden="true"></i>
+		</a>
+		<h4>POS</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="{% url 'sch_portal:register' %}">
+			<i class="fa fa-university" aria-hidden="true"></i>
+		</a>
+		<h4>SCHOOL</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="{% url 'pos_portal:pos_transactions'%}">
+			<i class="fa fa-exchange" aria-hidden="true"></i>
+		</a>
+		<h4>POS TRANSACTIONS</h4>
+	</div>
+	<div class="col-sm-3">
+		<a href="/pos_portal/student/">
+			<i class="fa fa-users" aria-hidden="true"></i>
+		</a>
+		<h4>STUDENTS TRANSACTIONS</h4>
+	</div>
+
+</div>
+{% endblock %}

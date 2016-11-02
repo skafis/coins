@@ -1,0 +1,107 @@
+from django.contrib import admin
+
+from staff.models import StaffProfiles
+from staff.models import StaffPhoneNo
+from staff.models import StaffSubjects
+
+from django.contrib.auth.models import User
+from school.models import SchoolProfiles
+
+'''
+Show StaffPhoneNo
+'''
+class StaffPhoneNoInline(admin.TabularInline):
+	model = StaffPhoneNo
+	extra = 0
+	exclude = ('name','owner')
+	raw_id_fields = ('phoneno',)
+
+'''
+Show StaffSubjects
+'''
+class StaffSubjectsInline(admin.TabularInline):
+	model = StaffSubjects
+	extra = 0
+	exclude = ('name','owner')
+	#raw_id_fields = ('subject','classes','streams')
+
+'''
+Show StaffProfiles
+'''
+class StaffProfilesAdmin(admin.ModelAdmin):
+
+	
+	fields = ['nationalid','firstname','secondname','lastname','gender','specialcases','photo','isactive','group',]
+
+	inlines = [StaffPhoneNoInline,StaffSubjectsInline,]
+
+	list_display = ('nationalid','firstname','secondname','lastname','gender','isactive','group','persons_image',)
+	list_filter = ['gender','isactive','group',]
+	search_fields = ['firstname','secondname','lastname','gender','isactive','group',]
+	save_on_top = True
+	raw_id_fields = ('group',)
+
+	actions = []
+
+	def save_model(self, request, obj, form, change):
+		if not change:
+			consonants = 'bcdfghjklmnpqrstvwxyz'
+			vowels = 'aeiou'
+			userpass = ''
+			consonants_bool = False
+			vowels_bool = False
+			for i in str(obj.firstname):
+				if i.lower() in consonants and len(userpass) < 4 and consonants_bool == False:
+					userpass += i.lower()
+					consonants_bool = True
+					vowels_bool = False
+				elif i.lower() in vowels and len(userpass) < 4 and vowels_bool == False:
+					userpass += i.lower()
+					vowels_bool = True
+					consonants_bool = False
+				for i in str(obj.lastname):
+					if i.lower() in consonants and len(userpass) < 6 and consonants_bool == False:
+						userpass += i.lower()
+						consonants_bool = True
+						vowels_bool = False
+					elif i.lower() in vowels and len(userpass) < 6 and vowels_bool == False:
+						userpass += i.lower()
+						vowels_bool = True
+						consonants_bool = False
+
+			#create a user who can login
+			user = User.objects.create_user(userpass, '', userpass)	
+			user.first_name = obj.firstname
+			user.last_name = obj.lastname
+			user.save()	
+
+			#to = str(obj.phonebook)
+
+			#sendsms = AutoSendSmsToSMSLEOPARD(to,'Hello '+obj.lastname+' . Your username is '+userpass+' and password is '+userpass,request.user)
+
+
+			st = SchoolProfiles.objects.get(owner = request.user)
+			obj.name_id = st.name_id
+			obj.owner_id = user.id
+		
+			stf = SchoolProfiles(name_id = st.name_id,owner_id = user.id)
+			stf.save()
+
+		obj.save()
+
+ 	def save_formset(self, request, form, formset, change):
+
+		instances = formset.save(commit=False)
+
+		for obj in instances:
+
+			if isinstance(obj, StaffPhoneNo) or isinstance(obj, StaffSubjects): #Check if it is the correct type of inline
+				st = SchoolProfiles.objects.get(owner = request.user)
+				obj.name_id = st.name_id
+				obj.owner = request.user
+
+			obj.save()
+
+
+admin.site.register(StaffProfiles,StaffProfilesAdmin)
+

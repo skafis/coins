@@ -1,0 +1,58 @@
+{% load staticfiles %}
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img alt="Brand" src="{% static 'img/logo.png' %}"></a>
+		<div id="topmost" class="navbar-right">
+			<ul class="navbar-top-links list-inline ">
+				<li><i class="fa fa-smile-o"></i> Welcome {{user_bio.username}} to pos management Portal</li>
+				<li><a href="{% url 'login:logout'%}"><i class="fa fa-sign-out"></i> Log out</a></li>
+			</ul>
+		</div>
+    </div>
+	</div><!-- /.container-fluid -->
+	
+	<div id="navigation">
+	<div class="container">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav">
+			<li class="active"><a aria-expanded="false" role="button" href="/sysadmin/"> <i class="fa fa-home" aria-hidden="true"></i></a></li>
+			<li class="dropdown">
+                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> System Settings <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+				    <li><a href="{#% url 'system_settings:entryyear_home'%#}">Entry year</a></li>
+				    <li><a href="{#% url 'system_settings:dormitory_home'%#}">Dormitory</a></li>
+				    <li><a href="{#% url 'system_settings:paymentmethod_home'%#}">Payment method</a></li>
+				    <li><a href="{#% url 'system_settings:term_home'%#}">Terms</a></li>
+				    <li><a href="{#% url 'system_settings:stream_home'%#}">Stream</a></li>
+				    <li><a href="{#% url 'system_settings:subject_home'%#}">Subject</a></li>
+				    <li><a href="{#% url 'system_settings:paper_home'%#}">Papers</a></li>
+				    <li><a href="{#% url 'system_settings:gender_home'%#}">Gender</a></li>
+				    <li><a href="{#% url 'system_settings:category_home'%#}">Category</a></li>
+				    <li><a href="{#% url 'system_settings:classes_home'%#}">Classes</a></li>
+				    <li><a href="{#% url 'system_settings:month_home'%#}">Month</a></li>
+				    <li><a href="{#% url 'system_settings:house_home'%#}">House</a></li>
+				    <li><a href="{#% url 'system_settings:schooltype_home'%#}">School type</a></li>
+				    <li><a href="{#% url 'system_settings:categorytype_home'%#}">Category type</a></li>
+				    <li><a href="{#% url 'system_settings:country_home'%#}">Country</a></li>
+				    <li><a href="{#% url 'system_settings:voteheads_home'%#}">Vote heads</a></li>
+				    <li><a href="{#% url 'system_settings:grades_home'%#}">Grades</a></li>
+                 </ul>
+            </li>
+			<li><a href="#">School</a></li>
+			<li><a href="#">POS Portal</a></li>
+			<li><a href="#">Ministry Of Edu</a></li>
+			<li><a href="#">Bank </a></li>
+			<li><a href="#">Merchants</a></li>
+			<li><a href="#">Students </a></li>
+		</ul>
+	</div>
+    </div>
+    </div>
+</nav>

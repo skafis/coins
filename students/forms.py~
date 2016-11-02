@@ -1,0 +1,193 @@
+from django.forms import ModelForm
+import django.forms as forms
+
+from students.models import StudentProfiles,StudentCategory,StudentParent,ParentPhoneNo,StudentClassStream,StudentSubject, StudentAccountsWallets
+
+from school.models import Classes,Streams,Category,Gender,Subjects
+
+#from system_settings.models import EntryYear
+
+from smsgateway.models import PhoneBook
+
+from django.contrib.auth.models import User
+
+from global_config import global_vars
+
+#STUDENT PROFILES
+class StudentProfilesFilterForm(ModelForm):
+	TRANSPORT_CHOICES = (
+		('Yes','Yes'),
+		('Personal Means','Personal Means'),
+	)
+
+	LUNCH_CHOICES = (
+		('No','No'),
+		('Parked Lunch','Parked Lunch'),
+	)
+
+
+	f_admno = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_firstname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_secondname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_lastname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_gender = forms.ModelChoiceField(queryset=Gender.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	f_specialcases = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_current_classes = forms.ModelChoiceField(queryset=Classes.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	f_current_stream = forms.ModelChoiceField(queryset=Streams.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	f_academic_category = forms.ModelChoiceField(queryset=Category.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	#f_photo = forms.FileField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_isactive = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_dateofbirth = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_admissiondate = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_residence = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_lastschoolattended = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_lastschooladdress = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	f_schooltransport = forms.ChoiceField(widget=forms.TextInput(attrs={'class':'form-control'}),choices=TRANSPORT_CHOICES,)
+	f_schoollunch = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=LUNCH_CHOICES,)
+
+	class Meta:
+		model = StudentProfiles
+		fields = ['firstname','secondname','lastname','gender','specialcases','current_classes','current_stream', 'academic_category','dateofbirth','admissiondate','residence','lastschoolattended','lastschooladdress', 'schooltransport','schoollunch']
+
+
+class StudentProfilesForm(ModelForm):
+	TRANSPORT_CHOICES = global_vars.TRANSPORT_CHOICES
+	LUNCH_CHOICES = global_vars.LUNCH_CHOICES
+	GENDER_CHOICES = global_vars.GENDER_CHOICES
+	CLASSES_CHOICES = global_vars.CLASSES_CHOICES
+	STREAMS_CHOICES = global_vars.STREAMS_CHOICES
+	ACADEMIC_CATEGORY_CHOICES = global_vars.ACADEMIC_CATEGORY_CHOICES
+
+	admno = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	firstname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	secondname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	lastname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	#gender = forms.ModelChoiceField(queryset=Gender.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),initial='2')
+	gender = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=GENDER_CHOICES,)
+	specialcases = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),required=False)
+	current_classes = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=CLASSES_CHOICES,)
+	#current_classes = forms.ModelChoiceField(queryset=Classes.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),initial='6')
+	#current_stream = forms.ModelChoiceField(queryset=Streams.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),initial='1')
+	current_stream = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=STREAMS_CHOICES,)
+	#academic_category = forms.ModelChoiceField(queryset=Category.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),initial='2')
+	academic_category = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=ACADEMIC_CATEGORY_CHOICES,)
+	#photo = forms.FileField()
+	dateofbirth = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),initial='2000-01-01')
+	#admissiondate = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	#residence = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	#lastschoolattended = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	#lastschooladdress = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	#schooltransport = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=TRANSPORT_CHOICES,)
+	#schoollunch = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=LUNCH_CHOICES,)
+
+	class Meta:
+		model = StudentProfiles
+		fields = ['admno','firstname','secondname','lastname','gender','specialcases','current_classes','current_stream', 'academic_category','dateofbirth',]#'residence','lastschoolattended','lastschooladdress', 'schooltransport','schoollunch',]
+
+
+#STUDENT CATEGORY
+class StudentCategoryFilterForm(ModelForm):
+	f_studentprofiles = forms.ModelChoiceField(queryset=StudentProfiles.objects.all().order_by('admno'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	f_category = forms.ModelChoiceField(queryset=Category.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	#f_entryyear = forms.ModelChoiceField(queryset=EntryYear.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	entryyear = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+
+	class Meta:
+		model = StudentCategory
+		fields = ['studentprofiles','category','entryyear']
+
+
+class StudentCategoryForm(ModelForm):
+	studentprofiles = forms.ModelChoiceField(queryset=StudentProfiles.objects.all().order_by('admno'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	category = forms.ModelChoiceField(queryset=Category.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	#entryyear = forms.ModelChoiceField(queryset=EntryYear.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	entryyear = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+
+	class Meta:
+		model = StudentCategory
+		fields = ['studentprofiles','category','entryyear']
+
+#STUDENT PARENT
+class StudentParentFilterForm(ModelForm):
+	f_studentprofiles = forms.ModelChoiceField(queryset=StudentProfiles.objects.all().order_by('admno'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	f_username = forms.ModelChoiceField(queryset=Category.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+
+	class Meta:
+		model = StudentParent
+		fields = ['f_studentprofiles','f_username',]
+
+
+class StudentParentForm(ModelForm):
+	studentprofiles = forms.ModelChoiceField(queryset=StudentProfiles.objects.all().order_by('admno'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	username = forms.ModelChoiceField(queryset=User.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	firstname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	secondname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	lastname = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+	#gender = forms.ModelChoiceField(queryset=Gender.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	gender = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}),choices=global_vars.GENDER_CHOICES,)
+	specialcases  = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+
+	class Meta:
+		model = StudentParent
+		fields = ['studentprofiles','username','firstname','secondname','lastname','gender','specialcases']
+
+#PARENT PHONENO
+class ParentPhoneNoFilterForm(ModelForm):
+	f_parent = forms.ModelChoiceField(queryset=StudentParent.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	f_phoneno = forms.ModelChoiceField(queryset=PhoneBook.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+
+	class Meta:
+		model = StudentParent
+		fields = ['f_parent','f_phoneno',]
+
+
+class ParentPhoneNoForm(ModelForm):
+	parent = forms.ModelChoiceField(queryset=StudentParent.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	phoneno = forms.ModelChoiceField(queryset=PhoneBook.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+
+	class Meta:
+		model = StudentParent
+		fields = ['parent','phoneno',]
+
+#STUDENT CLASS STREAM
+class StudentClassStreamFilterForm(ModelForm):
+	f_studentprofiles = forms.ModelChoiceField(queryset=StudentProfiles.objects.all().order_by('admno'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	f_classes = forms.ModelChoiceField(queryset=Classes.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	f_streams = forms.ModelChoiceField(queryset=Streams.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	#f_entryyear = forms.ModelChoiceField(queryset=EntryYear.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	f_entryyear = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+
+	class Meta:
+		model = StudentParent
+		fields = ['f_studentprofiles','f_classes','f_streams','f_entryyear',]
+
+
+class StudentClassStreamForm(ModelForm):
+	studentprofiles = forms.ModelChoiceField(queryset=StudentProfiles.objects.all().order_by('admno'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	classes = forms.ModelChoiceField(queryset=Classes.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	streams = forms.ModelChoiceField(queryset=Streams.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	#entryyear = forms.ModelChoiceField(queryset=EntryYear.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	entryyear = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+
+	class Meta:
+		model = StudentParent
+		fields = ['studentprofiles','classes','streams','entryyear',]
+
+#STUDENT SUBJECT
+class StudentSubjectFilterForm(ModelForm):
+	f_studentprofiles = forms.ModelChoiceField(queryset=StudentProfiles.objects.all().order_by('admno'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	f_subjects = forms.ModelChoiceField(queryset=Subjects.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+
+	class Meta:
+		model = StudentSubject
+		fields = ['f_studentprofiles','f_subjects',]
+
+
+class StudentSubjectForm(ModelForm):
+	studentprofiles = forms.ModelChoiceField(queryset=StudentProfiles.objects.all().order_by('admno'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+	subjects = forms.ModelChoiceField(queryset=Subjects.objects.all().order_by('id'),widget=forms.Select(attrs={'class':'select2_demo_1 form-control'}))
+
+	class Meta:
+		model = StudentSubject
+		fields = ['studentprofiles','subjects',]
+

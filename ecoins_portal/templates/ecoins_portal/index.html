@@ -1,0 +1,134 @@
+{% extends "master.html" %}
+{% load staticfiles %}
+
+{% block nav_menu %}
+	{% include "pos_nav.html" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row m-t-lg">
+<div class="panel-body">
+		<h3>Pos Transactions</h3>
+		<div class="">
+			<table class="table footable" id="ecoins_portalposbyschools-ajax-data-table" data-page-size="8" data-filter=#filter >
+				<thead>
+				<tr>
+					<th>School name</th>
+					<th>Ecoins ACC</th>
+				 	<th>Amount</th>
+					<th>Trace no</th>
+					<!--<th>Ref no</th>-->
+					<th data-hide="phone,tablet">Location</th>
+					<th data-hide="phone,tablet">Terminal id</th>
+					<th data-hide="phone,tablet">Mercant A/N</th>
+					<!--<th data-hide="phone,tablet">Merchant</th>-->
+					<th data-hide="phone,tablet">Transaction Type</th>
+					<th data-hide="phone,tablet">Reverseals</th>
+					</tr>
+				</thead>
+			</table>
+		</div><!--table-responsive-->
+</div>
+
+<div class="row m-t-lg">
+		<div class="panel-body">
+		<h3>Pos List</h3>
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered" id="transactionspos-ajax-data-table" ><!--class="table table-striped table-bordered table-hover"-->
+						<thead>
+						<tr>
+							<th>#</th>
+						 	<th>POS number</th>
+						 	<th>Account number</th>
+						 	<th>Serial num</th>
+						 	<th>Location</th>
+						 	<th>Merchant</th>
+						 	<th>Balance</th>
+						 	<th>Reversal</th>
+						 	<th>Stats</th>
+							</tr>
+						</thead>
+						<tbody>
+
+
+						</tbody>
+					</table>
+				</div><!--table-responsive-->
+		</div>
+</div>
+
+
+<div class="row m-t-lg">
+		<div class="panel-body">
+		<h3>Pos List</h3>
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered" id="posmerchantecoinsportal-ajax-data-table" ><!--class="table table-striped table-bordered table-hover"-->
+							<thead>
+							<tr>
+								<th>#</th>
+								<!--<th>Id</th>-->
+							 	<th>Name</th>
+							 	<th>First name</th>
+							 	<th>Second name</th>
+							 	<th>Last name</th>
+							 	<th>Phone number</th>
+							 	<th>Email</th>
+							 	<th>Username</th>
+							 	<!--<th>Actions</th>-->
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div><!--table-responsive-->
+		</div>
+</div>
+
+<div class="row m-t-lg">
+		<div class="panel-body">
+		<h3>Schools List</h3>
+			<div class="table-responsive">
+			<table class="table table-striped table-bordered" id="ecoins_portalschools-ajax-data-table" ><!--class="table table-striped table-bordered table-hover"-->
+				<thead>
+				<tr>
+					<th>#</th>
+				 	<th>Name</th>
+				 	<th>Actions</th>
+			</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+	</div><!--table-responsive-->
+	</div>
+</div>
+
+<div class="row m-t-lg">
+		<div class="panel-body">
+		<h3>Students List</h3>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered" id="ecoins_portalstudentprofiles-ajax-data-table" ><!--class="table table-striped table-bordered table-hover"-->
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>School name</th>
+							<th>Admno</th>
+							<th>Username</th>
+							<th>First name</th>
+							<th>Second name</th>
+							<th>Last name</th>
+							<th>Gender</th>
+							<th>Current classes</th>
+							<th>Current stream</th>
+							<th>Acc no</th>
+							<th>Encrypted Acc No</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div><!--table-responsive-->
+	</div>
+</div>
+{% endblock %}

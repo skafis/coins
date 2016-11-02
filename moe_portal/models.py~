@@ -1,0 +1,126 @@
+from __future__ import unicode_literals
+
+from django.db import models
+
+from school.models import SchoolProfiles,SchoolType
+
+from django.contrib.auth.models import User,Group
+
+from students.models import StudentProfiles,StudentParent,ParentPhoneNo
+
+from smsgateway.models import PhoneBook
+
+from global_config import global_vars
+
+import django.utils.timezone as timezone
+
+from django.db.models import Sum
+
+class Bursery(models.Model):
+	name = models.ForeignKey(SchoolProfiles, verbose_name =  'Name',related_name = 'bursery_name')
+	studentprofiles = models.ForeignKey(StudentProfiles,verbose_name = 'Staff Id',)
+	amount = models.DecimalField('Amount (KSH)',max_digits=19, decimal_places=2,default = 0.00) 
+	county = models.CharField('County',max_length = 5000,)
+	sch_bank_acc = models.CharField('School BANK Acc',max_length = 5000,)
+	financial_year = models.CharField('Financial year',max_length = 5000,default=1)
+	owner = models.ForeignKey(User,verbose_name = 'Owner',related_name='bursery_owner')
+
+	def get_county(self):
+		d=dict(global_vars.COUNTIES_CHOICES)
+		return unicode('%s' % (d[self.county]))
+	get_county.short_description = 'county'
+
+	def get_student_gender(self):
+		d=dict(global_vars.GENDER_CHOICES)
+		sp = StudentProfiles.objects.get(admno=self.studentprofiles_id)
+		return unicode('%s' % (d[sp.gender]))
+	get_student_gender.short_description = 'gender'
+
+	def get_student_admno(self):
+		sp = StudentProfiles.objects.get(admno=self.studentprofiles_id)
+		return sp.admno
+	get_student_admno.short_description = 'student admno'
+
+	def get_student_fullnames(self):
+		sp = StudentProfiles.objects.get(admno=self.studentprofiles_id)
+		return unicode('%s %s %s ' % (sp.firstname,sp.secondname,sp.lastname))
+	get_student_fullnames.short_description = 'student admno'
+
+	def get_parent_names(self):
+		sp = StudentProfiles.objects.get(admno=self.studentprofiles_id)
+		spt = StudentParent.objects.get(studentprofiles_id=self.studentprofiles_id)
+		return unicode('%s %s %s ' % (spt.firstname,spt.secondname,spt.lastname))
+	get_parent_names.short_description = 'parent_names'
+
+	def get_parent_phoneno(self):
+		sp = StudentProfiles.objects.get(admno=self.studentprofiles_id)
+		spt = StudentParent.objects.get(studentprofiles_id=self.studentprofiles_id)
+		ppn = ParentPhoneNo.objects.get(parent_id=spt.id)
+		pb = PhoneBook.objects.get(id=ppn.phoneno_id)
+		return unicode('%s' % (ppn.phoneno))
+	get_parent_phoneno.short_description = 'parent_names'
+
+	def get_school_type(self):
+		st = SchoolType.objects.get(name_id=self.name_id,id=1)
+		return unicode('%s' % (st.schooltype))
+	get_school_type.short_description = 'School Type'
+
+	def get_bursery_per_county(self):
+		tf = Bursery.objects.filter(financial_year=self.financial_year,county=self.county).aggregate(Sum('amount'))
+		return tf['amount__sum']
+
+	def get_bursery_per_school(self):
+		tf = Bursery.objects.filter(financial_year=self.financial_year,name=self.name).aggregate(Sum('amount'))
+		return tf['amount__sum']
+
+	class Meta:
+		verbose_name_plural = 'Bursery'
+
+	def __unicode__(self):
+		return unicode('county %s' % (self.county))
+
+class TutionFunds(models.Model):
+	name = models.ForeignKey(SchoolProfiles, verbose_name =  'Name',related_name = 'tutionfunds_name')
+	county = models.CharField('County',max_length = 5000,)
+	bankname = models.CharField('County',max_length = 5000,default=1)
+	sch_bank_acc = models.CharField('School BANK Acc',max_length = 5000,)
+	amount = models.DecimalField('Amount (KSH)',max_digits=19, decimal_places=2,default = 0.00) 
+	transactiontype = models.CharField('transaction type',max_length = 5000,)
+	transactiondate = models.DateField('Date',max_length = 5000,default=timezone.now)
+	financial_year = models.CharField('Financial year',max_length = 5000,default=1)
+	owner = models.ForeignKey(User,verbose_name = 'Owner',related_name='tutionfunds_owner')
+
+	def get_county(self):
+		d=dict(global_vars.COUNTIES_CHOICES)
+		return unicode('%s' % (d[self.county]))
+	get_county.short_description = 'county'
+
+	def get_school_type(self):
+		st = SchoolType.objects.get(name_id=self.name_id,id=1)
+		return unicode('%s' % (st.schooltype))
+	get_school_type.short_description = 'School Type'
+
+	def get_bankname(self):
+		d=dict(global_vars.BANKS_CHOICES)
+		return unicode('%s' % (d[self.bankname]))
+	get_bankname.short_description = 'bankname'
+
+	def get_transactiontype(self):
+		d=dict(global_vars.TRANSACTION_TYPE_CHOICES)
+		return unicode('%s' % (d[self.transactiontype]))
+	get_transactiontype.short_description = 'transactiontype'
+
+	def get_total(self):
+		tf = TutionFunds.objects.filter(financial_year=self.financial_year,county=self.county).aggregate(Sum('amount'))
+		return tf['amount__sum']
+	get_total.short_description = 'Total paid'
+
+	#TODO get school type def
+	#TODO GET student gender
+	#
+	class Meta:
+		verbose_name_plural = 'Tution Funds'
+
+	def __unicode__(self):
+		return unicode('county %s' % (self.county))
+

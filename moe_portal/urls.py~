@@ -1,0 +1,14 @@
+from django.conf.urls import patterns, url
+
+from moe_portal import views
+
+urlpatterns = [
+
+	#BURSERY
+  url(r'^bursery_home$', views.bursery_home, name='bursery_home'),
+  url(r'^bursery_school_list/(?P<tid>\d+)$', views.bursery_school_list, name='bursery_school_list'),
+  url(r'^bursery_school_stud_list/(?P<tid>\d+)$', views.bursery_school_stud_list, name='bursery_school_stud_list'),
+  url(r'^new_bursery$', views.bursery_create, name='bursery_new'),
+  url(r'^edit_bursery/(?P<pk>\d+)$', views.bursery_update, name='bursery_edit'),
+  url(r'^delete_bursery/(?P<pk>\d+)$', views.bursery_delete, name='bursery_delete'),
+]
